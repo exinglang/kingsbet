@@ -1,0 +1,10 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<project version="4">
+  <component name="ProjectModuleManager">
+    <modules>
+      <module fileurl="file://$PROJECT_DIR$/.idea/modules/kingsbet.iml" filepath="$PROJECT_DIR$/.idea/modules/kingsbet.iml" />
+      <module fileurl="file://$PROJECT_DIR$/.idea/modules/kingsbet_main.iml" filepath="$PROJECT_DIR$/.idea/modules/kingsbet_main.iml" group="kingsbet" />
+      <module fileurl="file://$PROJECT_DIR$/.idea/modules/kingsbet_test.iml" filepath="$PROJECT_DIR$/.idea/modules/kingsbet_test.iml" group="kingsbet" />
+    </modules>
+  </component>
+</project>
