@@ -1,0 +1,2257 @@
+//0.判断手机号是否已注册
+//request------------------------------------------------------ok
+{
+	"name" : "isRegister",				//协议名
+	"ctype": "Web",					//终端类型：目前支持1. Web(网页端),2. iOS, 3.Android, 4. WeChat, 5. Console
+	"reqbody": {	
+		"mobile": "13611111111"			//需判断的手机号
+	}
+}
+//response
+{
+	"name": "isRegister",
+	"retcode": 0,					//0表示成功，其他表示失败
+	"msg": ""
+}
+
+//1.发送短信验证码
+//request------------------------------------------------------ok
+{
+	"name": "sendSMSCode",
+	"ctype": "Web",
+	"reqbody": {
+		"mobile": "13611111111"
+	}
+}
+//response
+{
+	"name": "sendSMSCode",
+	"retcode": 0,
+	"msg": ""
+}
+//2.发送短信验证码(登录后发，无需传手机号)
+//request------------------------------------------------------ok
+{
+	"name": "sendSMSCodeByUser",
+	"ctype": "Web",
+	"sessionStr": "3634F440030595CC6B6B4F718BECA437",
+	"userid": 2
+}
+//response
+{
+	"name": "sendSMSCodeByUser",
+	"retcode": 0,
+	"msg": ""
+}
+//3. 用户注册--(标记代码修改)
+//request------------------------------------------------------ok
+{
+	"name": "register",
+	"ctype": "Web",
+	"reqbody": {
+		"mobile": "13611111111",					//注册手机号
+		"pwd": "123456",							//传MD5(手机号+密码)加密后的字符串
+		"verifycode": "123456",						//短信验证码
+		"invitationcode": "邀请码",					//邀请码，可选
+		"realName": "姓名",						//真实姓名
+		"paperscode": "身份证号",					//身份证号
+		"email": "",							//邮箱
+		"idPicFr": "",							//身份证照(正面)
+		"idPicBg": "",							//身份证照(背面)
+		"openid":""							//微信OpenID
+	}
+}
+//response
+{
+	"name": "register",
+	"retcode": 0,
+	"msg": "",
+	"respbody":{
+		"userid":123 , //用户id
+		"sessionStr":"12313248564161" //会话ID
+	}
+}
+
+
+
+//4.用户登录
+//request------------------------------------------------------ok
+{
+	"name": "login",
+	"ctype": "Web",
+	"reqbody": {
+		"mobile": "13655555555",					//手机号
+		"pwd": "123456"							//传MD5(手机号+密码)加密后的字符串
+	}
+}
+//response
+{
+	"name": "login",
+	"retcode": 0,
+	"msg": "",
+	"respbody": {
+		"userid":123 , //用户id
+		"sessionStr":"12313248564161" //会话ID
+	}
+}
+//5.用户注销
+//request------------------------------------------------------ok
+{
+	"name": "logout",
+	"ctype": "Web",
+	"sessionStr": "3634F440030595CC6B6B4F718BECA437",
+	"userid": 2
+}
+//response
+{
+	"name": "logout",
+	"retcode": 0,
+	"msg": ""
+}
+//6.判断会话是否失效
+//request------------------------------------------------------ok
+{
+	"name": "checkSession",
+	"ctype": "Web"
+}
+//response
+{
+	"name": "checkSession",
+	"retcode": 0,
+	"msg": "",
+	"respbody":{
+		"userCode":"" 
+	}
+}
+
+//7.获取图形验证码
+//request------------------------------------------------------ok
+{
+	"name": "getCaptcha",
+	"ctype": "Web",
+	"sessionStr": "3634F440030595CC6B6B4F718BECA437",
+	"userid": 2
+}
+//response
+{
+	"name": "getCaptcha",
+	"retcode": 0,
+	"msg": "",
+	"respbody": {
+		"captchaId":"",
+		"captcha": ""
+	}
+}
+//8.验证图形验证码和短信验证码--(标记代码修改)
+//request------------------------------------------------------ok
+{
+	"name": "checkCaptcha",
+	"ctype": "Web",
+	"sessionStr": "3634F440030595CC6B6B4F718BECA437",
+	"userid": 2,
+	"reqbody": {
+		"captchaId":"",				//验证码ID
+		"captcha": "",				//验证码内容
+		"smscode": ""   
+	}
+}
+//response
+{
+	"name": "checkCaptcha",
+	"retcode": 0,
+	"msg": "",
+	"respbody": {
+		"key": ""
+	}
+}
+
+//9.用户安全状态
+//request------------------------------------------------------ok
+{
+	"name": "secStatus",
+	"ctype": "Web",
+	"sessionStr": "3634F440030595CC6B6B4F718BECA437",
+	"userid": 2
+}
+//response
+{
+	"name": "secStatus",
+	"retcode": 0,
+	"msg": "",
+	"respbody": {
+		"idAuth": 0,					//身份认证标志：0-未认证，1-已认证
+		"password": 1,					//登录密码：0-未设置，1-已设置
+		"payPwd" : 1					//密保问题：0-未设置，1-已设置
+	}
+}
+
+//10.身份认证
+//request------------------------------------------------------ok
+{
+	"name": "idAuth",
+	"ctype": "Web",
+	"sessionStr": "3634F440030595CC6B6B4F718BECA437",
+	"userid": 2,
+	"reqbody": {
+		"type": 1,							//证件类型：1-身份证
+		"code": "",							//证件号码
+		"idPicFr": "",							//身份证照(正面)
+		"idPicBg": ""							//身份证照(背面)
+	}
+}
+//response
+{
+	"name": "idAuth",
+	"retcode": 0,
+	"msg": ""
+}
+
+//11.修改邮箱------------------------------------------------------ok
+//request
+{
+	"name": "changeEmail",
+	"ctype": "Web",
+	"sessionStr": "3634F440030595CC6B6B4F718BECA437",
+	"userid": 2,
+	"reqbody": {
+		"email": ""							//新邮箱
+	}
+}
+//response
+{
+	"name": "changeEmail",
+	"retcode": 0,
+	"msg": ""
+}
+
+//12.获取手机验证码
+//request
+{
+	"name": "SMSPassword",
+	"ctype": "Web",
+	"sessionStr": "3634F440030595CC6B6B4F718BECA437",
+	"userid": 2, 
+	"reqbody": {
+		"mobile" : "13611111111"  //手机号码
+	}
+}
+//response
+{
+	"name": "SMSPassword",
+	"retcode": 0,
+	"msg": ""
+}
+
+
+
+
+13.验证验证码
+//request
+{
+	"name": "verificationCode",
+	"ctype": "Web",
+	"reqbody": {
+		"captchaId":"", //验证码ID
+		"captcha": ""  //验证码内容
+	}
+}
+//response
+{
+	"name": "verificationCode",
+	"retcode": 0,
+	"msg": ""
+	
+}
+
+
+
+45.实名认证
+//request
+{
+	"name": "userVerified",
+	"ctype": "Web",
+	"sessionStr": "3634F440030595CC6B6B4F718BECA437",
+	"userid":2
+	"reqbody": {
+		"name": "张三",					//真实姓名
+		"papersType":1,					//证件类型	
+		"idCard": "123456794136489436486"		//身份证ID
+	}
+}
+//response
+{
+	"name": "userVerified",
+	"retcode": 0,
+	"msg": "",
+}
+
+
+
+//////////////////////////////////////////////---------------主页-----------------//////////////////////////////////////
+
+获取主页图片活动信息-------------------------------------OK
+request
+{
+	"name": "homePage",
+	"ctype": "Web"
+	"reqbody": {
+		"flag": ""//top：首页上方大图，activity：首页中间图片链接  integral:积分首页上方大图   flea:跳蚤市场首页上方大图
+	}
+}
+response
+{
+	"name": "homePage",
+	"retcode": 0,
+	"msg": "",
+	"respbody": [{
+		"flag": "top", 	//位置  top：首页上方大图，activity：首页中间图片链接
+		"list":[{
+			"image":"http://192.168.1.213/resources/e8d459ff-498a-45f9-8551-60133f87caa1002.jpg",
+			"type": 1,   //1: Url, 2: 商品ID
+			"value":"http://192.168.1.213/resources/html/commodity1.html",
+			"order":1 //排序字段
+		},{
+			"image":"http://192.168.1.213/resources/e8d459ff-498a-45f9-8551-60133f87caa1002.jpg",
+			"type": 2,   //1: Url, 2: 商品ID
+			"value":"2",
+			"order":2 //排序字段
+		}]
+	}, {
+		"flag": "activity",  //位置
+		"list":[{
+			"image":"http://192.168.1.213/resources/e8d459ff-498a-45f9-8551-60133f87caa1002.jpg",
+			"type": 1,   //1: Url, 2: 商品ID
+			"value":"http://192.168.1.213/resources/html/commodity1.html",
+			"order":1 //排序字段
+		},{
+			"image":"http://192.168.1.213/resources/e8d459ff-498a-45f9-8551-60133f87caa1002.jpg",
+			"type": 2,   //1: Url, 2: 商品ID
+			"value":"2",
+			"order":2 //排序字段
+		}]
+	}]
+}
+
+
+获取主页商品分类信息 每种分类两种商品 当type为1时是三种商品-------------------------------------OK
+request
+{
+	"name": "homePageSort",
+	"ctype": "Web"
+	"reqbody": {
+		"type":1,  //1、获取普通商品分类  2、获取积分商品分类  3、获取跳蚤市场(寄售)商品分类  4、获取跳蚤市场(求购)商品分类
+		"pageIndex" : 0	, //当前页码
+		"pageSize" : 2    //每页条数
+	}
+}
+response
+{
+	"name": "homePageSort",
+	"retcode": 0,
+	"msg": "",
+	"respbody": {
+		"arrayList":[{
+			"categoryid":"2",//分类ID
+			"categoryImage":"http://192.168.1.213/resources/e8d459ff-498a-45f9-8551-60133f87caa1002.jpg",//分类图片
+			"categoryName":"精品皮鞋",//分类名称
+			"commodityList":[{
+				"commodityId":7,//商品ID
+				"name":商务皮鞋",//商品名称
+				"title":"英伦商务精英",//商品标题
+				"image":"http://192.168.1.213/resources/e8d459ff-498a-45f9-8551-60133f87caa1002.jpg",
+				"price":540.00,//价格 or 购买积分
+				"sales":1000,//销量
+				"listOrderId":1, //跳蚤市场 有值，存放的是挂牌ID
+				"commodityType":0   0普通商品 1卡卷商品
+			},{
+				"commodityId":7,//商品ID
+				"name":商务皮鞋",//商品名称
+				"title":"英伦商务精英",//商品标题
+				"image":"http://192.168.1.213/resources/e8d459ff-498a-45f9-8551-60133f87caa1002.jpg",
+				"price":540.00,//价格 or 购买积分
+				"sales":1000,//销量
+				"listOrderId":1 //跳蚤市场 有值，存放的是挂牌ID
+				"commodityType":0   0普通商品 1卡卷商品
+			}]
+		},{
+			"categoryid":"3",//分类ID
+			"categoryImage":"http://192.168.1.213/resources/e8d459ff-498a-45f9-8551-60133f87caa1002.jpg",//分类图片
+			"categoryName":"精品女鞋",//分类名称
+			"commodityList":[{
+				"commodityId":7,//商品ID
+				"name":商务皮鞋",//商品名称
+				"title":"英伦商务精英",//商品标题
+				"image":"http://192.168.1.213/resources/e8d459ff-498a-45f9-8551-60133f87caa1002.jpg",
+				"price":540.00,//价格 or 购买积分
+				"sales":1000,//销量
+				"listOrderId":1 //跳蚤市场 有值，存放的是挂牌ID
+				"commodityType":0   0普通商品 1卡卷商品
+			},{
+				"commodityId":7,//商品ID
+				"name":商务皮鞋",//商品名称
+				"title":"英伦商务精英",//商品标题
+				"image":"http://192.168.1.213/resources/e8d459ff-498a-45f9-8551-60133f87caa1002.jpg",
+				"price":540.00,//价格 or 购买积分
+				"sales":1000,//销量
+				"listOrderId":1 //跳蚤市场 有值，存放的是挂牌ID
+				"commodityType":0   0普通商品 1卡卷商品
+			}]
+		}] 
+	}
+}
+
+
+
+
+
+//////////////////////////////////////////////---------------购物车-----------------//////////////////////////////////////
+查看购物车
+//request------------------------------------------------------ok
+{
+	"name": "queryToCart",
+	"ctype": "Web",
+	"sessionStr": "3634F440030595CC6B6B4F718BECA437",
+	"userid": 2
+}
+//response
+{
+	"name": "queryToCart",
+	"retcode": 0,
+	"msg": "",
+	"respbody": {
+		"total": 2,
+		"dataList": [{
+			"commodityId": 7,  //商品ID
+			"commodityCode": "100101", //商品代码
+			"name": "鳄鱼皮凉鞋",	//商品名称
+		        "img": "http://192.168.1.213/resources/72ce614e-3658-47b2-b062-805763e5d4d1001.jpg", //微信大图片
+			"icon": "http://192.168.1.213/resources/544e9d00-65de-49fd-a70d-b827efaeeb83001.jpg",//微信小图片
+			"pcImg": "http://192.168.1.213/resources/96095bce-2881-4afc-8c12-409494d678a7001.jpg",//PC大图片
+			"pcIcon": "http://192.168.1.213/resources/337e344a-acaa-45e0-8506-9a162561b648001.jpg",//PC小图片
+			"title": "", //商品标题
+			"price": 10.0, //商品价格 or 积分
+			"oriPrice" : 11.0, //商品原价
+			"commodityType": 2, //商品类型  1: 电商市场, 2: 积分商城 
+			"quantity":"1", //数量
+				"payAccumulate":1000,	//可使用积分
+				"takeAccumulate":230,	//赠送积分
+				"accumulateRate":1,	//积分转换比例  积分*accumulateRate = 人民币金额
+			"freight":16.00,		//运费
+			"type":[{
+					"comProID":12,
+					"propertyName":"颜色选择",
+					"selector":"白色"
+				},{
+					"comProID":26,
+					"propertyName":"尺码选择",
+					"selector":"S"
+				}]
+
+		}, {
+			"commodityId": 8,  //商品ID
+			"commodityCode": "100102", //商品代码
+			"name": "铁观音",	//商品名称
+			"img": "http://192.168.1.213/resources/e8d459ff-498a-45f9-8551-60133f87caa1002.jpg",//微信大图片
+			"icon": "http://192.168.1.213/resources/198e9208-23e0-41ce-85ee-864b3b0f484d002.jpg",//微信小图片
+			"pcImg": "http://192.168.1.213/resources/29192832-af03-4721-8e0e-0a146fa603b2003.jpg",//PC大图片
+			"pcIcon": "http://192.168.1.213/resources/178efade-ec49-4141-abfe-a938d240a510002.jpg",//PC小图片
+			"title": "", //商品标题
+			"price": 10.0, //商品价格
+			"oriPrice" : 11.0, //商品原价
+			"sales":1000,//月销量
+			"commodityType": 2 ,//商品类型  1: 电商市场, 2: 积分商城 
+			"quantity":"1", //数量
+			"freight":16.00,		//运费
+			"type":[{
+					"comProID":12,
+					"propertyName":"颜色选择",
+					"selector":"白色"
+				},{
+					"comProID":26,
+					"propertyName":"尺码选择",
+					"selector":"S"
+				}]
+		}]
+	}
+}
+
+
+
+
+
+29.购物车添加商品
+//request------------------------------------------------------ok
+{
+	"name": "addToCart",
+	"ctype": "Web",
+	"sessionStr": "3634F440030595CC6B6B4F718BECA437",
+	"userid": 2,
+	"reqbody": {
+		"commodityId": 2, //商品ID
+		"quantity": 10,	  //数量
+		"list":[{
+			"comProID":1, //商品属性id
+		},{
+			"comProID":1, //商品属性id
+		}]
+	}
+}
+//response
+{
+	"name": "addToCart",
+	"retcode": 0,
+	"msg": ""
+}
+
+30.修改购物车中商品数据
+//request------------------------------------------------------ok
+{
+	"name": "updateToCart",
+	"ctype": "Web",
+	"sessionStr": "3634F440030595CC6B6B4F718BECA437",
+	"userid": 2,
+	"reqbody": {
+		"detailId": 2,
+		"qty": 8
+	}
+}
+//response
+{
+	"name": "updateToCart",
+	"retcode": 0,
+	"msg": ""
+}
+
+31.删除购物车中商品
+//request------------------------------------------------------ok
+{
+	"name": "delCartDetail",
+	"ctype": "Web",
+	"sessionStr": "3634F440030595CC6B6B4F718BECA437",
+	"userid": 2,
+	"reqbody": {
+		"detailList" :[1,2,3]
+	}
+}
+//response
+{
+	"name": "delCartDetail",
+	"retcode": 0,
+	"msg": ""
+}
+
+
+
+
+
+
+//////////////////////////////////////////////---------------分类-----------------//////////////////////////////////////
+//获取商品主目录表数据-------------------------------------------OK
+//request
+{
+	"name": "getCategory",
+	"ctype": "Web",
+	"reqbody": {
+		"categoryId" : 0,  //目录ID
+		"marketId":1    //1 普通市场目录   2 是积分市场目录    3跳蚤市场目录
+	}
+}
+//response
+{
+	"name": "getCategory",
+	"retcode": 0,
+	"msg": "",
+	"respbody": {
+		"dataList": [{
+			"categoryId": 1, //目录ID
+			"categoryName": "",//目录名称
+			"categoryimage":"http://192.168.1.213/resources/e8d459ff-498a-45f9-8551-60133f87caa1002.jpg" //目录图片
+			
+		}, {
+			"categoryId": 1, //目录ID
+			"categoryName": "",//目录名称
+			"categoryimage":"http://192.168.1.213/resources/e8d459ff-498a-45f9-8551-60133f87caa1002.jpg" //目录图片
+		}]
+	}
+}
+
+
+
+
+
+
+//获取商品目录表对应的商品信息-------------------------------------------OK
+//request
+{
+	"name": "getCommodity",
+	"ctype": "Web",
+	"reqbody": {
+		"categoryId" : 1, //商品目录ID
+		"marketID" : 0,	  //市场ID 1普通市场  2 积分市场  3、获取跳蚤市场(寄售)商品  4、获取跳蚤市场(求购)商品
+		"pageIndex" : 0	, //当前页码
+		"pageSize" : 2    //每页条数
+	}
+}
+//response
+{
+	"name": "getCommodity",
+	"retcode": 0,
+	"msg": "",
+	"respbody": {
+		"total": 2,
+		"dataList": [{
+			"commodityId": 7,  //商品ID
+			"commodityCode": "100101", //商品代码
+			"commodityType":0,	//0 普通商品  1卡卷商品
+			"name": "鳄鱼皮凉鞋",	//商品名称
+		        "img": "http://192.168.1.213/resources/72ce614e-3658-47b2-b062-805763e5d4d1001.jpg", //微信大图片
+			"icon": "http://192.168.1.213/resources/544e9d00-65de-49fd-a70d-b827efaeeb83001.jpg",//微信小图片
+			"pcImg": "http://192.168.1.213/resources/96095bce-2881-4afc-8c12-409494d678a7001.jpg",//PC大图片
+			"pcIcon": "http://192.168.1.213/resources/337e344a-acaa-45e0-8506-9a162561b648001.jpg",//PC小图片
+			"title": "", //商品标题
+			"price": 10.0, //商品价格 or 积分
+			"oriPrice" : 11.0, //商品原价
+			"sales":1000,//月销量
+			"listOrderId":1 //跳蚤市场订单ID 跳蚤市场下单OR一键转让时需要
+		}, {
+			"commodityId": 8,  //商品ID
+			"commodityCode": "100102", //商品代码
+			"commodityType":0,	//0 普通商品  1卡卷商品
+			"name": "铁观音",	//商品名称
+			"img": "http://192.168.1.213/resources/e8d459ff-498a-45f9-8551-60133f87caa1002.jpg",//微信大图片
+			"icon": "http://192.168.1.213/resources/198e9208-23e0-41ce-85ee-864b3b0f484d002.jpg",//微信小图片
+			"pcImg": "http://192.168.1.213/resources/29192832-af03-4721-8e0e-0a146fa603b2003.jpg",//PC大图片
+			"pcIcon": "http://192.168.1.213/resources/178efade-ec49-4141-abfe-a938d240a510002.jpg",//PC小图片
+			"title": "", //商品标题
+			"price": 10.0, //商品价格
+			"oriPrice" : 11.0, //商品原价
+			"sales":1000,//月销量
+			"listOrderId":1 //跳蚤市场订单ID 跳蚤市场下单OR一键转让时需要
+		}]
+	}
+}
+
+
+
+
+//.获取商品的详细信息-------------------------------------------OK
+//request
+{
+	"name": "commodityDetail",
+	"ctype": "Web", 
+	"reqbody": {
+		"commodityId" : 10  //商品ID
+	}
+}
+//response
+{
+	"name": "commodityDetail",
+	"retcode": 0,
+	"msg": "",
+	"respbody": {
+		"commodityId" : 1,	//商品ID
+		"commodityCode" : "",	//商品代码
+		"name" : "",		//商品名称
+		"img": "http://192.168.1.213/resources/e8d459ff-498a-45f9-8551-60133f87caa1002.jpg",//微信大图片
+		"icon": "http://192.168.1.213/resources/198e9208-23e0-41ce-85ee-864b3b0f484d002.jpg",//微信小图片
+		"pcImg": "http://192.168.1.213/resources/29192832-af03-4721-8e0e-0a146fa603b2003.jpg",//PC大图片
+		"pcIcon": "http://192.168.1.213/resources/178efade-ec49-4141-abfe-a938d240a510002.jpg",//PC小图片
+		"title" : "",		//商品标题
+		"summary" : "",		//商品介绍
+		"price" : 10.0,		//价格
+		"oriPrice" : 10.0,	//原价
+		"payAccumulate":1000,	//可使用积分
+		"takeAccumulate":230,	//赠送积分
+		"accumulateRate":1,	//积分转换比例  积分*accumulateRate = 人民币金额
+		"quantity": 1,		//库存
+		"sales":1000,		//月销量
+		"collection":0,		//0 没有收藏  1 收藏
+		"delivery":12.00,	//快递费
+		"commodityType": 1,	 //商品类型   1: 电商市场, 2: 积分商城 ,3: 跳蚤市场
+		"pactUrl":"http://192.168.1.213/resources/html/commodity1.html" //商品详情
+		"propertyList":[{
+			"propertyID":1, 
+			"propertyName":"产品参数",
+			"list":[{
+				"comProID":12,//属性ID
+				"selector":"170mm" //属性
+			}]
+		},{
+			"propertyID":1, 
+			"propertyName":"选择 颜色分类",
+			"list":[{
+				"comProID":12,//属性ID
+				"selector":"红色" //属性
+			}]
+		}]
+	}
+}
+
+
+
+//获取评价-------------------------------------------OK
+//request
+{
+	"name": "commodityEvaluate",
+	"ctype": "Web",
+	"sessionStr": "3634F440030595CC6B6B4F718BECA437",
+	"userid": 2,
+	"reqbody": {
+		"commodityId": 2,							//商品唯一标识
+		"pageIndex":1
+		"pageSize":10
+	}
+}
+//response
+{
+	"name": "commodityEvaluate",
+	"retcode": 0,
+	"msg": "",
+	"respbody": {
+		"total": 2,
+		"list": [{
+			"userName":"rel****124",//用户名称
+			"userImage":"http://192.168.1.213/resources/e8d459ff-498a-45f9-8551-60133f87caa1002.jpg",//用户头像
+			"content":"做工扎实，使用高档", //评价
+			"images":"http://192.168.1.213/resources/e8d459ff-498a-45f9-8551-60133f87caa1002.jpg,http://192.168.1.213/resources/e8d459ff-498a-45f9-8551-60133f87caa1002.jpg,http://192.168.1.213/resources/e8d459ff-498a-45f9-8551-60133f87caa1002.jpg", //上传的图片
+			"productParameter":[{
+				"comProID":12,
+				"propertyName":"颜色选择",
+				"selector":"白色"
+			},{
+				"comProID":26,
+				"propertyName":"尺码选择",
+				"selector":"S"
+			}], //产品参数
+			"createTime":2017-08-28 09:29:00
+			
+		},{
+			"userName":"rel****124",//用户名称
+			"userImage":"http://192.168.1.213/resources/e8d459ff-498a-45f9-8551-60133f87caa1002.jpg",//用户头像
+			"content":"做工扎实，使用高档", //评价
+			"images":"http://192.168.1.213/resources/e8d459ff-498a-45f9-8551-60133f87caa1002.jpg,http://192.168.1.213/resources/e8d459ff-498a-45f9-8551-60133f87caa1002.jpg,http://192.168.1.213/resources/e8d459ff-498a-45f9-8551-60133f87caa1002.jpg", //上传的图片
+			"productParameter":[{
+				"comProID":12,
+				"propertyName":"颜色选择",
+				"selector":"白色"
+			},{
+				"comProID":26,
+				"propertyName":"尺码选择",
+				"selector":"S"
+			}], //产品参数
+			"createTime":2017-08-28 09:29:00
+		}]
+	}
+}
+
+
+
+//商品搜索-----------------------------------------OK
+//request
+{
+	"name": "commoditySearch",
+	"ctype": "Web",
+	"reqbody": {
+		"key": "男鞋",//搜索内容
+		"sales":"0",	 //销量排序  0 不排序  1排序
+		"marketId":1,	//1普通市场  2 积分市场  3、获取跳蚤市场(寄售)商品  4、获取跳蚤市场(求购)商品
+		"pageIndex": 1,							
+		"pageSize": 10
+	}
+}
+//response
+{
+	"name": "commoditySearch",
+	"retcode": 0,
+	"msg": "",
+	"respbody": {
+		"total": 2,
+		"dataList": [{
+			"commodityId": 7,  //商品ID
+			"commodityCode": "100101", //商品代码
+			"commodityType":0,	//0 普通商品  1卡卷商品
+			"name": "鳄鱼皮凉鞋",	//商品名称
+		        "img": "http://192.168.1.213/resources/72ce614e-3658-47b2-b062-805763e5d4d1001.jpg", //微信大图片
+			"icon": "http://192.168.1.213/resources/544e9d00-65de-49fd-a70d-b827efaeeb83001.jpg",//微信小图片
+			"pcImg": "http://192.168.1.213/resources/96095bce-2881-4afc-8c12-409494d678a7001.jpg",//PC大图片
+			"pcIcon": "http://192.168.1.213/resources/337e344a-acaa-45e0-8506-9a162561b648001.jpg",//PC小图片
+			"title": "", //商品标题
+			"price": 10.0, //商品价格 or 积分
+			"oriPrice" : 11.0, //商品原价
+			"sales":1000,//月销量
+			"listOrderId":1 //跳蚤市场订单ID 跳蚤市场下单OR一键转让时需要
+
+		}, {
+			"commodityId": 8,  //商品ID
+			"commodityCode": "100102", //商品代码
+			"commodityType":0,	//0 普通商品  1卡卷商品
+			"name": "铁观音",	//商品名称
+			"img": "http://192.168.1.213/resources/e8d459ff-498a-45f9-8551-60133f87caa1002.jpg",//微信大图片
+			"icon": "http://192.168.1.213/resources/198e9208-23e0-41ce-85ee-864b3b0f484d002.jpg",//微信小图片
+			"pcImg": "http://192.168.1.213/resources/29192832-af03-4721-8e0e-0a146fa603b2003.jpg",//PC大图片
+			"pcIcon": "http://192.168.1.213/resources/178efade-ec49-4141-abfe-a938d240a510002.jpg",//PC小图片
+			"title": "", //商品标题
+			"price": 10.0, //商品价格
+			"oriPrice" : 11.0, //商品原价
+			"sales":1000,//月销量
+			"listOrderId":1 //跳蚤市场订单ID 跳蚤市场下单OR一键转让时需要
+		}]
+	}
+}
+
+
+
+
+//////////////////////////////////////////////---------------个人中心-----------------//////////////////////////////////////
+
+//7.个人中心-----------------------------------------OK
+//request
+{
+	"name": "userInfo",
+	"ctype": "Web",
+	"sessionStr": "3634F440030595CC6B6B4F718BECA437",
+	"userid": 2
+}
+//response
+{
+	"name": "userInfo",
+	"retcode": 0,
+	"msg": "",
+	"respbody": {
+		"icon": "", //头像icon连接
+		"name": "", //用户名称
+		"level": 1, //等级
+		"userCode": 123, //用户编号
+		"balance":999.00, //我的余额
+		"integral":666.00, //我的积分
+		"collection":100 //商品收藏
+	}
+}
+
+
+
+
+
+//8.修改密码--(标记代码修改)-----------------------------------------OK
+request
+{
+	"name": "changePwd",
+	"ctype": "Web",
+	"sessionStr": "3634F440030595CC6B6B4F718BECA437",
+	"userid": 2,
+	"reqbody": {
+		"smscode": ""								//短信验证码
+		"new_pwd": ""								//新密码
+	}
+}
+response
+{
+	"name": "changePwd",
+	"retcode": 0,
+	"msg": ""
+}
+
+
+
+//查询全部订单-----------------------------------------OK
+//request
+{
+	"name": "queryOrders",
+	"ctype": "Web",
+	"sessionStr": "3634F440030595CC6B6B4F718BECA437",
+	"userid": 2,
+	"reqbody": {
+		"status":0  // 0 查询全部订单  1查询待付款订单  3查询待发货订单 4查询待收货订单 5查询待评价订单
+		"pageIndex": 1,
+		"pageSize": 10
+	}
+}
+//response
+{
+	"name": "queryOrders",
+	"retcode": 0,
+	"msg": "",
+	"respbody": {
+		"total":2,
+		"arrayList":[{
+			"orderID":12,//订单ID
+			"totalPrice":4500.00, //订单总价
+			"freight":12.00, //运费
+			"status":"交易完成",  //状态
+			"type":0, // 1普通订单  2 积分订单  3 跳蚤市场订单 
+			"list":[{
+				"detailID":123,//订单详情ID 用于查看订单进度
+				"commodityID":1, //商品ID 
+				"img": "http://192.168.1.213/resources/",
+				"icon": "http://192.168.1.213/resources/",
+				"pcImg": "http://192.168.1.213/resources/",
+				"pcIcon": "http://192.168.1.213/resources/",
+				"commodityName":"库特意手工皮鞋", //商品名称
+				"price":1500.00,//商品价格
+				"quantity":2,//商品数量
+				"commodityType":0,//商品类型 0普通商品  1卡卷商品 卡卷商品无售后操作
+				"afterSaleStatus":0 //0：无售后   1: 已申请  2: 已受理  3: 已完成  4: 已拒绝 
+				"type":[{
+					"comProID":12,
+					"propertyName":"颜色选择",
+					"selector":"白色"
+				},{
+					"comProID":26,
+					"propertyName":"尺码选择",
+					"selector":"S"
+				}]
+			}，{
+				"detailID":123,//订单详情ID 用于查看订单进度
+				"commodityID":1, //商品ID 
+				"img": "http://192.168.1.213/resources/",
+				"icon": "http://192.168.1.213/resources/",
+				"pcImg": "http://192.168.1.213/resources/",
+				"pcIcon": "http://192.168.1.213/resources/",
+				"commodityName":"库特意手工皮鞋", //商品名称
+				"price":1500.00,//商品价格
+				"quantity":2,//商品数量
+				"commodityType":0,//商品类型 0普通商品  1卡卷商品 卡卷商品无售后操作
+				"afterSaleStatus":0 //0：无售后   1: 已申请  2: 已受理  3: 已完成  4: 已拒绝 
+				"type":[{
+					"comProID":12,
+					"propertyName":"颜色选择",
+					"selector":"白色"
+				},{
+					"comProID":26,
+					"propertyName":"尺码选择",
+					"selector":"S"
+				}]
+			}]
+		}]
+	}
+}
+
+//查看所有状态的积分订单-----------------------------------------OK
+//request
+{
+	"name": "queryIntegralOrder",
+	"ctype": "Web",
+	"sessionStr": "3634F440030595CC6B6B4F718BECA437",
+	"userid": 2,
+	"reqbody": {
+		"pageIndex": 1,
+		"pageSize": 10
+	}	
+}
+//response
+{
+	"name": "queryIntegralOrder",
+	"retcode": 0,
+	"msg": "",
+	"respbody": {
+		"total":2,
+		"arrayList":[{
+			"orderID":12,//订单ID
+			"totalPrice":4500.00, //订单总价
+			"freight":12.00, //运费
+			"status":"交易完成",  //状态
+			"detailID":123,//订单详情ID 用于查看订单进度
+			"commodityID":1, //商品ID 
+			"img": "http://192.168.1.213/resources/",
+			"icon": "http://192.168.1.213/resources/",
+			"pcImg": "http://192.168.1.213/resources/",
+			"pcIcon": "http://192.168.1.213/resources/",
+			"commodityName":"库特意手工皮鞋", //商品名称
+			"price":1500.00,//商品价格
+			"quantity":2,//商品数量
+			"type":[{
+				"comProID":12,
+				"propertyName":"颜色选择",
+				"selector":"白色"
+			},{
+				"comProID":26,
+				"propertyName":"尺码选择",
+				"selector":"S"
+			}]
+		},{
+			"orderID":12,//订单ID
+			"totalPrice":4500.00, //订单总价
+			"freight":12.00, //运费
+			"status":"交易完成",  //状态
+			"detailID":123,//订单详情ID 用于查看订单进度
+			"commodityID":1, //商品ID 
+			"img": "http://192.168.1.213/resources/",
+			"icon": "http://192.168.1.213/resources/",
+			"pcImg": "http://192.168.1.213/resources/",
+			"pcIcon": "http://192.168.1.213/resources/",
+			"commodityName":"库特意手工皮鞋", //商品名称
+			"price":1500.00,//商品价格
+			"quantity":2,//商品数量
+			"type":[{
+				"comProID":12,
+				"propertyName":"颜色选择",
+				"selector":"白色"
+			},{
+				"comProID":26,
+				"propertyName":"尺码选择",
+				"selector":"S"
+			}]
+		}]
+	}
+}
+
+
+//用户取消订单-----------------------------------------OK
+//request
+{
+	"name": "userCancelOrder",
+	"ctype": "Web",
+	"sessionStr": "3634F440030595CC6B6B4F718BECA437",
+	"userid": 2,
+	"reqbody": {
+		"orderId":12		//订单ID
+	}	
+}
+//response
+{
+	"name": "userCancelOrder",
+	"retcode": 0,
+	"msg": ""
+}
+
+
+//积分订单商品提货
+//request-----------------------------------------ok
+{
+	"name": "integralPickUp",
+	"ctype": "Web",
+	"sessionStr": "3634F440030595CC6B6B4F718BECA437",
+	"userid": 2,
+	"reqbody": {
+		"orderId":12,		//订单ID
+		"detailID":123,		//订单详情ID
+		"deliveryQty":1,	//提货数量
+		"addrId":6		//收货地址
+		"propertyList":[{
+				"comProID":1, //商品属性id
+			},{
+				"comProID":2, //商品属性id
+			}]
+	}	
+}
+//response
+{
+	"name": "integralPickUp",
+	"retcode": 0,
+	"msg": ""
+}
+
+
+
+//维修
+//request-----------------------------------------OK
+{
+	"name": "afterSaleMaintain",
+	"ctype": "Web",
+	"sessionStr": "3634F440030595CC6B6B4F718BECA437",
+	"userid": 2,
+	"reqbody": {
+		"orderID":123,//订单ID
+		"shipperCode":"123123qawe",//物流公司代码
+		"shippingMode":12,//配送方式
+		"weight":,900//商品重量
+		"weightUnit":"Kg",//重量单位
+		"trackingNo":"21313123",//快递单号
+		"addrID":1 //收货地址
+	}	
+}
+//response
+{
+	"name": "afterSaleMaintain",
+	"retcode": 0,
+	"msg": ""
+}
+
+
+
+//换新-----------------------------------------ok
+//request
+{
+	"name": "afterSaleRenewed",
+	"ctype": "Web",
+	"sessionStr": "3634F440030595CC6B6B4F718BECA437",
+	"userid": 2,
+	"reqbody": {
+		"orderID":1, //订单ID
+		"detailID":2 //订单详情ID
+	}	
+}
+//response
+{
+	"name": "afterSaleRenewed",
+	"retcode": 0,
+	"msg": "",
+	"respbody": {
+		"orderId": 10000,		//订单ID
+		"orderCost": 100.00,		
+		"firmId": 1222,			//交易商ID
+		"key": "",			
+		"payId": "100",			//支付ID，用于刷新二维码Url时传入
+		"urlList":{
+			 "qq": "",							//qq     支付url
+			 "alipay": "https://qr.alipay.com/bax03636kw8igfsdy9hn00a3",//支付宝 支付url
+			"wechat": ""						//微信   支付url
+		}
+	}
+}
+
+//查看订单售后信息-----------------------------------------ok
+//request
+{
+	"name": "queryAfterService",
+	"ctype": "Web",
+	"sessionStr": "3634F440030595CC6B6B4F718BECA437",
+	"userid": 2,
+	"reqbody": {
+		"orderID":1 //订单ID
+	}	
+}
+//response
+{
+	"name": "queryAfterService",
+	"retcode": 0,
+	"msg": "",
+	"respbody": {
+		"serviceID":1,			//服务单号
+		"orderID":1,			//订单ID
+		"firmId":1,			//交易商ID
+		"serviceType":1,		//1:  维修 2:  换新
+		"status":1,			// 1: 已申请    	2: 已受理 	 3: 已完成  4: 已拒绝 
+		"payStatus":1,			//0:  空，无需支付   1:  待支付    	2:  已支付
+		"logisticsStatus":1,		//物流状态  1:  待发货    2:  待收货    3:  已收货
+		"logisticsSender":1,		//物流发起方      1: 客户    2: 商家
+		"deleteFlag":1,			//是否有效  0 有效  1无效
+		"addrID":1,			//收货地址
+		"logisticsID":1,		  //物流ID
+		"createTime":"2017-08-09 12:10 ", //创建时间
+		"accessTime":"2017-08-09 12:10 ", //受理时间
+		"finishTime":"2017-08-09 12:10 " //完成时间
+	}
+}
+
+
+//查询物流公司-----------------------------------------ok
+//request
+{
+	"name": "queryLogisticsInfo",
+	"ctype": "Web",
+	"sessionStr": "3634F440030595CC6B6B4F718BECA437",
+	"userid": 2
+}
+//response
+{
+	"name": "queryLogisticsInfo",
+	"retcode": 0,
+	"msg": "",
+	"respbody": {
+		"total": 2,
+		"list":[{
+			"infoID":1,				//物流配置ID
+			"shipperCode":"ZTKY",			//物流公司代码
+			"shipperName":"中铁快运",		 //物流公司名称
+			"createTime":"2017-05-05"		//创建时间
+		},{
+			"infoID":2,				//物流配置ID
+			"shipperCode":"ZTO",			//物流公司代码
+			"shipperName":"中通速递",		 //物流公司名称
+			"createTime":"2017-05-05"		//创建时间
+		}]
+	}
+}
+
+
+
+
+
+
+
+//查看订单进度
+//request-----------------------------------------------------OK
+{
+	"name": "queryOrderSchedule",
+	"ctype": "Web",
+	"sessionStr": "3634F440030595CC6B6B4F718BECA437",
+	"userid": 2,
+	"reqbody": {
+		"orderID":12, //订单ID
+		"detailID":123 //订单详情ID
+	}
+}
+//response
+{
+	"name": "queryOrderSchedule",
+	"retcode": 0,
+	"msg": "",
+	"respbody": {
+		"scheduleTitle":"目前正在制作鞋底上胶，等待粘合",//进度标题
+		"scheduleContent":"http://192.168.1.213/resources/e8d459ff-498a-45f9-8551-60133f87caa1002.html" //进度内容
+	}
+}
+//查看物流
+//request -----------------------------------------------------OK
+{
+	"name": "queryLogistics",
+	"ctype": "Web",
+	"sessionStr": "3634F440030595CC6B6B4F718BECA437",
+	"userid": 2,
+	"reqbody": {
+		"orderID":"12" //订单ID
+	}
+}
+//response
+{
+	"name": "queryLogistics",
+	"retcode": 0,
+	"msg": "",
+	"respbody": {
+		"shipperCode":"CS12345",//物流公司代码
+		"shippingMode":空运,	//配送方式
+		"weight":1200,		//商品重量
+		"weightUnit":"千克".	//重量单位
+		"trackingNo":"784216964447845" //快递单号
+	}
+}
+
+
+//确认收货
+//request -----------------------------------------------------OK
+{
+	"name": "confirmReceipt",
+	"ctype": "Web",
+	"sessionStr": "3634F440030595CC6B6B4F718BECA437",
+	"userid": 2,
+	"reqbody": {
+		"orderID":12 //订单ID
+	}
+}
+//response
+{
+	"name": "confirmReceipt",
+	"retcode": 0,
+	"msg": ""
+}
+
+
+//添加评价
+//request -----------------------------------------------------OK
+{
+	"name": "addEvaluation",
+	"ctype": "Web",
+	"sessionStr": "3634F440030595CC6B6B4F718BECA437",
+	"userid": 2,
+	"reqbody": {
+		"orderID":12	//订单ID
+		"commodityId":1,//商品ID
+		"level":5	//评价等级
+		"title":""	//标题
+		"content":"手工制作的鞋子质量就是牛！，很合脚，穿着很舒服。强烈推荐！" //评价内容
+		"images":"http://192.168.1.213/resources/e8d459ff-498a-45f9-8551-60133f87caa1002.jpg,http://192.168.1.213/resources/e8d459ff-498a-45f9-8551-60133f87caa1002.jpg,http://192.168.1.213/resources/e8d459ff-498a-45f9-8551-60133f87caa1002.jpg"
+	}
+}
+//response
+{
+	"name": "addEvaluation",
+	"retcode": 0,
+	"msg": ""
+}
+
+
+
+
+//查询发票信息-----------------------------------------------------OK
+//request
+{
+	"name": "queryInvoiceInfo",
+	"ctype": "Web",
+	"sessionStr": "3634F440030595CC6B6B4F718BECA437",
+	"userid": 2
+}
+//response
+{
+	"name": "queryInvoiceInfo",
+	"retcode": 0,
+	"msg": "",
+	"respbody": {
+		"total": 2,
+		"list":[{
+			"infoID":1,			 //发票信息ID
+			"firmId":12,			//交易商ID
+			"header":"北京炬力科技有限公司", //发票抬头
+			"dutyNo":"12345313246813254846", //税号
+			"updateTime":"2017-05-05"
+		},{
+			"infoID":1,			 //发票信息ID
+			"firmId":12,			//交易商ID
+			"header":"上海握手股份有限公司", //发票抬头
+			"dutyNo":"45676165796467/976487", //税号
+			"updateTime":"2017-05-05"
+		}]
+	}
+}
+
+//添加发票信息-----------------------------------------------------OK
+//request
+{
+	"name": "addInvoiceInfo",
+	"ctype": "Web",
+	"sessionStr": "3634F440030595CC6B6B4F718BECA437",
+	"userid": 2,
+	"reqbody": {
+		"header":"北京炬力科技有限公司", //发票抬头
+		"dutyNo":"12345313246813254846" //税号
+	}
+}
+//response
+{
+	"name": "addInvoiceInfo",
+	"retcode": 0,
+	"msg": ""
+}
+
+//修改发票信息-----------------------------------------------------OK
+//request
+{
+	"name": "updateInvoiceInfo",
+	"ctype": "Web",
+	"sessionStr": "3634F440030595CC6B6B4F718BECA437",
+	"userid": 2,
+	"reqbody": {
+		"infoId":"2", //发票信息ID
+		"header":"北京炬力科技有限公司", //发票抬头
+		"dutyNo":"12345313246813254846" //税号
+	}
+}
+//response
+{
+	"name": "updateInvoiceInfo",
+	"retcode": 0,
+	"msg": ""
+}
+
+//删除发票信息-----------------------------------------------------OK
+//request
+{
+	"name": "deleteInvoiceInfo",
+	"ctype": "Web",
+	"sessionStr": "3634F440030595CC6B6B4F718BECA437",
+	"userid": 2,
+	"reqbody": {
+		"infoID":2 //发票信息ID
+	}
+}
+//response
+{
+	"name": "deleteInvoiceInfo",
+	"retcode": 0,
+	"msg": ""
+}
+
+
+//添加收藏 -----------------------------------------------------OK
+//request
+{
+	"name": "addCollection",
+	"ctype": "Web",
+	"sessionStr": "3634F440030595CC6B6B4F718BECA437",
+	"userid": 2,
+	"reqbody": {
+		"commodityId":"2" //商品ID
+	}
+}
+//response
+{
+	"name": "addCollection",
+	"retcode": 0,
+	"msg": ""
+}
+
+//查看收藏-----------------------------------------------------ok（需要重新登录才能获取最新的添加）
+//request
+{
+	"name": "queryCollection",
+	"ctype": "Web",
+	"sessionStr": "3634F440030595CC6B6B4F718BECA437",
+	"userid": 2
+}
+//response
+{
+	"name": "queryCollection",
+	"retcode": 0,
+	"msg": "",
+	"respbody": {
+		"total": 2,
+		"dataList": [{
+			"commodityId": 7,  //商品ID
+			"commodityCode": "100101", //商品代码
+			"name": "鳄鱼皮凉鞋",	//商品名称
+		        "img": "http://192.168.1.213/resources/72ce614e-3658-47b2-b062-805763e5d4d1001.jpg", //微信大图片
+			"icon": "http://192.168.1.213/resources/544e9d00-65de-49fd-a70d-b827efaeeb83001.jpg",//微信小图片
+			"pcImg": "http://192.168.1.213/resources/96095bce-2881-4afc-8c12-409494d678a7001.jpg",//PC大图片
+			"pcIcon": "http://192.168.1.213/resources/337e344a-acaa-45e0-8506-9a162561b648001.jpg",//PC小图片
+			"title": "", //商品标题
+			"price": 10.0, //商品价格 or 积分
+			"oriPrice" : 11.0, //商品原价
+			"sales":1000,//月销量
+			"commodityType": 2 //商品类型  1: 电商市场, 2: 积分商城 ,3: 跳蚤市场
+
+		}, {
+			"commodityId": 8,  //商品ID
+			"commodityCode": "100102", //商品代码
+			"name": "铁观音",	//商品名称
+			"img": "http://192.168.1.213/resources/e8d459ff-498a-45f9-8551-60133f87caa1002.jpg",//微信大图片
+			"icon": "http://192.168.1.213/resources/198e9208-23e0-41ce-85ee-864b3b0f484d002.jpg",//微信小图片
+			"pcImg": "http://192.168.1.213/resources/29192832-af03-4721-8e0e-0a146fa603b2003.jpg",//PC大图片
+			"pcIcon": "http://192.168.1.213/resources/178efade-ec49-4141-abfe-a938d240a510002.jpg",//PC小图片
+			"title": "", //商品标题
+			"price": 10.0, //商品价格
+			"oriPrice" : 11.0, //商品原价
+			"sales":1000,//月销量
+			"commodityType": 2 //商品类型  1: 电商市场, 2: 积分商城 ,3: 跳蚤市场
+		}]
+	}
+}
+//删除收藏-----------------------------------------------------ok
+//request
+{
+	"name": "deleteCollection",
+	"ctype": "Web",
+	"sessionStr": "3634F440030595CC6B6B4F718BECA437",
+	"userid": 2,
+	"reqbody": {
+		"commodityId":"2" //商品ID
+	}
+}
+//response
+{
+	"name": "deleteCollection",
+	"retcode": 0,
+	"msg": ""
+}
+
+
+
+
+
+37.发送短信验证码并且验证验证码--（找回密码1）-----------------------------------------------------ok
+//request
+{
+	"name": "retrievePswCode",
+	"ctype": "Web",
+	"reqbody": {
+		"mobile": "13655555555",				//手机号
+		"captchaId":"",						//验证码ID
+		"captcha": ""						//验证码内容
+	}
+}
+//response
+{
+	"name": "retrievePswCode",
+	"retcode": 0,
+	"msg": ""
+	
+}
+
+
+32.验证手机验证码-(找回密码2)--(标记代码修改)-----------------------------------------------------ok
+//request
+{
+	"name": "retrievePsw",
+	"ctype": "Web",
+	"sessionStr": "3634F440030595CC6B6B4F718BECA437",
+	"userid": 2,
+	"reqbody": {
+		"mobile": "13051496486"	//手机号
+		"verifycode":"123"	//验证码
+	}
+}
+//response
+{
+	"name": "retrievePsw",
+	"retcode": 0,
+	"msg": ""
+}
+
+40.设置新密码--(找回密码3)-----------------------------------------------------ok
+//request
+{
+	"name": "instalNewPsw",
+	"ctype": "Web",
+	"reqbody": {
+		"mobile": "13655555555",				//手机号
+		"newpwd": "123456"					//密码
+	}
+}
+//response
+{
+	"name": "instalNewPsw",
+	"retcode": 0,
+	"msg": "",
+	"respbody": {
+		"userid":123 , //用户id
+		"sessionStr":"12313248564161" //会话ID
+	}
+}
+
+
+
+//20.添加收货地址-----------------------------------------------------ok
+//request
+{
+	"name": "addAddr",
+	"ctype": "Web",
+	"sessionStr": "3634F440030595CC6B6B4F718BECA437",
+	"userid": 2,
+	"reqbody": {
+		 "addrID": 1 ,		//ID (可以为空)
+		 "province": "",	//省ID
+		 "city": "",		//市ID
+		 "countyName":"",	//县(区)ID
+		 "townName":"",		//镇ID
+		 "addressDetail": "",	//详细地址
+		 "zipCode": "",		//邮编
+		 "phone": "",		//固定电话
+		 "realName": "",	//收货人姓名
+		 "mobile": "",		//收货人电话
+		 "isDefault": 1		//是否默认收货地址  默认 1  不默认 0 OR(为空)
+	}
+}
+//response
+{
+	"name": "addAddr",
+	"retcode": 0,
+	"msg": ""
+}
+
+//21.修改收货地址-----------------------------------------------------ok
+//request
+{
+	"name": "editAddr",
+	"ctype": "Web",
+	"sessionStr": "3634F440030595CC6B6B4F718BECA437",
+	"userid": 2,
+	"reqbody": {
+		 "addrID": 1 ,		//ID 
+		 "province": "",	//省ID
+		 "city": "",		//市ID
+		 "countyName":"",	//县(区)ID
+		 "townName":"",		//镇ID
+		 "addressDetail": "",	//详细地址
+		 "zipCode": "",		//邮编
+		 "phone": "",		//固定电话
+		 "realName": "",	//收货人姓名
+		 "mobile": "",		//收货人电话
+		 "isDefault": 1		//是否默认收货地址  默认 1  不默认 0 OR(为空)
+	}
+}
+//response
+{
+	"name": "editAddr",
+	"retcode": 0,
+	"msg": ""
+}
+
+//22.修改默认收货地址-----------------------------------------------------ok
+//request
+{
+	"name": "editDefAddr",
+	"ctype": "Web",
+	"sessionStr": "3634F440030595CC6B6B4F718BECA437",
+	"userid": 2, 
+	"reqbody": {
+		"defAddrID" : 10  //收货地址ID
+	}
+}
+//response
+{
+	"name": "editDefAddr",
+	"retcode": 0,
+	"msg": ""
+}
+
+//23.删除收货地址-----------------------------------------------------ok
+//request
+{
+	"name": "delAddr",
+	"ctype": "Web",
+	"sessionStr": "3634F440030595CC6B6B4F718BECA437",
+	"userid": 2, 
+	"reqbody": {
+		"addrID" : 10  //收货地址ID
+	}
+}
+//response
+{
+	"name": "delAddr",
+	"retcode": 0,
+	"msg": ""
+}
+
+
+//28.获取交易商的全部收货地址-----------------------------------------------------ok
+//request
+{
+	"name": "queryAddr",
+	"ctype": "Web",
+	"sessionStr": "68E25B9E70F27AD72C26786AFE03A070",
+	"userid": 9, 
+}
+//response
+{
+	"name": "queryAddr",
+	"retcode": 0,
+	"msg": "",
+	"respbody": {
+		"total": 2,
+		"List":[{
+			"addrID" : 1,		//地址ID
+			"province" : "",	//省ID
+			"city" : "",		//市ID
+			"district":"",		//县(区)ID
+			"town":"",		//镇ID
+			"provinceName":""       //省名称
+			"cityName":""		//市名称
+			"districtName":""	//县(区)名称
+			"townName":""	·	//镇名称
+			"addressDetail" : "",	//详细地址
+			"zipCode" : "",		//邮编
+			"phone" : "",		//固定电话
+			"realName" : "",	//收货人姓名
+			"mobile" : "",		//收货人电话
+			"isDefault" : 0		
+		},{
+			"addrID" : 2,		//地址ID
+			"province" : "",	//省ID
+			"city" : "",		//市ID
+			"district":"",		//县(区)ID
+			"town":"",		//镇ID
+			"provinceName":""       //省名称
+			"cityName":""		//市名称
+			"districtName":""	//县(区)名称
+			"townName":""	·	//镇名称
+			"addressDetail" : "",	//详细地址
+			"zipCode" : "",		//邮编
+			"phone" : "",		//固定电话
+			"realName" : "",	//收货人姓名
+			"mobile" : "",		//收货人电话
+			"isDefault" : 0		
+		}]
+	}
+}
+
+
+
+
+42.//我的邀请码-----------------------------------------------------ok
+//request
+{
+	"name": "userInfo",
+	"ctype": "Web",
+	"sessionStr": "3634F440030595CC6B6B4F718BECA437",
+	"userid":2
+}
+//response
+{
+	"name": "userInfo",
+	"retcode": 0,
+	"msg": "",
+	"respbody": {
+		"icon":"" 
+		"name":"" //用户名称
+		"level; //等级
+		"userCode":"" //用户编号
+		"authFlag;
+		"paperstype;
+		"paperscode":""
+		"idPicFr":""
+		"idPicBg":""
+		"email":""
+		"mobile":""
+		"hasIdFr;
+		"hasIdBg;
+		"Invitationcode":"24d2s"    //邀请码
+	}
+}
+
+43.邀请码注册-----------------------------------------------------ok
+//request
+{
+	"name": "inviteCodelogin",
+	"ctype": "Web",
+	"sessionStr": "3634F440030595CC6B6B4F718BECA437",
+	"userid":2
+	"reqbody":{
+		"mobile":"12345678912",//电话号码
+		"invitationcode":"2e5eq",//邀请码
+		"openid":""		 //openid
+	}
+}
+//response
+{
+	"name": "inviteCodelogin",
+	"retcode": 0,
+	"msg": "",
+	"respbody": {
+		"userid":123 , //用户id
+		"sessionStr":"12313248564161" //会话ID
+	}
+}
+
+
+//////////////////////////////////////////////---------------跳蚤市场-----------------//////////////////////////////////////
+
+//获取跳蚤市场订单-----------------------------------------ok
+//request
+{
+	"name": "queryFleaOrder",
+	"ctype": "Web",
+	"sessionStr": "3634F440030595CC6B6B4F718BECA437",
+	"userid": 2,
+	"reqbody": {
+		"bsFlag":1,	// 1、买方(求购) 2、卖方(寄售)
+		"pageIndex": 1,
+		"pageSize": 10
+	}	
+}
+//response
+{
+	"name": "queryFleaOrder",
+	"retcode": 0,
+	"msg": "",
+	"respbody": {
+		"total":2,
+		"arrayList":[{
+			"orderID":12,//订单ID
+			"totalPrice":4500.00, //订单总价
+			"freight":12.00, //运费
+			"status":"交易完成",  //状态  1 已委托     2已成交    3 已撤单
+			"commodityID":1, //商品ID 
+			"img": "http://192.168.1.213/resources/",
+			"icon": "http://192.168.1.213/resources/",
+			"pcImg": "http://192.168.1.213/resources/",
+			"pcIcon": "http://192.168.1.213/resources/",
+			"commodityName":"库特意手工皮鞋", //商品名称
+			"price":1500.00,//商品价格
+			"quantity":2,//商品数量
+			"type":[{
+				"comProID":12,
+				"propertyName":"颜色选择",
+				"selector":"白色"
+			},{
+				"comProID":26,
+				"propertyName":"尺码选择",
+				"selector":"S"
+			}]
+		},{
+			"orderID":12,//订单ID
+			"totalPrice":4500.00, //订单总价
+			"freight":12.00, //运费
+			"status":"交易完成",  //状态
+			"commodityID":1, //商品ID 
+			"img": "http://192.168.1.213/resources/",
+			"icon": "http://192.168.1.213/resources/",
+			"pcImg": "http://192.168.1.213/resources/",
+			"pcIcon": "http://192.168.1.213/resources/",
+			"commodityName":"库特意手工皮鞋", //商品名称
+			"price":1500.00,//商品价格
+			"quantity":2,//商品数量
+			"type":[{
+				"comProID":12,
+				"propertyName":"颜色选择",
+				"selector":"白色"
+			},{
+				"comProID":26,
+				"propertyName":"尺码选择",
+				"selector":"S"
+			}]
+		}]
+	}
+}
+
+
+//跳蚤订单商品提货
+//request-----------------------------------------OK
+{
+	"name": "fleaPickUp",
+	"ctype": "Web",
+	"sessionStr": "3634F440030595CC6B6B4F718BECA437",
+	"userid": 2,
+	"reqbody": {
+		"orderId":12,		//订单ID
+		"addrId":6		//收货地址
+		"propertyList":[{
+				"comProID":1, //商品属性id
+			},{
+				"comProID":2, //商品属性id
+			}]
+	}	
+}
+//response
+{
+	"name": "fleaPickUp",
+	"retcode": 0,
+	"msg": ""
+}
+//跳蚤市场订单查看物流
+//request -----------------------------------------------------OK
+{
+	"name": "fleaLogistics",
+	"ctype": "Web",
+	"sessionStr": "3634F440030595CC6B6B4F718BECA437",
+	"userid": 2,
+	"reqbody": {
+		"orderID":"12" //跳蚤订单ID
+	}
+}
+//response
+{
+	"name": "fleaLogistics",
+	"retcode": 0,
+	"msg": "",
+	"respbody": {
+		"shipperCode":"CS12345",//物流公司代码
+		"shippingMode":空运,	//配送方式
+		"weight":1200,		//商品重量
+		"weightUnit":"千克".	//重量单位
+		"trackingNo":"784216964447845" //快递单号
+	}
+}
+
+
+
+
+//跳蚤市场订单确认收货
+//request -----------------------------------------------------OK
+{
+	"name": "fleaConfirmReceipt",
+	"ctype": "Web",
+	"sessionStr": "3634F440030595CC6B6B4F718BECA437",
+	"userid": 2,
+	"reqbody": {
+		"orderID":12 //跳蚤订单ID
+	}
+}
+//response
+{
+	"name": "fleaConfirmReceipt",
+	"retcode": 0,
+	"msg": ""
+}
+
+
+
+//积分商品寄售
+//request -----------------------------------------ok
+{
+	"name": "integralSales",
+	"ctype": "Web",
+	"sessionStr": "3634F440030595CC6B6B4F718BECA437",
+	"userid": 2,
+	"reqbody": {
+		"orderId": 10000,	//订单ID
+		"detailID":123,		//订单详情ID
+		"entrustQty":1		//寄售数量
+	}	
+}
+//response
+{
+	"name": "integralSales",
+	"retcode": 0,
+	"msg": ""
+}
+
+//跳蚤市场成交求购-- 预支付 -----------------------------------------OK
+//request
+{
+	"name": "fleaBuying",
+	"ctype": "Web",
+	"sessionStr": "3634F440030595CC6B6B4F718BECA437",
+	"userid": 2,
+	"reqbody": {
+		"commodityId":1,
+		"entrustQty":1
+	}	
+}
+//response
+{
+	"name": "fleaBuying",
+	"retcode": 0,
+	"msg": "",
+	"respbody": {
+		"orderId": 10000,		//订单ID
+		"orderCost": 100.00,		
+		"firmId": 1222,			//交易商ID
+		"key": "",			
+		"payId": "100",			//支付ID，用于刷新二维码Url时传入
+		"urlList":{
+			 "qq": "",							//qq     支付url
+			 "alipay": "https://qr.alipay.com/bax03636kw8igfsdy9hn00a3",//支付宝 支付url
+			"wechat": ""						//微信   支付url
+		}
+	}
+
+}
+
+//跳蚤市场下单(购买发售商品)-----------------------------------------OK
+//request
+{
+	"name": "fleaMarketTrade",
+	"ctype": "Web",
+	"sessionStr": "3634F440030595CC6B6B4F718BECA437",
+	"userid": 2,
+	"reqbody": {
+		"listOrderID":1 //挂牌订单ID
+	}	
+}
+//response
+{
+	"name": "fleaMarketTrade",
+	"retcode": 0,
+	"msg": "",
+	"respbody": {
+		"orderId": 10000,		//订单ID
+		"orderCost": 100.00,		
+		"firmId": 1222,			//交易商ID
+		"key": "",			
+		"payId": "100",			//支付ID，用于刷新二维码Url时传入
+		"urlList":{
+			 "qq": "",							//qq     支付url
+			 "alipay": "https://qr.alipay.com/bax03636kw8igfsdy9hn00a3",//支付宝 支付url
+			"wechat": ""						//微信   支付url
+		}
+	}
+}
+
+
+//跳蚤市场 一键转让-----------------------------------------OK
+//request
+{
+	"name": "fleaTransfer",
+	"ctype": "Web",
+	"sessionStr": "3634F440030595CC6B6B4F718BECA437",
+	"userid": 2,
+	"reqbody": {
+		"listOrderID":1 //挂牌订单ID
+	}	
+}
+//response
+{
+	"name": "fleaTransfer",
+	"retcode": 0,
+	"msg": ""
+}
+
+
+//跳蚤市场 寄售撤单----------------------------------------OK
+//request
+{
+	"name": "withdrawOrder",
+	"ctype": "Web",
+	"sessionStr": "3634F440030595CC6B6B4F718BECA437",
+	"userid": 2,
+	"reqbody": {
+		"listOrderID":1 //挂牌订单ID
+	}	
+}
+//response
+{
+	"name": "withdrawOrder",
+	"retcode": 0,
+	"msg": ""
+}
+
+//积分订单撤单
+//request
+{
+	"name": "integralWithdrawOrder",
+	"ctype": "Web",
+	"sessionStr": "3634F440030595CC6B6B4F718BECA437",
+	"userid": 2,
+	"reqbody": {
+		"orderId":1 //挂牌订单ID
+	}	
+}
+//response
+{
+	"name": "withdrawOrder",
+	"retcode": 0,
+	"msg": ""
+}
+
+
+
+//////////////////////////////////////////////---------------订单OR支付-----------------//////////////////////////////////////
+
+//查询交易商积分
+//request ----------------------------------------OK
+{
+	"name" : "queryFirmIntegral",			
+	"ctype": "Web",	
+	"sessionStr": "3634F440030595CC6B6B4F718BECA437",
+	"userid": 2
+}
+//response
+{
+	"name": "queryFirmIntegral",
+	"retcode": 0,				//0表示成功，其他表示失败
+	"msg": "",
+	"respbody": {
+		"accumulate":123	//交易商积分
+	}
+}
+
+
+
+
+//9.下订单----------------------------------------------OK
+//request
+{
+	"name": "directBuy",
+	"ctype": "Web",
+	"sessionStr": "3634F440030595CC6B6B4F718BECA437",
+	"userid": 2,
+	"reqbody": {	
+		"addrId":6,								//收货地址  积分商品为空
+		"totalCost":125.00，							//订单总金额
+		"freight":16.00,							//订单运费
+		"brokerFirmId":12,							//经纪人
+		"invoiceFlag":0,							//是否开发票 0不开  1开
+		"infoID":12,								//发票信息ID
+		"accumulate":0,								//是否使用积分 0 不使用 ,1使用
+		"cartDetaiLID":12							//购物车下单填写
+		"couponsStatus":0,							//是否使用代金券 0不使用  1使用   如果使用代金券需要获取交易商的代金券，选中的代金券总金额要大于商品金额才能提交订单
+		"couponsIdList":{1,2,3}							//代金卷ID
+		"list":[{
+			"commodityId": 2,//商品唯一标识
+			"price": 20.00,//商品价格
+			"quantity": 1,//商品数量
+			"propertyList":[{
+				"comProID":1, //商品属性id
+			},{
+				"comProID":2, //商品属性id
+			}]
+		},{
+			"commodityId": 2,//商品唯一标识
+			"price": 20.00,//商品价格
+			"quantity": 1,//商品数量
+			"propertyList":[{
+				"comProID":1, //商品属性id
+			},{
+				"comProID":2, //商品属性id
+			}]
+		}]
+
+		
+	}
+}
+//response
+{
+	"name": "directBuy",
+	"retcode": 0,
+	"msg": "",
+	"respbody": {
+		"orderId": 10000,		//订单ID
+		"orderCost": 100.00,		
+		"firmId": 1222,			//交易商ID
+		"key": "",			
+		"payId": "100",			//支付ID，用于刷新二维码Url时传入
+		"urlList":{
+			 "qq": "",							//qq     支付url
+			 "alipay": "https://qr.alipay.com/bax03636kw8igfsdy9hn00a3",//支付宝 支付url
+			"wechat": ""						//微信   支付url
+		}
+	}
+}
+
+
+
+
+
+
+
+
+
+//10.获取支付链接
+//request
+{
+	"name": "payMoney",
+	"ctype": "Web",
+	"sessionStr": "3634F440030595CC6B6B4F718BECA437",
+	"userid": 2,
+	"reqbody": {
+		"orderID":"123",				//订单ID
+		"amount":12.00,					//金额
+		"paymentID":4,					//支付通道ID
+		"acquirerType":["alipay", "wechat", "qq"],	//支付类型，--获取支付url的类型，传一个就获取一个
+		"commPeoples":[{
+			"userID":14,	//分账系统中 用户ID
+			"money":2.00	//金额
+		},{
+			"userID":15,	//分账系统中 用户ID
+			"money":3.00	//金额
+		},{
+			"userID":16,	//分账系统中 用户ID
+			"money":4.00	//金额
+		}]
+	}	
+}
+//response
+{
+	"name": "payMoney",
+	"retcode": 0,
+	"msg": "",
+	"respbody": {
+		"urlList": {
+		    "qq": "",							//qq     支付url
+		    "alipay": "https://qr.alipay.com/bax03636kw8igfsdy9hn00a3",//支付宝 支付url
+		    "wechat": ""						//微信   支付url
+		    }
+	}
+}
+
+//逾期分账
+//request
+{
+	"name" : "centsMoney",			
+	"ctype": "Web",	
+	"sessionStr": "3634F440030595CC6B6B4F718BECA437",
+	"userid": 2,
+	"reqbody": {
+		"orderID":"123",					//订单ID
+		"commPeoples":[{
+			"userID":14,	//分账系统中 用户ID
+			"money":2.00	//金额
+		},{
+			"userID":15,	//分账系统中 用户ID
+			"money":3.00	//金额
+		},{
+			"userID":16,	//分账系统中 用户ID
+			"money":4.00	//金额
+		}]
+	}
+}
+//response
+{
+	"name": "centsMoney",
+	"retcode": 0,				//0表示成功，其他表示失败
+	"msg": ""
+}
+
+
+
+
+
+
+
+
+//13.提现
+//request
+{
+	"name" : "outMoney",			
+	"ctype": "Web",	
+	"sessionStr": "3634F440030595CC6B6B4F718BECA437",
+	"userid": 2,
+	"reqbody": {
+		"userid":8,					// 交易商ID
+		"amount":"20.00",				//金额
+		"account_type":"00",				//账户类型  00-银行卡 01-存折。不填时默认银行卡00
+		"bank_code":"",					// 银行编码
+		"account_no":"",				//账号
+		"account_name":"",				//开户名
+		"id_type":"",					//证件类型 0:身份证 1：户口簿 2：护照 3：军官证 4:士兵证 5：港澳居民来往内地通行证 6:台湾同胞来往内地通行证 7：临时身份证 8:外国人居留证 9：警官证 X:其他证件
+		"id":"",					//证件号
+		"paymentID":""					//支付通道ID
+	}
+}
+//response
+{
+	"name": "outMoney",
+	"retcode": 0,				//0表示成功，其他表示失败
+	"msg": ""
+}
+
+
+
+//查看我的卡卷
+//request
+{
+	"name" : "queryCoupons",			
+	"ctype": "Web",	
+	"sessionStr": "3634F440030595CC6B6B4F718BECA437",
+	"userid": 2
+}
+//response
+{
+	"name": "queryCoupons",
+	"retcode": 0,
+	"msg": "",
+	"respbody": {
+		"total": 2,
+		"dataList": [{
+			"couponsID":1,//代金券ID
+			"firmId":1,//交易商ID
+			"couponsCode":"vildkzd1fa2",//优惠券代码
+			"password":"123456",优惠券密码
+			"uniquelyNo":"fsdjfioajf",//唯一识别码
+			"amount":500,//代金券金额
+			"unusedAmount":200,//代金券余额
+			"image":"dasdasdasd.jpg",//背景图片
+			"status":1 //代金券状态 0: 未生效  1: 已生效  2: 已使用  3: 已失效
+		},{
+			"couponsID":1,//代金券ID
+			"firmId":1,//交易商ID
+			"couponsCode":"vildkzd1fa2",//优惠券代码
+			"password":"123456",优惠券密码
+			"uniquelyNo":"fsdjfioajf",//唯一识别码
+			"amount":500,//代金券金额
+			"unusedAmount":200,//代金券余额
+			"image":"dasdasdasd.jpg",//背景图片
+			"status":1 //代金券状态 0: 未生效  1: 已生效  2: 已使用  3: 已失效
+		}]
+	}
+}
+
+//我的卡卷绑定
+//request
+{
+	"name" : "bindCoupons",			
+	"ctype": "Web",	
+	"sessionStr": "3634F440030595CC6B6B4F718BECA437",
+	"userid": 2,
+	"reqbody": {
+		"couponsID":1//代金券ID
+	}
+}
+//response
+{
+	"name": "bindCoupons",
+	"retcode": 0,
+	"msg": ""
+	
+}
+
+//绑定新卡
+{
+	"name" : "bindNewCoupons",			
+	"ctype": "Web",	
+	"sessionStr": "3634F440030595CC6B6B4F718BECA437",
+	"userid": 2,
+	"reqbody": {
+		"uniquelyNo":"123456",//唯一识别码
+	}
+}
+//response
+{
+	"name": "bindCoupons",
+	"retcode": 0,
+	"msg": ""
+	
+}
+
+
+
+

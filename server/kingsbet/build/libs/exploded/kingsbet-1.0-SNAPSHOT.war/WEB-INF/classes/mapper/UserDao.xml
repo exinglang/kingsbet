@@ -13,10 +13,12 @@
         WHERE
         user_id = #{id}
     </select>
-    <insert id="insertById">
+    <insert id="register"  >
         insert
         into
-        t_user(str_nickname)values(#{id})
+        t_user(user_id,pwd)
+        values
+        (#{userId},#{pwd})
 
     </insert>
 

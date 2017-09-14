@@ -46,11 +46,5 @@ public class User implements Serializable {
         this.creatTime = creatTime;
     }
 
-    public String getStrnickname() {
-        return strnickname;
-    }
 
-    public void setStrnickname(String strnickname) {
-        this.strnickname = strnickname;
-    }
 }

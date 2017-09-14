@@ -5,7 +5,7 @@ flag = true,
 imgFlag = true,
 second = 120,
 time = 0,
-
+var server_code_error="服务器错误",
 timerId = null;
 document.write("<script type='text/javascript' src='commonjs/httpclient.js'></script>");
 
@@ -15,9 +15,19 @@ function requestLogin(){
   password = $('#password').val().trim()
 
   login(userId, password).done(function(data) {
-   alert(data.strnickname);
+  if (data.retcode === 0) {
+        alert("登录成功");
+        // weui.toast('注册成功', {
+        //   duration: 2000,
+        //   callback: function() {
+        //     window.location.replace('/index')
+        //   }
+        // })
+      } else {
+        alert(data.msg);
+      }
  }).fail(function() {
-   alert("fail");
+   alert(server_code_error);
  })
 }
 
@@ -28,8 +38,7 @@ function requestRegister(){
 
   register(userId, password).done(function(data) {
     // loading.hide(function() {
-      var retcode = data.retcode;
-      if (retcode === 0) {
+      if (data.retcode === 0) {
         alert("成功");
         // weui.toast('注册成功', {
         //   duration: 2000,
@@ -38,7 +47,7 @@ function requestRegister(){
         //   }
         // })
       } else {
-        alert("失败");
+        alert(data.msg);
       }
     // })
   }).fail(function() {
@@ -46,7 +55,7 @@ function requestRegister(){
     //   flag = true
     //   showError(data.msg || '服务器错误，请稍后重试')
     // })
-     alert("服务器失败");
+     alert(server_code_error);
   })
 
 

@@ -1,6 +1,7 @@
 package com.kingsbet.wzry.dao;
 
 import com.kingsbet.wzry.entity.User;
+import org.apache.ibatis.annotations.Param;
 import org.springframework.stereotype.Repository;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
@@ -16,5 +17,9 @@ public interface UserDao {
      */
     User queryById(int id);
     void insertById(long id);
+    void register(@Param("userId")int userId,@Param("pwd") String pwd);
+    void checkUserId(@Param("userId")int userId,@Param("pwd") String pwd);
+    void checkPwd(@Param("userId")int userId,@Param("pwd") String pwd);
+
     void adminLogin(String username,String pwdMd5);
 }
