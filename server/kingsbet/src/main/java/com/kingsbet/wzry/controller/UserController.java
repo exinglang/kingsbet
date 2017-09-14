@@ -2,6 +2,7 @@ package com.kingsbet.wzry.controller;
 
 import com.kingsbet.wzry.ApplicationContext;
 import com.kingsbet.wzry.dao.UserDao;
+import com.kingsbet.wzry.entity.JsonRoot;
 import com.kingsbet.wzry.entity.User;
 import com.kingsbet.wzry.util.SessionUtil;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -32,6 +33,25 @@ public class UserController extends BaseController {
 //          userDao.insertById(itemsCustom.getId());
 
             selectUser = userDao.queryById(itemsCustom.getUserId());
+//            String sessionId = SessionUtil.generateSessionId();
+//            ApplicationContext.getApplicationContext().addSession(sessionId);
+//            ApplicationContext.getApplicationContext().getSession(sessionId).addAttribute(it);
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
+
+        return selectUser; //由于@ResponseBody注解，将itemsCustom转成json格式返回
+    }
+
+    @RequestMapping("/register")
+    @ResponseBody
+    public User register(@RequestBody JsonRoot jsonRoot) {
+        
+        User selectUser = null;
+        try {
+//          userDao.insertById(itemsCustom.getId());
+
+//            selectUser = userDao.queryById(itemsCustom.getUserId());
 //            String sessionId = SessionUtil.generateSessionId();
 //            ApplicationContext.getApplicationContext().addSession(sessionId);
 //            ApplicationContext.getApplicationContext().getSession(sessionId).addAttribute(it);

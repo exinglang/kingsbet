@@ -1,8 +1,10 @@
-
+document.write("<script type='text/javascript' src='commonjs/MD5.js'></script>");
 // !(function() {
   function ajax(data, cb) {
+
     return $.ajax({
-      url: 'http://localhost:8080/adminlogin',
+      // var name = data.name,
+      url: 'http://localhost:8080/'+data.name,
       contentType: 'application/json;charset=utf-8',
       type: 'POST',
 
@@ -15,8 +17,18 @@
 
   function login(userId, password) {
     return ajax({
-      "userId": userId,
-      "pwd": password
+     "name":"adminlogin",
+     reqbody: {
+
+      "pwd": $.md5(userId + password),
+      "userId": userId
+    }
+    
+ // reqbody: {
+      //   "mobile": mobile,
+      //   "pwd": $.md5(mobile + pwd),
+      // "userId": userId,
+      // "pwd": password
       // "name": "register",
       // "ctype": "weChat",
       // reqbody: {
@@ -28,20 +40,23 @@
       // }
     })}
 
- function register(userId, password) {
-    return ajax({
-      "userId": userId,
-      "pwd": password
-      // "name": "register",
-      // "ctype": "weChat",
+
+    function register(userId, password) {
+      return ajax({
+        "name":"register",
+         reqbody: {
+          "pwd": $.md5(userId + password),
+          "userId": userId
+        }
+
       // reqbody: {
-      //   "mobile": mobile,
-      //   "pwd": $.md5(mobile + pwd),
-      //   "verifycode": code,
-      //   "invitationcode": invitationcode,
-      //   openid: $.fn.cookie('wxOpenId')
+      //   "userId": userId,
+      //   "pwd": $.md5(userId + password),
       // }
-    })}
+    })
+    }
+
+
 
     // this['http'] = {
     //   login: login,

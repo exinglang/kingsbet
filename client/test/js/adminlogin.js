@@ -8,9 +8,7 @@ time = 0,
 
 timerId = null;
 document.write("<script type='text/javascript' src='commonjs/httpclient.js'></script>");
-function adminlogin(){
-    httpclient();
-}
+
 
 function requestLogin(){
   userId = $('#userId').val().trim()
@@ -18,8 +16,37 @@ function requestLogin(){
 
   login(userId, password).done(function(data) {
    alert(data.strnickname);
+ }).fail(function() {
+   alert("fail");
+ })
+}
+
+
+function requestRegister(){
+  userId = $('#userId').val().trim()
+  password = $('#password').val().trim()
+
+  register(userId, password).done(function(data) {
+    // loading.hide(function() {
+      var retcode = data.retcode;
+      if (retcode === 0) {
+        alert("成功");
+        // weui.toast('注册成功', {
+        //   duration: 2000,
+        //   callback: function() {
+        //     window.location.replace('/index')
+        //   }
+        // })
+      } else {
+        alert("失败");
+      }
+    // })
   }).fail(function() {
-    
+    // loading.hide(function() {
+    //   flag = true
+    //   showError(data.msg || '服务器错误，请稍后重试')
+    // })
+     alert("服务器失败");
   })
 
 
