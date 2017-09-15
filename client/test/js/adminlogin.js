@@ -5,7 +5,7 @@ flag = true,
 imgFlag = true,
 second = 120,
 time = 0,
-var server_code_error="服务器错误",
+ server_code_error="服务器错误",
 timerId = null;
 document.write("<script type='text/javascript' src='commonjs/httpclient.js'></script>");
 
@@ -39,7 +39,7 @@ function requestRegister(){
   register(userId, password).done(function(data) {
     // loading.hide(function() {
       if (data.retcode === 0) {
-        alert("成功");
+        alert("注册成功");
         // weui.toast('注册成功', {
         //   duration: 2000,
         //   callback: function() {

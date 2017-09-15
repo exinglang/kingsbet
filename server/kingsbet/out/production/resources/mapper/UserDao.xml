@@ -22,6 +22,23 @@
 
     </insert>
 
+    <select id="checkUserId"  resultType="int"  >
+        <!-- 具体的sql -->
+        SELECT
+        COUNT(*)
+        FROM
+        t_user
+        where  user_id=#{userId}
+    </select>
+
+    <select id="checkPwd"  resultType="int"  >
+        <!-- 具体的sql -->
+        SELECT
+        COUNT(*)
+        FROM
+        t_user
+        where  user_id=#{userId} and pwd=#{pwd}
+    </select>
     <!--<select id="queryAll" resultType="Book">-->
     <!--SELECT-->
     <!--book_id,-->

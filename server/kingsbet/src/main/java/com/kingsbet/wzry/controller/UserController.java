@@ -25,20 +25,43 @@ public class UserController extends BaseController {
     @RequestMapping("/adminlogin")
     @ResponseBody
     public ResponseJsonRoot requestJson(@RequestBody RequestJsonRoot<User> jsonRoot) {
-        ResponseJsonRoot result = new ResponseJsonRoot(jsonRoot.getName(), Constants.SUCCESS, "");
+        ResponseJsonRoot result = new ResponseJsonRoot(jsonRoot.getName(), Constants.CODE_SUCCESS, "");
         User user = jsonRoot.getReqbody();
-        try {
+//        try {
+//
+////          userDao.insertById(itemsCustom.getId());
+//            userDao.checkPwd(user.getUserId(), user.getPwd());
+////            String sessionId = SessionUtil.generateSessionId();
+////            ApplicationContext.getApplicationContext().addSession(sessionId);
+////            ApplicationContext.getApplicationContext().getSession(sessionId).addAttribute(it);
+//        } catch (Exception e) {
+//            result.setRetcodeAndMsg(-2, "用户名或密码错误");
+//            e.printStackTrace();
+//        }
 
-//          userDao.insertById(itemsCustom.getId());
-            userDao.checkPwd(user.getUserId(), user.getPwd());
+
+        try {
+            int count = userDao.checkUserId(user.getUserId());
+            if (count == 0) {
+                result.setRetcodeAndMsg(Constants.CODE_FAIL, "用户名不存在");
+                return result;
+            }
+
+            int checkPwdD = userDao.checkPwd(user.getUserId(),user.getPwd());
+            if (checkPwdD != 1) {
+                result.setRetcodeAndMsg(Constants.CODE_FAIL, "密码不正确");
+                return result;
+            }
+//            userDao.register(user.getUserId(), user.getPwd());
+//            userDao.queryById(user.getUserId());
+//            selectUser = userDao.queryById(itemsCustom.getUserId());
 //            String sessionId = SessionUtil.generateSessionId();
 //            ApplicationContext.getApplicationContext().addSession(sessionId);
 //            ApplicationContext.getApplicationContext().getSession(sessionId).addAttribute(it);
         } catch (Exception e) {
-            result.setRetcodeAndMsg(-2,"用户名或密码错误");
             e.printStackTrace();
+            result.setRetcodeAndMsg(Constants.CODE_FAIL,  Constants.MSG_FAIL_UNKNOW);
         }
-
         return result; //由于@ResponseBody注解，将itemsCustom转成json格式返回
     }
 
@@ -50,9 +73,15 @@ public class UserController extends BaseController {
 //        };
 //        JsonRoot<UserEntity> userResult = gson.fromJson(response.toString(), userType.getType());
 //        myApplication.getUserEntity().setSessionStr(userResult.getJsonRootBodyContent().getSessionStr());
-        ResponseJsonRoot result = new ResponseJsonRoot(jsonRoot.getName(), Constants.SUCCESS, "");
+        ResponseJsonRoot result = new ResponseJsonRoot(jsonRoot.getName(), Constants.CODE_SUCCESS, "");
+        User user = jsonRoot.getReqbody();
+
         try {
-            User user = jsonRoot.getReqbody();
+            int count = userDao.checkUserId(user.getUserId());
+            if (count != 0) {
+                result.setRetcodeAndMsg(Constants.CODE_FAIL, "用户名已注册");
+                return result;
+            }
             userDao.register(user.getUserId(), user.getPwd());
 //            userDao.queryById(user.getUserId());
 //            selectUser = userDao.queryById(itemsCustom.getUserId());
@@ -61,8 +90,7 @@ public class UserController extends BaseController {
 //            ApplicationContext.getApplicationContext().getSession(sessionId).addAttribute(it);
         } catch (Exception e) {
             e.printStackTrace();
-            result.setRetcode(Constants.FAIL);
-            result.setMsg("用户名已经注册");
+            result.setRetcodeAndMsg(Constants.CODE_FAIL, Constants.MSG_FAIL_UNKNOW);
         }
 
         return result; //由于@ResponseBody注解，将itemsCustom转成json格式返回
