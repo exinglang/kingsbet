@@ -8,17 +8,17 @@ public class User implements Serializable {
      * @author zjn
      */
     private static final long serialVersionUID = 1L;
-    private int userId; // id
+    private String userId; // id
     private String strnickname; // name
     private String pwd; // pwd
     private Integer ageM; // age
     private Date creatTime; // creatTime
 
-    public int getUserId() {
+    public String getUserId() {
         return userId;
     }
 
-    public void setUserId(int userId) {
+    public void setUserId(String userId) {
         this.userId = userId;
     }
 

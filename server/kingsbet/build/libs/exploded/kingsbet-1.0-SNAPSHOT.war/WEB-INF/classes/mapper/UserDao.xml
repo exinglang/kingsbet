@@ -4,7 +4,7 @@
         "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
 <mapper namespace="com.kingsbet.wzry.dao.UserDao">
     <!-- 目的：为dao接口方法提供sql语句配置 -->
-    <select id="queryById" resultType="User" parameterType="int">
+    <select id="queryById" resultType="User" parameterType="string">
         <!-- 具体的sql -->
         SELECT
         str_nickname,user_id

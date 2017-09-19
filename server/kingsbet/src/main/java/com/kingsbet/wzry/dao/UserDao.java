@@ -17,9 +17,9 @@ public interface UserDao {
      */
     User queryById(int id);
     void insertById(long id);
-    void register(@Param("userId")int userId,@Param("pwd") String pwd);
-    int checkUserId(@Param("userId")int userId);
-    int checkPwd(@Param("userId")int userId,@Param("pwd") String pwd);
+    void register(@Param("userId")String userId,@Param("pwd") String pwd);
+    int checkUserId(@Param("userId")String userId);
+    int checkPwd(@Param("userId")String userId,@Param("pwd") String pwd);
 
     void adminLogin(String username,String pwdMd5);
 }

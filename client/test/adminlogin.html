@@ -5,10 +5,14 @@
   <meta charset="utf-8">
   <title>管理员登录</title>
   <link rel="stylesheet" href="https://cdn.bootcss.com/bootstrap/3.3.7/css/bootstrap.min.css">
+   <script src="https://cdn.bootcss.com/bootstrap/3.3.7/js/bootstrap.min.js"></script>
+  <link rel="stylesheet" href="css/signin.css"> 
+  <link href="css/weui.css" type="text/css" rel="stylesheet">
   <script src="https://cdn.bootcss.com/jquery/2.1.1/jquery.min.js"></script>
-  <script src="https://cdn.bootcss.com/bootstrap/3.3.7/js/bootstrap.min.js"></script>
+ 
   <script src="js/adminlogin.js"></script>
-  <link rel="stylesheet" href="css/signin.css"> </head>
+</head>
+
 
 <body>
   <div class="container">
@@ -16,7 +20,7 @@
       <input type="text" id="userId" class="form-control" placeholder="账号" autofocus="" required="">
       <input type="password" id="password" class="form-control" placeholder="密码" required="">
       <button class="btn btn-lg btn-primary btn-block" type="button" onclick="requestLogin()">登录</button>
-        <button class="btn btn-lg btn-primary btn-block" type="button" onclick="requestRegister()">注册</button>
+      <button class="btn btn-lg btn-primary btn-block" type="button" onclick="requestRegister()">注册</button>
     </form>
   </div>
 </body>

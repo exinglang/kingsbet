@@ -5,18 +5,52 @@ flag = true,
 imgFlag = true,
 second = 120,
 time = 0,
- server_code_error="服务器错误",
+server_code_error="服务器错误",
 timerId = null;
 document.write("<script type='text/javascript' src='commonjs/httpclient.js'></script>");
-
-
+document.write("<script type='text/javascript' src='commonjs/weui.js'></script>");
 function requestLogin(){
   userId = $('#userId').val().trim()
   password = $('#password').val().trim()
-
   login(userId, password).done(function(data) {
-  if (data.retcode === 0) {
-        alert("登录成功");
+   if (data.retcode === 0) {
+    window.sessionStorage.setItem("sessionStr",data.reqbody.sessionStr)
+    window.location.replace('addteam.html')
+        // weui.toast('注册成功', {
+        //   duration: 2000,
+        //   callback: function() {
+        //     window.location.replace('/index')
+        //   }
+        // })
+
+      } else {
+
+        alert(data.msg);
+
+      }
+
+    }).fail(function() {
+     alert(server_code_error);
+   })
+  }
+
+
+  function requestRegister(){
+    userId = $('#userId').val().trim()
+    password = $('#password').val().trim()
+    var loading = weui.loading('处理中...');
+    register(userId, password).done(function(data) {
+
+      loading.hide(function() {
+
+        if (data.retcode === 0) {
+          weui.toast("注册成功",{
+            duration:1000,
+            callback:function(){
+              window.location.replace('index.html')
+            }
+
+          });
         // weui.toast('注册成功', {
         //   duration: 2000,
         //   callback: function() {
@@ -24,38 +58,23 @@ function requestLogin(){
         //   }
         // })
       } else {
+
         alert(data.msg);
+
       }
- }).fail(function() {
-   alert(server_code_error);
- })
-}
 
+    })
 
-function requestRegister(){
-  userId = $('#userId').val().trim()
-  password = $('#password').val().trim()
-
-  register(userId, password).done(function(data) {
     // loading.hide(function() {
-      if (data.retcode === 0) {
-        alert("注册成功");
-        // weui.toast('注册成功', {
-        //   duration: 2000,
-        //   callback: function() {
-        //     window.location.replace('/index')
-        //   }
-        // })
-      } else {
-        alert(data.msg);
-      }
+
     // })
   }).fail(function() {
+    loading.hide();
     // loading.hide(function() {
     //   flag = true
     //   showError(data.msg || '服务器错误，请稍后重试')
     // })
-     alert(server_code_error);
+    alert(server_code_error);
   })
 
 

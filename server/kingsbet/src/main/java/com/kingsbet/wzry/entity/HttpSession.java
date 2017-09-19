@@ -14,6 +14,15 @@ import java.util.concurrent.ConcurrentMap;
 public class HttpSession {
     Map<String, Object> map = new HashMap<String, Object>();
     Date lastVisitTime = new Date(); // 最后访问时间
+    User user;
+
+    public User getUser() {
+        return user;
+    }
+
+    public void setUser(User user) {
+        this.user = user;
+    }
 
     public void addAttribute(String name, Object value) {
         map.put(name, value);
