@@ -1,0 +1,76 @@
+<!DOCTYPE html>
+<html>
+<head>
+  <meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
+  <script src="https://cdn.bootcss.com/jquery/3.2.1/jquery.min.js">
+  </script>
+  <link rel="stylesheet" href="https://cdn.bootcss.com/bootstrap/3.3.7/css/bootstrap.min.css">
+  <script src="https://cdn.bootcss.com/bootstrap/3.3.7/js/bootstrap.min.js">
+  </script>
+  <script src="http://ajax.microsoft.com/ajax/jquery.templates/beta1/jquery.tmpl.min.js">
+  </script>
+  <script src="js/addteam.js">
+  </script>
+  <link rel="stylesheet" href="css/weui.css">
+  <link rel="stylesheet" href="css/addteam.css">
+
+ <script type="text/javascript"> 
+
+ $(document).ready(function(){  
+     teamList();
+}); 
+
+</script> 
+
+  <script id="demo" type="text/x-jquery-tmpl">  
+    <label  class="weui-grid" for=${id}>
+     <input type="checkbox" value=${id} name="checkbox1" id=${id} />
+     <p >${name}</p>
+   </label>
+ </script>
+
+ <title>
+  王者竞猜
+</title>
+
+
+
+</head>
+<body>
+  <div class="page">
+    <div class="weui-grids" id="content">
+
+
+
+    </div>
+ <div class="weui-cells">
+            <button class="weui-btn weui-btn_primary" type="button" onclick="teamGroupAddTeam()">添加战队</button>
+          </div>
+
+    <div class="page__bd" style="height: 100%;">
+      <div class="weui-tab">
+        <div class="weui-tabbar">
+          <a href="schedule.html" class="weui-tabbar__item">
+            <span style="display: inline-block;position: relative;">
+              <img src="./images/icon_nav_form.png" alt="" class="weui-tabbar__icon">
+            </span>
+            <p class="weui-tabbar__label">
+              比赛
+            </p>
+          </a>
+          <a href="javascript:;" class="weui-tabbar__item weui-bar__item_on">
+            <img src="./images/icon_nav_layout.png" alt="" class="weui-tabbar__icon">
+            <p class="weui-tabbar__label">
+              战队管理
+            </p>
+          </a>
+        </div>
+      </div>
+    </div>
+  </div>
+  <button class="weui-btn weui-btn_primary" id="gotoaddteam">
+    添加战队
+  </button>
+</body>
+
+</html>

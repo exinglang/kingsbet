@@ -16,9 +16,9 @@ public class ResponseJsonRoot<T> {
     private int retcode;
     @SerializedName("msg")
     private String msg;
-    public static final String TAG_REPBODY = "respbody";
+    private static final String TAG_REPBODY = "respbody";
     @SerializedName(TAG_REPBODY)
-    private T reqbody;
+    private T repbody;
 
 
 
@@ -40,12 +40,12 @@ public class ResponseJsonRoot<T> {
         return retcode;
     }
 
-    public T getReqbody() {
-        return reqbody;
+    public T getRepbody() {
+        return repbody;
     }
 
-    public void setReqbody(T reqbody) {
-        this.reqbody = reqbody;
+    public void setRepbody(T repbody) {
+        this.repbody = repbody;
     }
 
     public void setRetcode(int retcode) {

@@ -20,6 +20,5 @@ public interface UserDao {
     void register(@Param("userId")String userId,@Param("pwd") String pwd);
     int checkUserId(@Param("userId")String userId);
     int checkPwd(@Param("userId")String userId,@Param("pwd") String pwd);
-
     void adminLogin(String username,String pwdMd5);
 }

@@ -5,17 +5,21 @@ flag = true,
 imgFlag = true,
 second = 120,
 time = 0,
-server_code_error="服务器错误",
 timerId = null;
+
 document.write("<script type='text/javascript' src='commonjs/httpclient.js'></script>");
 document.write("<script type='text/javascript' src='commonjs/weui.js'></script>");
+document.write("<script type='text/javascript' src='commonjs/zidingyi.js'></script>");
+document.write("<script type='text/javascript' src='js/adminloginJson.js'></script>");
 function requestLogin(){
   userId = $('#userId').val().trim()
   password = $('#password').val().trim()
   login(userId, password).done(function(data) {
    if (data.retcode === 0) {
-    window.sessionStorage.setItem("sessionStr",data.reqbody.sessionStr)
-    window.location.replace('addteam.html')
+
+    storageSet("sessionStr",data.respbody.sessionStr);
+
+    window.location.replace('schedule.html')
         // weui.toast('注册成功', {
         //   duration: 2000,
         //   callback: function() {
@@ -25,167 +29,32 @@ function requestLogin(){
 
       } else {
 
-        alert(data.msg);
+       mAlert(data.msg);
 
-      }
+     }
 
-    }).fail(function() {
-     alert(server_code_error);
+   }).fail(function() {
+     hideLoadingAndAlertServerError(loading);
    })
-  }
-
-
-  function requestRegister(){
-    userId = $('#userId').val().trim()
-    password = $('#password').val().trim()
-    var loading = weui.loading('处理中...');
-    register(userId, password).done(function(data) {
-
-      loading.hide(function() {
-
-        if (data.retcode === 0) {
-          weui.toast("注册成功",{
-            duration:1000,
-            callback:function(){
-              window.location.replace('index.html')
-            }
-
-          });
-        // weui.toast('注册成功', {
-        //   duration: 2000,
-        //   callback: function() {
-        //     window.location.replace('/index')
-        //   }
-        // })
-      } else {
-
-        alert(data.msg);
-
-      }
-
-    })
-
-    // loading.hide(function() {
-
-    // })
-  }).fail(function() {
-    loading.hide();
-    // loading.hide(function() {
-    //   flag = true
-    //   showError(data.msg || '服务器错误，请稍后重试')
-    // })
-    alert(server_code_error);
-  })
+ }
 
 
 
+
+
+function requestRegister(){
+  userId = $('#userId').val().trim();
+  password = $('#password').val().trim();
+  var json =getRegister(userId,password);
+  CompositeImpl.prototype.success = function () {  
+   weui.toast("注册成功",{
+    duration:1000,
+    callback:function(){
+      window.location.replace('addteam.html')
+    }
+  });
+ } 
+ parVolleyJsonResult(json, new CompositeImpl() )
 }
 
-// function getImgCode() {
-//   if (imgFlag) {
-//     imgFlag = false
-//     http.getCaptcha().done(function(res) {
-//       if (res.retcode === 0) {
-//         $('#imgCode').attr('src', 'data:image/png;base64,' + res.respbody.captcha)
-//         imgId = res.respbody.captchaId
-//       } else {
-//         $('#imgCode').attr('src', '')
-//         imgId = null
-//       }
-//       imgFlag = true;
-//     }).fail(function() {
-//       imgFlag = true
-//     })
-//   }
-// }
-// $(function() {
-//   getImgCode()
-//   $('#imgCode').on('click', function() {
-//     getImgCode()
-//   })
-//   $('#first').on('click', function() {
-//     mobile = $('#mobile').val().trim()
-//     var code = $('#vcode').val().trim()
-//     if (mobile === '') {
-//       showError('请输入手机号')
-//       return
-//     } else if (!validator.validateMobile(mobile)) {
-//       showError('请输入正确的手机号')
-//       return;
-//     }
-//     if (code === '') {
-//       showError('请输入验证码')
-//       return;
-//     }
-//     http.retrievePwdFirst(mobile, imgId, code).done(function(data) {
-//       if (data.retcode === 0) {
-//         $('#firstStep').hide()
-//         $('.second-tips').text('请输入' + mobile.replace(/(\d{3})\d{4}(\d{4})/, '$1****$2') + '收到的短信验证码')
-//         $('#secondStep').show()
-//       } else {
-//         showError(data.msg || '服务器错误，请稍后重试')
-//       }
-//     })
-//   })
-//   $('#second').on('click', function() {
-//     var code = $('#smscode').val().trim()
-//     if (code === '') {
-//       showError('请输入短信验证码')
-//       return
-//     }
-//     http.retrievePwdSecond(mobile, code).done(function(data) {
-//       if (data.retcode === 0) {
-//         $('#secondStep').hide()
-//         $('#lastStep').show()
-//       } else {
-//         showError(data.msg || '服务器错误，请稍后重试')
-//       }
-//     })
-//   })
-
-//   $('#last').on('click', function() {
-//     var pwd = $('#pwd').val().trim()
-//     if (pwd === '') {
-//       showError('请输入密码')
-//       return;
-//     }
-//     http.retrievePwdLast(mobile, pwd).done(function(data) {
-//       if (data.retcode === 0) {
-//         weui.toast('找回成功', {
-//           duration: 2000,
-//           callback: function() {
-//             window.location.href = '/index'
-//           }
-//         })
-//       } else {
-//         showError(data.msg || '服务器错误，请稍后重试')
-//       }
-//     })
-//   })
-
-
-//   $('#getSmsCode').on('click', function() {
-//     var $mobileEl = $('#mobile'),
-//     mobile = $mobileEl.val().trim(),
-//     $this = $(this)
-//     if ($this.hasClass('btn-disabled')) {
-//       return
-//     }
-//     $this.addClass('btn-disabled')
-//     http.sendSMS(mobile).done(function(data) {
-//       if (data.retcode !== 0) {
-//         if (timerId) {
-//           clearTimeout(timerId)
-//         }
-//         weui.alert(data.msg || '系统错误，请稍后再试！')
-//         $this.removeClass('btn-disabled').text('获取验证码')
-//       } else {
-//         time = second;
-//         timer()
-//       }
-//     }).fail(function() {
-//       $this.removeClass('btn-disabled')
-//     })
-//   })
-// })
 

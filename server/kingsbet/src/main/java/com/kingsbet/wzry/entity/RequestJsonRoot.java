@@ -1,6 +1,7 @@
 package com.kingsbet.wzry.entity;
 
 import com.google.gson.annotations.SerializedName;
+import org.json.JSONObject;
 
 public class RequestJsonRoot<T> {
     /**
@@ -14,13 +15,19 @@ public class RequestJsonRoot<T> {
     private String name;
     @SerializedName("retcode")
     private int retcode;
-    @SerializedName("msg")
-    private String msg;
-
-    public static final String TAG_REPBODY="reqbody";
-    @SerializedName(TAG_REPBODY)
+    private static final String TAG_REQBODY="reqbody";
+    @SerializedName(TAG_REQBODY)
     private  T reqbody;
-
+//    @SerializedName(TAG_REQBODY)
+//    private JSONObject reqbody2;
+//
+//    public JSONObject getReqbody2() {
+//        return reqbody2;
+//    }
+//
+//    public void setReqbody2(JSONObject reqbody2) {
+//        this.reqbody2 = reqbody2;
+//    }
 
     public String getName() {
         return name;
@@ -34,11 +41,11 @@ public class RequestJsonRoot<T> {
         return retcode;
     }
 
-    public T getReqbody() {
+    public T getReqsbody() {
         return reqbody;
     }
 
-    public void setReqbody(T reqbody) {
+    public void setReqsbody(T reqbody) {
         this.reqbody = reqbody;
     }
 
@@ -46,13 +53,6 @@ public class RequestJsonRoot<T> {
         this.retcode = retcode;
     }
 
-    public String getMsg() {
-        return msg;
-    }
-
-    public void setMsg(String msg) {
-        this.msg = msg;
-    }
 
 //    public JsonRootBody<T> getJsonRootBody() {
 //        return jsonRootBody;

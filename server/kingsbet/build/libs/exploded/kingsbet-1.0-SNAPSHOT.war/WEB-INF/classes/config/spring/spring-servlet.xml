@@ -20,7 +20,8 @@
         <!-- JSON转换器 -->
         <property name="messageConverters">
             <list>
-                <bean class="org.springframework.http.converter.json.MappingJackson2HttpMessageConverter"/>
+                <!--下面使用的是GSON,如若使用普通JSON,请使用MappingJackson2HttpMessageConverter-->
+                <bean class="org.springframework.http.converter.json.GsonHttpMessageConverter"/>
             </list>
         </property>
     </bean>

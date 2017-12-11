@@ -8,4 +8,9 @@ public class Constants {
     public static final String MSG_FAIL_UNKNOW = "未知错误";
 
 
+    public static final int SCHEDULE_STATE_WEI_JIE_SUAN = 1;//未结算
+    public static final int SCHEDULE_STATE_DAI_JIE_SUAN = 2;//待结算
+    public static final int SCHEDULE_STATE_YI_JIE_SHU= 3;//已结束
+
+
 }

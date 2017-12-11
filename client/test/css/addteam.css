@@ -1,0 +1,59 @@
+.page,body {
+	background-color:#f8f8f8
+}
+.page {
+	overflow-y:auto;
+	-webkit-overflow-scrolling:touch;
+	
+	z-index:1
+}
+
+.page {
+	position:absolute;
+	top:0;
+	right:0;
+	bottom:0;
+	left:0
+}
+
+.weui-cell_noposition {
+  padding: 10px 15px;
+  width:100%;
+ 
+  display: -webkit-flex;
+  display: flex;
+   display: -webkit-box;
+
+  -webkit-box-align: center;
+ 
+
+
+       
+}
+.weui-cell_right {
+ 
+ 
+  display: -webkit-flex;
+  display: flex;
+   display: -webkit-box;
+
+  -webkit-box-align: end;
+ 
+
+
+       
+}
+.weuim-uploader__input {
+  position: absolute;
+  z-index: 1;
+  top: 0;
+  left: 0;
+  width: 1%;
+  height: 100%;
+  opacity: 0;
+  -webkit-tap-highlight-color: rgba(0, 0, 0, 0);
+}
+
+.weui-cell__hd {
+  margin-right:15px;
+}

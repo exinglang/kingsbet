@@ -1,0 +1,70 @@
+<!DOCTYPE html>
+<html>
+
+<head>
+  <meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
+  <script src="https://cdn.bootcss.com/jquery/3.2.1/jquery.min.js"></script>
+  <script src="http://ajax.microsoft.com/ajax/jquery.templates/beta1/jquery.tmpl.min.js"></script>
+  <script src="js/addteam.js"></script>
+  <script type="text/javascript"> 
+
+ $(document).ready(function(){  
+    
+ 
+     teamGroupList();
+}); 
+
+</script> 
+
+  <link rel="stylesheet" href="css/weui.css">
+  <link rel="stylesheet" href="css/addteam.css">
+  <title>王者竞猜</title>
+  <script id="demo" type="text/x-jquery-tmpl">  
+    <div class="weui-cell" >
+      <div class="weui-cell__bd" id="mcolume">
+        <p>${id}</p>
+        <p class="weui-uploader__title">${name}</p>
+      </div>
+
+      <p id="deletegroupt" class="weui-btn weui-btn_mini weui-btn_warn"  >删除</p>
+    </div>
+  </div>  
+</script>
+</head>
+
+<body>
+  <div class="page">
+    <div class="weui-cells weui-cells_form">
+      <div class="weui-cell">
+      
+
+        <div class="weui-cell__bd">战队组名称
+          <input type="text" placeholder="" autofocus="" id="teamgroupname" required=""> </div>
+          <div class="weui-cell__ft">
+            <button class="weui-btn weui-btn_plain-primary" type="button" onclick="addTeamGroup()">新建战队组</button>
+          </div>
+        </div>
+      </div>
+      <div id="content">  
+      </div>  
+
+      <div class="page__bd" style="height: 100%;">
+        <div class="weui-tab">
+          <div class="weui-tabbar">
+            <a href="schedule.html" class="weui-tabbar__item"> <span style="display: inline-block;position: relative;">
+              <img src="./images/icon_nav_form.png" alt="" class="weui-tabbar__icon">
+
+            </span>
+            <p class="weui-tabbar__label">比赛</p>
+          </a>
+          <a href="javascript:;" class="weui-tabbar__item weui-bar__item_on">
+            <img src="./images/icon_nav_layout.png" alt="" class="weui-tabbar__icon">
+            <p class="weui-tabbar__label">战队管理</p>
+          </a>
+        </div>
+      </div>
+    </div>
+  </div>
+</body>
+
+</html>

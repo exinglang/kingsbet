@@ -1255,7 +1255,7 @@ i.weui-tabbar__icon,
   display: -webkit-box;
   display: -webkit-flex;
   display: flex;
-  position: absolute;
+  position: relative;
   z-index: 500;
   top: 0;
   width: 100%;
@@ -1316,6 +1316,10 @@ i.weui-tabbar__icon,
 .weui-tab {
   position: relative;
   height: 100%;
+}
+.weui-tab2 {
+  position: relative;
+  height: :auto;
 }
 .weui-tab__panel {
   box-sizing: border-box;

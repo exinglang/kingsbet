@@ -1,5 +1,8 @@
 package com.kingsbet.wzry.controller;
-
+import org.json.JSONObject;
+import com.google.gson.Gson;
+import com.google.gson.JsonObject;
+import com.google.gson.reflect.TypeToken;
 import com.kingsbet.wzry.ApplicationContext;
 import com.kingsbet.wzry.Constants;
 import com.kingsbet.wzry.dao.UserDao;
@@ -22,13 +25,20 @@ import org.springframework.web.bind.annotation.ResponseBody;
 @Controller
 public class UserController extends BaseController {
     @Autowired
-    private UserDao userDao;
+    private UserDao dao;
 
     @RequestMapping("/adminlogin")
     @ResponseBody
     public ResponseJsonRoot requestJson(@RequestBody RequestJsonRoot<User> jsonRoot) {
+//        Gson gson = new Gson();
+//        JSONObject test=new JSONObject("{name: \"adminlogin\", reqbody: {pwd: \"18ad456df3e3ff95ce2b451bc7609350\", userId: \"12314124\"}}");
+//        TypeToken<RequestJsonRoot<User>> userType = new TypeToken<RequestJsonRoot<User>>() {
+//        };
+//        RequestJsonRoot<User> testResult = gson.fromJson(test.toString(), userType.getType());
+
+////////////
         ResponseJsonRoot result = new ResponseJsonRoot(jsonRoot.getName(), Constants.CODE_SUCCESS, "");
-        User user = jsonRoot.getReqbody();
+        User user = jsonRoot.getReqsbody();
 //        try {
 //
 ////          userDao.insertById(itemsCustom.getId());
@@ -43,13 +53,13 @@ public class UserController extends BaseController {
 
 
         try {
-            int count = userDao.checkUserId(user.getUserId());
+            int count = dao.checkUserId(user.getUserId());
             if (count == 0) {
                 result.setRetcodeAndMsg(Constants.CODE_FAIL, "用户名不存在");
                 return result;
             }
 
-            int checkPwdD = userDao.checkPwd(user.getUserId(), user.getPwd());
+            int checkPwdD = dao.checkPwd(user.getUserId(), user.getPwd());
             if (checkPwdD != 1) {
                 result.setRetcodeAndMsg(Constants.CODE_FAIL, "密码不正确");
                 return result;
@@ -59,7 +69,7 @@ public class UserController extends BaseController {
             ApplicationContext.getApplicationContext().addSession(sessionId);
             ApplicationContext.getApplicationContext().getSession(sessionId).setUser(user);
             ResponseLogin responseLogin= new ResponseLogin(user.getUserId(),sessionId);
-            result.setReqbody(responseLogin);
+            result.setRepbody(responseLogin);
 //            userDao.register(user.getUserId(), user.getPwd());
 //            userDao.queryById(user.getUserId());
 //            selectUser = userDao.queryById(itemsCustom.getUserId());
@@ -82,14 +92,14 @@ public class UserController extends BaseController {
 //        JsonRoot<UserEntity> userResult = gson.fromJson(response.toString(), userType.getType());
 //        myApplication.getUserEntity().setSessionStr(userResult.getJsonRootBodyContent().getSessionStr());
         ResponseJsonRoot result = new ResponseJsonRoot(jsonRoot.getName(), Constants.CODE_SUCCESS, "");
-        User user = jsonRoot.getReqbody();
+        User user = jsonRoot.getReqsbody();
         try {
-            int count = userDao.checkUserId(user.getUserId());
+            int count = dao.checkUserId(user.getUserId());
             if (count != 0) {
                 result.setRetcodeAndMsg(Constants.CODE_FAIL, "用户名已注册");
                 return result;
             }
-            userDao.register(user.getUserId(), user.getPwd());
+            dao.register(user.getUserId(), user.getPwd());
 //            userDao.queryById(user.getUserId());
 //            selectUser = userDao.queryById(itemsCustom.getUserId());
 //            String sessionId = SessionUtil.generateSessionId();
@@ -104,10 +114,5 @@ public class UserController extends BaseController {
     }
 
 
-//    @RequestMapping("/save")
-//    public @ResponseBody
-//    User requestJson(@RequestBody User itemsCustom) {
-//        return itemsCustom; //由于@ResponseBody注解，将itemsCustom转成json格式返回
-//    }
 }
 

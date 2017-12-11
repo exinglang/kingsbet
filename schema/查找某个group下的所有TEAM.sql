@@ -1,0 +1,1 @@
+select  *  from  t_mteam  where   team_id  in(select  team_id  from  t_teamgroup_link where teamgroup_id=10); 

@@ -1,0 +1,113 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper
+        PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+        "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.kingsbet.wzry.dao.TeamDao">
+
+    <insert id="insertTeam">
+        insert
+        into
+        t_mteam(name,img_url,game_type)
+        values
+        (#{name},#{imgBase64},#{gameType})
+
+    </insert>
+
+    <insert id="updateTeamGroup">
+        update t_teamgroup set  group_name=#{name} where id=#{id}
+
+    </insert>
+
+
+    <insert id="addTeamGroup">
+        insert
+        into
+        t_teamgroup(group_name,game_type)
+        values
+        (#{name},#{gameType})
+    </insert>
+
+
+
+    <delete id="deleteTeamGroup" parameterType="int">
+        delete from t_teamgroup where id=#{id}
+    </delete>
+
+    <delete id="deleteTeam" parameterType="int">
+        delete from t_mteam where team_id=#{id}
+    </delete>
+
+    <delete id="deleteGroupTeam" parameterType="int">
+    delete from t_teamgroup_link where team_id=#{teamid} and teamgroup_id=#{groupid}
+</delete>
+
+
+    <!--SELECT  character_maximum_length-->
+    <!--FROM information_schema.columns-->
+    <!--WHERE table_name = "t_mteam" AND column_name = "img_url"-->
+    <select id="getSqlImgLength" resultType="int">
+        <!-- 具体的sql -->
+        SELECT character_maximum_length
+        FROM information_schema.columns
+        WHERE table_name = "t_mteam" AND column_name = "img_url"
+    </select>
+
+    <resultMap type="Team" id="teamMap">
+        <result column="name" property="name"/>
+        <result column="img_url" property="img"/>
+        <result column="gametype" property="game_type"/>
+        <result column="team_id" property="id"/>
+    </resultMap>
+    <select id="getTeamList" resultMap="teamMap">
+        SELECT
+       *
+        FROM
+        t_mteam
+
+        where game_type=#{type}
+
+    </select>
+
+
+
+    <select id="getGroupTeam" resultMap="teamMap">
+        select  *  from  t_mteam  where   team_id  in(select  team_id  from  t_teamgroup_link where teamgroup_id=#{id})
+
+    </select>
+
+
+    <resultMap type="TeamGroup" id="teamGroupMap">
+        <result column="id" property="id"/>
+        <result column="group_name" property="name"/>
+    </resultMap>
+
+    <select id="getTeamGroupList" resultMap="teamGroupMap">
+        SELECT
+        id,group_name
+
+        FROM
+        t_teamgroup
+
+        where game_type=#{type} limit #{pageIndex},#{pageSize}
+
+    </select>
+
+
+
+    <insert id ="teamGroupAddTeam" parameterType="java.util.List" >
+               <!--<selectKey resultType ="java.lang.Integer" keyProperty= "id"-->
+                    <!--order= "AFTER">-->
+                   <!--SELECT LAST_INSERT_ID()-->
+               <!--</selectKey >-->
+
+
+        insert ignore  into t_teamgroup_link (teamgroup_id,team_id)
+        values
+            <foreach collection ="teamIdList"  item="item" index= "index" separator =",">
+                (
+                #{teamgroupId}, #{item}
+                )
+            </foreach >
+     </insert >
+
+</mapper>

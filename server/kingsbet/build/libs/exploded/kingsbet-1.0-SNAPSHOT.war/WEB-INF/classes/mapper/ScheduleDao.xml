@@ -1,0 +1,36 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper
+        PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+        "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.kingsbet.wzry.dao.ScheduleDao">
+
+
+
+
+
+
+    <insert id ="insertSchedule"  parameterType="Schedule" useGeneratedKeys="true" keyProperty="entity.insertKey">
+
+
+
+    insert into t_schedule(title_1,title_2,time,state)values(#{title1},#{title2},#{time},#{state});
+
+
+    </insert>
+    <insert id ="insertScheduleDetail" parameterType="java.util.List">
+
+
+
+
+
+
+        insert ignore  into t_schedule_detail (schedule_id,team_id)
+        values
+        <foreach collection ="teamIdList"  item="item" index= "index" separator =",">
+        (
+        #{scheduleId}, #{item}
+        )
+        </foreach >
+
+    </insert>
+</mapper>
