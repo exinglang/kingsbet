@@ -15,13 +15,23 @@ public class Schedule implements Serializable {
      * time : 125239748992
      * session : 3634F440030595CC6B6B4F718BECA437
      */
-    private  int insertKey;//插入记录的主键值
+    private  int id,state;//插入记录的主键值
     private String title1;
     private String title2;
     private String time;
     private String session;
     @SerializedName("teamlist")
     private List<Integer> teamList;
+    @SerializedName("pankou")
+    private List<String> pankou;
+
+    public List<String> getPankou() {
+        return pankou;
+    }
+
+    public void setPankou(List<String> pankou) {
+        this.pankou = pankou;
+    }
 
     public String getTitle1() {
         return title1;
@@ -63,11 +73,11 @@ public class Schedule implements Serializable {
         this.teamList = teamList;
     }
 
-    public int getInsertKey() {
-        return insertKey;
+    public int getId() {
+        return id;
     }
 
-    public void setInsertKey(int insertKey) {
-        this.insertKey = insertKey;
+    public void setId(int id) {
+        this.id = id;
     }
 }

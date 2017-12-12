@@ -1,58 +1,87 @@
 <!DOCTYPE html>
 <html>
+  <head>
+        <link rel=stylesheet href=https://res.wx.qq.com/open/libs/weui/1.1.2/weui.min.css>
 
-<head>
-  <meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
-  <script src="https://cdn.bootcss.com/jquery/3.2.1/jquery.min.js"></script>
-  <script src="http://ajax.microsoft.com/ajax/jquery.templates/beta1/jquery.tmpl.min.js"></script>
-  <script src="js/schedule.js"></script>
-   <script type="text/javascript"> 
+    <meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
+    <script src="https://cdn.bootcss.com/jquery/3.2.1/jquery.min.js">
+    </script>
+    <script src="http://ajax.microsoft.com/ajax/jquery.templates/beta1/jquery.tmpl.min.js">
+    </script>
+    <script src="js/schedule.js">
+    </script>
+    <link rel="stylesheet" href="css/weui.css">
+    <script type="text/javascript">
+      $(document).ready(function() {
 
- $(document).ready(function(){  
-     
-}); 
+schedulelist(1);
 
-</script> 
-  <link rel="stylesheet" href="css/weui.css">
-  <link rel="stylesheet" href="css/addteam.css">
-  <title>王者竞猜</title>
+      });
+    </script>
 
- 
-</head>
-
-<body>
-  
-  <div class="weui-navbar">
-    <div class="weui-navbar__item weui-bar__item_on">
-      未结算
+      <script id="demo" type="text/x-jquery-tmpl">  
+    <div class="weui-cell" id=${name}>
+      <div class="weui-cell__bd" id="colume">
+        <p class="weui-msg__title" >
+          ${title1}
+        </p>
+        <p class="weui-msg__desc">
+          ${title2}
+        </p>
+      </div>
+      <div class="weui-cell__ft">
+        <p id="deleteschedule" class="weui-btn weui-btn_mini weui-btn_warn">
+          删除
+        </p>
+        <p id="pushschedule" class="weui-btn weui-btn_mini weui-btn_primary">
+          发布
+        </p>
+      </div>
     </div>
-    <div class="weui-navbar__item">
-      待结算
+     </script>
+
+    <title>
+      王者竞猜
+    </title>
+  </head>
+  <body>
+    <div class="weui-navbar">
+      <div class="weui-navbar__item weui-bar__item_on">
+        待发布
+      </div>
+      <div class="weui-navbar__item">
+        已发布
+      </div>
+      <div class="weui-navbar__item">
+        待结算
+      </div>
+      <div class="weui-navbar__item">
+        已结束
+      </div>
     </div>
-    <div class="weui-navbar__item">
-      已结束
+    <div class="weui-cell">
+      <button class="weui-btn weui-btn_plain-primary" id="add_schedule">
+        添加比赛项目
+      </button>
     </div>
-  </div>
-
- 
-<div class="weui-cell">
-<button class="weui-btn weui-btn_plain-primary"  id="add_schedule"> 添加比赛项目</button>
-   </div>
-
-<div id="content"/>
-  <div class="weui-tabbar">
-    <a href="javascript:;" class="weui-tabbar__item weui-bar__item_on"> <span style="display: inline-block;position: relative;">
-      <img src="./images/icon_nav_form.png" alt="" class="weui-tabbar__icon">
-
-    </span>
-    <p class="weui-tabbar__label">比赛</p>
-  </a>
-  <a href="zhan_dui_guan_li.html" class="weui-tabbar__item">
-    <img src="./images/icon_nav_layout.png" alt="" class="weui-tabbar__icon">
-    <p class="weui-tabbar__label">战队管理</p>
-  </a>
-</div>
-
-</body>
+    <div id="content">
+    </div>
+    <div class="weui-tabbar">
+      <a href="javascript:;" class="weui-tabbar__item weui-bar__item_on">
+        <span style="display: inline-block;position: relative;">
+          <img src="./images/icon_nav_form.png" alt="" class="weui-tabbar__icon">
+        </span>
+        <p class="weui-tabbar__label">
+          比赛
+        </p>
+      </a>
+      <a href="zhan_dui_guan_li.html" class="weui-tabbar__item">
+        <img src="./images/icon_nav_layout.png" alt="" class="weui-tabbar__icon">
+        <p class="weui-tabbar__label">
+          战队管理
+        </p>
+      </a>
+    </div>
+  </body>
 
 </html>

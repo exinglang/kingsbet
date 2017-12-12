@@ -184,7 +184,7 @@ function deleteTeamGroup(id) {
 function teamList() {
   var json = getTeamList("", 0);
   CompositeImpl.prototype.success = function(data) {
-    var mdata = JSON.stringify();
+    // var mdata = JSON.stringify();
     　　$("#demo").tmpl(data.respbody.list).appendTo('#content');
   }
   parVolleyJsonResult(json, new CompositeImpl())
@@ -268,8 +268,10 @@ parVolleyJsonResult(json, new CompositeImpl())
 
 
 function teamGroupList() {
+  
   var mTest=function (data) {
- var mdata = JSON.stringify();　　$("#demo").tmpl(data.respbody.list).appendTo('#content');
+ // var mdata = JSON.stringify();　　
+ $("#demo").tmpl(data.respbody.list).appendTo('#content');
 }
 mteamGroupList(mTest);
 

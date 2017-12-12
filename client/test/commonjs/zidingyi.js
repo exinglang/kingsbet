@@ -25,6 +25,12 @@ function  storageGet(key){
 return window.sessionStorage.getItem(key)
 }
 
+
+
+
+
+
+
     // this['http'] = {
     //   login: login,
 

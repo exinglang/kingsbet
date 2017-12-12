@@ -250,6 +250,8 @@ request
 		"title1": "LGD",				//赛事名称
 		"title2":"Liquid",//具体盘口  "进入前五"	"第一"	
 		"teamlist":[1,6,8],//战队ID
+		"time": "124590346523",
+		"pankou": ["前五名","冠军","前十名"],
 		// "time":"125239748992",
 		"session": "3634F440030595CC6B6B4F718BECA437"	
 	}
@@ -262,4 +264,69 @@ request
 	"msg": ""
 }
 
+//查看比赛列表
+//request
+{
+	"name": "schedulelist",
+	"reqbody": {			
+		"state": "1",	//1.待发布 2已发布 3待结算 4已结算
+		"pageIndex" : 0	, //当前页码
+		"pageSize" : 2    //每页条数			
+	}
+}
+//response
+{
+    "name": "schedulelist",
+    "retcode": 0,
+    "msg": "",
+    "respbody": {
+        "list": [
+            {		
+            	"id": "1",
+		"title1": "熊猫联赛",
+		"title2":"前五",				
+		
+	},
+            {			
+            	"id": "2",
+		"title1": "斗鱼黄金大奖赛E组",				//赛事名称
+		"title2":"冠军",
+	}
+        ]
+    }
+}
 
+
+//删除比赛
+//request
+{
+	"name": "deleteschedule",
+	"reqbody": {			
+		"id": "001",				//比赛id
+		"session": "3634F440030595CC6B6B4F718BECA437"	
+	}
+}
+//response
+{
+
+	"name": "deleteschedule",
+	"retcode": 0,					//0表示成功，其他表示失败
+	"msg": ""
+}
+
+//修改比赛状态
+//request
+{
+	"name": "updateschedulestate",
+	"reqbody": {	
+	"id": "10",		
+		"state": "2"			//1.待发布 2已发布 3待结算 4已结算
+	}
+}
+//response
+{
+
+	"name": "addschedule",
+	"retcode": 0,					//0表示成功，其他表示失败
+	"msg": ""
+}

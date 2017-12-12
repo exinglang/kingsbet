@@ -10,29 +10,46 @@
   <title>王者竞猜</title>
 
  
+ 
  <script id="group_tmpl" type="text/x-jquery-tmpl">  
     <option  value=${id} >${name}</option>
 </script>
 
- <script id="demo" type="text/x-jquery-tmpl">  
-    <div class="weui-cell">
 
-      <div class="weui-cell__bd">
-        <p   id="IS_ID">${id}</p>
-        <p class="weui-uploader__title">${name}</p>
+
+<script id="tmpl_pankou" type="text/x-jquery-tmpl">  
+    <div class="weui-cell"  id=${name}>
+      <div class="weui-cell__bd" id="mcolume">
+        <p class="weui-uploader__title" id="IS_NAME">${name}</p>
       </div>
 
-      <p id="deletegroupteam" class="weui-btn weui-btn_mini weui-btn_warn"  >删除</p>
+      <p id="deletepankou" class="weui-btn weui-btn_mini weui-btn_warn"  >删除</p>
     </div>
-  </div>  
+</script>
+
+ <script id="demo" type="text/x-jquery-tmpl">  
+    <label  class="weui-grid" for=${id}>
+        <p   id="IS_ID">${id}</p>
+        <p class="weui-uploader__title">${name}</p>
+         <p id="deleteteam" class="weui-btn weui-btn_mini weui-btn_warn"  >删除</p>
+      </label>
 </script>
 
  <script type="text/javascript"> 
 
  $(document).ready(function(){  
-    
- 
+     // storageSet(SCHEDULE_ADD_IS_ADD, false);
+     //            storageSet(SCHEDULE_ID, id);
      teamGroupList();
+  var isAdd=storageGet(SCHEDULE_ADD_IS_ADD);
+  if(isAdd=="false"){
+    //编辑
+
+  }else{
+    //新建
+   
+  }
+     
 }); 
 
 </script> 
@@ -48,9 +65,40 @@
             <div class="weui-cell">
                 <div class="weui-cell__hd"><label class="weui-label">赛事</label></div>
                 <div class="weui-cell__bd">
-                    <input id="title1" class="weui-input"   />
+                    <input id="title1" class="weui-input"  placeholder="例如:斗鱼黄金大奖赛"  />
                 </div>
             </div>
+
+ <div class="weui-cell">
+                <div class="weui-cell__hd">
+                    <label class="weui-label">项目</label>
+                </div>
+                <div class="weui-cell__bd">
+                    <input class="weui-input" placeholder="例如:E组 VS F组"   id="title2"/>
+                </div>
+               
+            </div>
+
+ <div class="weui-cell">
+                <div class="weui-cell__hd"><label for="" class="weui-label">时间</label></div>
+                <div class="weui-cell__bd">
+                    <input id="time" class="weui-input" type="datetime-local" value="" placeholder="123"/>
+                </div>
+            </div>
+
+             <div class="weui-cell">
+                <div class="weui-cell__hd">
+                    <label class="weui-label">盘口</label>
+                </div>
+                <div class="weui-cell__bd">
+                    <input class="weui-input" placeholder="例如:前三,冠军"   id="pankou"/>
+                </div>
+                <div class="weui-cell__ft">
+                    <button class="weui-btn weui-btn_plain-primary" onclick="addPankou()"> 添加盘口</button>
+                </div>
+            </div>
+             <div id="content_pankou">
+</div>
 
  <div class="weui-cell">
                 <div class="weui-cell__hd"><label class="weui-label">添加战队组</label></div>
@@ -66,24 +114,13 @@
                 </div>
             </div>
 
-            <div class="weui-cell">
-                <div class="weui-cell__hd">
-                    <label class="weui-label">项目</label>
-                </div>
-                <div class="weui-cell__bd">
-                    <input class="weui-input"   id="title2"/>
-                </div>
-                <div class="weui-cell__ft">
-                    <button class="weui-btn weui-btn_plain-primary" onclick="addSchedule()"> 添加比赛</button>
-                </div>
-            </div>
+           
             
           </div>
 
  <div id="content">
-      </div> 
-
-           
+</div>
+              <button class="weui-btn weui-btn_primary" onclick="addSchedule()"> 添加比赛</button>
            
 
   <div class="weui-tabbar">

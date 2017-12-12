@@ -2,17 +2,11 @@ package com.kingsbet.wzry.controller;
 
 import com.google.gson.Gson;
 import com.google.gson.JsonArray;
-import com.google.gson.JsonElement;
 import com.google.gson.JsonObject;
 import com.google.gson.internal.LinkedTreeMap;
-import com.google.gson.reflect.TypeToken;
-import com.kingsbet.wzry.ApplicationContext;
 import com.kingsbet.wzry.Constants;
 import com.kingsbet.wzry.dao.TeamDao;
-import com.kingsbet.wzry.dao.UserDao;
 import com.kingsbet.wzry.entity.*;
-import com.kingsbet.wzry.util.SessionUtil;
-import org.json.JSONObject;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.RequestBody;
@@ -21,8 +15,6 @@ import org.springframework.web.bind.annotation.ResponseBody;
 
 import java.util.ArrayList;
 import java.util.List;
-
-import static javafx.scene.input.KeyCode.T;
 
 /**
  * 用户管理
@@ -95,9 +87,8 @@ public class TeamController extends BaseController {
             int limitPre = Integer.valueOf(entity.getPageIndex()) * Integer.valueOf(entity.getPageSize());
             List<Team> list = dao.getTeamList(entity.getType(), limitPre, Integer.valueOf(entity.getPageSize()));
 
-            ResponseTypeAndList typeAndList = new ResponseTypeAndList();
+            ResponseList typeAndList = new ResponseList();
             typeAndList.setList(list);
-            typeAndList.setType(entity.getType());
             returnResult.setRepbody(typeAndList);
 
 
@@ -118,10 +109,8 @@ public class TeamController extends BaseController {
             //需先转为LImit
             int limitPre = Integer.valueOf(entity.getPageIndex()) * Integer.valueOf(entity.getPageSize());
             List<TeamGroup> list = dao.getTeamGroupList(entity.getType(), limitPre, Integer.valueOf(entity.getPageSize()));
-
-            ResponseTypeAndList typeAndList = new ResponseTypeAndList();
+            ResponseList typeAndList = new ResponseList();
             typeAndList.setList(list);
-            typeAndList.setType(entity.getType());
             returnResult.setRepbody(typeAndList);
 
 
@@ -231,7 +220,7 @@ public class TeamController extends BaseController {
             List<Team> list =  dao.getGroupTeam(parse.getInt("groupid"));
 
 
-            ResponseTypeAndList typeAndList = new ResponseTypeAndList();
+            ResponseList typeAndList = new ResponseList();
             typeAndList.setList(list);
             result.setRepbody(typeAndList);
         } catch (Exception e) {
@@ -260,29 +249,7 @@ public class TeamController extends BaseController {
         return result;
     }
 
-    private class MJsonParse {
-        RequestJsonRoot jsonRoot;
 
-        MJsonParse(RequestJsonRoot jsonRoot) {
-            this.jsonRoot = jsonRoot;
-
-        }
-
-        private String getString(String tag) {
-            Gson gson = new Gson();
-            LinkedTreeMap map = (LinkedTreeMap) jsonRoot.getReqsbody();
-            JsonObject gsin = gson.toJsonTree(map).getAsJsonObject();
-            return gsin.get(tag).getAsString();
-
-        }
-        private int getInt(String tag) {
-            Gson gson = new Gson();
-            LinkedTreeMap map = (LinkedTreeMap) jsonRoot.getReqsbody();
-            JsonObject gsin = gson.toJsonTree(map).getAsJsonObject();
-            return gsin.get(tag).getAsInt();
-
-        }
-    }
 
 
 }

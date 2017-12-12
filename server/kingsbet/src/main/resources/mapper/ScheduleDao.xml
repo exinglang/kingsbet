@@ -9,11 +9,11 @@
 
 
 
-    <insert id ="insertSchedule"  parameterType="Schedule" useGeneratedKeys="true" keyProperty="entity.insertKey">
+    <insert id ="insertSchedule"  parameterType="Schedule" useGeneratedKeys="true" keyProperty="entity.id">
 
 
 
-    insert into t_schedule(title_1,title_2,time,state)values(#{title1},#{title2},#{time},#{state});
+    insert  ignore into t_schedule(title_1,title_2,time,state)values(#{title1},#{title2},#{time},#{state});
 
 
     </insert>
@@ -31,6 +31,55 @@
         #{scheduleId}, #{item}
         )
         </foreach >
+
+    </insert>
+
+
+    <insert id ="insertSchedulePankou" parameterType="java.util.List">
+
+
+
+
+
+
+        insert ignore  into t_schedule_pankou (schedule_id,pankou_name)
+        values
+        <foreach collection ="pankounamelist"  item="item" index= "index" separator =",">
+            (
+            #{scheduleId}, #{item}
+            )
+        </foreach >
+
+    </insert>
+
+    <resultMap type="Schedule" id="ScheduleMap">
+        <result column="schedule_id" property="id"/>
+        <result column="title_1" property="title1"/>
+        <result column="title_2" property="title2"/>
+
+    </resultMap>
+    <select id="getScheduleList" resultMap="ScheduleMap">
+        SELECT
+        *
+
+        FROM
+        t_schedule
+
+        where state=#{state} limit #{pageindex},#{pagesize}
+
+    </select>
+
+    <delete id="deleteSchedule" parameterType="int">
+
+        delete from t_schedule_detail where schedule_id=#{id};
+        delete from t_schedule_pankou where schedule_id=#{id};
+        delete from t_schedule where schedule_id=#{id};
+    </delete>
+
+
+
+    <insert id="updateScheduleState">
+        update t_schedule set  state=#{state} where schedule_id=#{id}
 
     </insert>
 </mapper>

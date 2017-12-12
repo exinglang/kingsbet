@@ -5,6 +5,10 @@ var SESSION_STR = "sessionStr";
 var TEAM_GROUP_DATA = "TEAM_GROUP_DATA";
 var TEAM_GROUP_DATA_ID = "TEAM_GROUP_DATA_ID";
 
+var SCHEDULE_ADD_IS_ADD = "SCHEDULE_ADD_IS_ADD";
+var SCHEDULE_ID = "SCHEDULE_ID";
+
+
 var CompositeImpl = function(){};
 document.write("<script type='text/javascript' src='commonjs/MD5.js'></script>");
 document.write("<script type='text/javascript' src='commonjs/weui.js'></script>");
