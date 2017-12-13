@@ -297,6 +297,56 @@ request
 }
 
 
+//查询比赛详情
+//request
+{
+	"name": "queryschedule",
+	"reqbody": {			
+		"id": "123",				//id
+
+		"session": "3634F440030595CC6B6B4F718BECA437"	
+	}
+}
+//response
+{
+
+	"name": "queryschedule",
+	"retcode": 0,
+	"respbody": {
+		"title1": "斗鱼黄金大奖赛",
+		//赛事名称
+		"title2": "A组 VS B组",
+		"teamlist": [{
+			"id": 1,
+			"name": "LGD"
+		},
+		{
+			"id": 2,
+			"name": "Liquid"
+		},
+		{
+			"id": 3,
+			"name": "LFY"
+		}],
+		//战队ID
+		"time": "124590346523",
+		"pankou": [{
+			"id": 1,
+			"name": "前三"
+		},
+		{
+			"id": 2,
+			"name": "前十"
+		},
+		{
+			"id": 3,
+			"name": "冠军"
+		}]
+	},
+	//0表示成功，其他表示失败
+	"msg": ""
+}
+
 //删除比赛
 //request
 {

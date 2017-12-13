@@ -1,5 +1,6 @@
 package com.kingsbet.wzry.dao;
 
+import com.kingsbet.wzry.entity.Pankou;
 import com.kingsbet.wzry.entity.Schedule;
 import com.kingsbet.wzry.entity.Team;
 import com.kingsbet.wzry.entity.TeamGroup;
@@ -8,6 +9,7 @@ import org.springframework.stereotype.Repository;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
+import java.util.ArrayList;
 import java.util.List;
 
 @Service
@@ -18,8 +20,9 @@ public interface ScheduleDao {
 
 
     int insertSchedule(@Param("entity") Schedule entity, @Param("title1")String title1, @Param("title2") String title2, @Param("time") String time, @Param("state")int state);
-    void insertScheduleDetail(@Param("scheduleId")int title1,@Param("teamIdList") List<Integer> teamIdList);
-    void insertSchedulePankou(@Param("scheduleId")int title1,@Param("pankounamelist") List<String> teamIdList);
+//    void insertSchedulePankou(ArrayList<Pankou> pankoulist);
+    void insertScheduleDetail(@Param("pankoulist") ArrayList<Pankou> scheduleId,@Param("teamIdList") List<Integer> teamIdList);
+
 
 
 //    "state": "1",	//1.待发布 2已发布 3待结算 4已结算
@@ -29,6 +32,12 @@ public interface ScheduleDao {
     void deleteSchedule(@Param("id")int id);
 
     void updateScheduleState(@Param("id")int id,@Param("state")int state);
+
+    void insertScheduleTeam(@Param("scheduleId") int scheduleId,@Param("teamIdList") List<Integer> teamIdList);
+    void insertSchedulePankou( ArrayList<Pankou> pankoulist);
+
+    void insertSchedulePankouDetail(@Param("pankouList")  ArrayList<Pankou> pankouList,@Param("teamIdList") List<Integer> teamIdList);
+
 
 
 }

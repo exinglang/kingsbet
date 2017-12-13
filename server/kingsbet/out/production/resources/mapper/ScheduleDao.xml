@@ -17,39 +17,43 @@
 
 
     </insert>
-    <insert id ="insertScheduleDetail" parameterType="java.util.List">
 
 
 
+    <insert id ="insertSchedulePankou" parameterType="java.util.List"  useGeneratedKeys="true" keyProperty="id">
 
-
-
-        insert ignore  into t_schedule_detail (schedule_id,team_id)
+        insert ignore  into t_schedule_pankou (schedule_id,pankou_name)
         values
-        <foreach collection ="teamIdList"  item="item" index= "index" separator =",">
-        (
-        #{scheduleId}, #{item}
-        )
+        <foreach collection ="list"  item="pankou" index= "index" separator =",">
+            (
+            #{pankou.scheduleId}, #{pankou.name}
+            )
         </foreach >
 
     </insert>
 
 
-    <insert id ="insertSchedulePankou" parameterType="java.util.List">
-
-
-
-
-
-
-        insert ignore  into t_schedule_pankou (schedule_id,pankou_name)
+    <insert id ="insertSchedulePankouDetail" parameterType="java.util.List">
+        insert ignore  into t_schedule_pankou_detail (pankou_id,team_id)
         values
-        <foreach collection ="pankounamelist"  item="item" index= "index" separator =",">
+        <foreach collection ="pankouList"  item="pankou" index= "index" separator =",">
+        <foreach collection ="teamIdList"  item="teamid" index= "index" separator =",">
+            (
+            #{pankou.id}, #{teamid}
+            )
+        </foreach >
+        </foreach >
+    </insert>
+
+
+    <insert id ="insertScheduleTeam" parameterType="java.util.List">
+        insert ignore  into t_schedule_team (schedule_id,team_id)
+        values
+        <foreach collection ="teamIdList"  item="item" index= "index" separator =",">
             (
             #{scheduleId}, #{item}
             )
         </foreach >
-
     </insert>
 
     <resultMap type="Schedule" id="ScheduleMap">

@@ -1,5 +1,7 @@
 package com.kingsbet.wzry.controller;
 
+import com.google.gson.Gson;
+import com.google.gson.reflect.TypeToken;
 import com.kingsbet.wzry.Constants;
 import com.kingsbet.wzry.dao.ScheduleDao;
 import com.kingsbet.wzry.entity.*;
@@ -9,6 +11,7 @@ import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.ResponseBody;
 
+import java.util.ArrayList;
 import java.util.List;
 
 /**
@@ -25,13 +28,40 @@ public class ScheduleController extends BaseController {
     @ResponseBody
     public ResponseJsonRoot addSchedule(@RequestBody RequestJsonRoot<Schedule> jsonRoot) {
         ResponseJsonRoot result = new ResponseJsonRoot(jsonRoot.getName(), Constants.CODE_SUCCESS, "");
-        Schedule entity = jsonRoot.getReqsbody();
+        Schedule schedule = jsonRoot.getReqsbody();
         try {
 
+//            entity.setPankou(pankouList);
+//            Pankou p = ((ArrayList<Pankou>) entity.getPankou()).get(1);
 
-          dao.insertSchedule(entity,entity.getTitle1(), entity.getTitle2(), entity.getTime(),Constants.SCHEDULE_STATE_WEI_JIE_SUAN);
-            dao.insertScheduleDetail(entity.getId(),entity.getTeamList());
-            dao.insertSchedulePankou(entity.getId(),entity.getPankou());
+            dao.insertSchedule(schedule, schedule.getTitle1(), schedule.getTitle2(), schedule.getTime(), Constants.SCHEDULE_STATE_WEI_JIE_SUAN);
+
+
+            dao.insertScheduleTeam(schedule.getId(), schedule.getTeamList());
+
+
+
+            List<String> intList = schedule.getPankou();
+            ArrayList<Pankou> pankouList = new ArrayList<>();
+            for (int i = 0; i < intList.size(); i++) {
+                Pankou pankou = new Pankou();
+                pankou.setName(intList.get(i) + "");
+                //临时设置ID, 此iD实为 SCHEDULE id
+                pankou.setScheduleId(schedule.getId());
+                pankouList.add(pankou);
+            }
+            dao.insertSchedulePankou( pankouList);
+
+
+            dao.insertSchedulePankouDetail(pankouList, schedule.getTeamList());
+
+
+//            dao.insertSchedulePankou( pankouList);
+//
+//
+//
+//            dao.insertScheduleDetail(schedule.getId(), entity.getTeamList());
+
         } catch (Exception e) {
             e.printStackTrace();
             result.setRetcodeAndMsg(Constants.CODE_FAIL, Constants.MSG_FAIL_UNKNOW);
@@ -48,7 +78,7 @@ public class ScheduleController extends BaseController {
         try {
 
             MJsonParse parse = new MJsonParse(jsonRoot);
-            List<Schedule> list = dao.getScheduleList(parse.getInt("state"), parse.getInt("pageIndex"),parse.getInt("pageSize"));
+            List<Schedule> list = dao.getScheduleList(parse.getInt("state"), parse.getInt("pageIndex"), parse.getInt("pageSize"));
 
             ResponseList typeAndList = new ResponseList();
             typeAndList.setList(list);
@@ -78,7 +108,7 @@ public class ScheduleController extends BaseController {
         }
 
         return result;
-}
+    }
 
 
     @RequestMapping("/updateschedulestate")

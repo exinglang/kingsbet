@@ -22,8 +22,18 @@ public class Schedule implements Serializable {
     private String session;
     @SerializedName("teamlist")
     private List<Integer> teamList;
+
+    public int getState() {
+        return state;
+    }
+
+    public void setState(int state) {
+        this.state = state;
+    }
+
     @SerializedName("pankou")
-    private List<String> pankou;
+
+    private List<String>  pankou;
 
     public List<String> getPankou() {
         return pankou;
