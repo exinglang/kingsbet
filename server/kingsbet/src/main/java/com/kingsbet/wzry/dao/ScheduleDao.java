@@ -19,24 +19,32 @@ public interface ScheduleDao {
 
 
 
-    int insertSchedule(@Param("entity") Schedule entity, @Param("title1")String title1, @Param("title2") String title2, @Param("time") String time, @Param("state")int state);
-//    void insertSchedulePankou(ArrayList<Pankou> pankoulist);
-    void insertScheduleDetail(@Param("pankoulist") ArrayList<Pankou> scheduleId,@Param("teamIdList") List<Integer> teamIdList);
+    int insertSchedule(@Param("schedule") Schedule entity,  @Param("status")int status);
+    int updateSchedule(@Param("schedule") Schedule entity);
+
+
+//    void insertScheduleDetail(@Param("pankoulist") ArrayList<Pankou> scheduleId,@Param("teamIdList") List<Integer> teamIdList);
 
 
 
 //    "state": "1",	//1.待发布 2已发布 3待结算 4已结算
 //            "pageIndex" : 0	, //当前页码
 //            "pageSize" : 2    //每页条数
-    List<Schedule> getScheduleList(@Param("state")int state,@Param("pageindex")int pageindex,@Param("pagesize")int pagesize);
+    List<Schedule> getScheduleList(@Param("status")int status,@Param("pageindex")int pageindex,@Param("pagesize")int pagesize);
     void deleteSchedule(@Param("id")int id);
 
-    void updateScheduleState(@Param("id")int id,@Param("state")int state);
+    void updateScheduleStatus(@Param("id")int id,@Param("status")int status);
+    void deleteScheduleTeam(@Param("scheduleId") int scheduleId);
 
     void insertScheduleTeam(@Param("scheduleId") int scheduleId,@Param("teamIdList") List<Integer> teamIdList);
     void insertSchedulePankou( ArrayList<Pankou> pankoulist);
 
     void insertSchedulePankouDetail(@Param("pankouList")  ArrayList<Pankou> pankouList,@Param("teamIdList") List<Integer> teamIdList);
+
+    List<Pankou> getSchedulePankou(@Param("id")int id);
+    List<Team> getScheduleTeam(@Param("id")int id);
+    Schedule  getSchedule(@Param("id")int id);
+
 
 
 

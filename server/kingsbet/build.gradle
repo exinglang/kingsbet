@@ -26,10 +26,10 @@ dependencies {
             "javax:javaee-api:7.0",
             //sql数据库支持
             "mysql:mysql-connector-java:5.1.38",
-            //spring json支持
-            "com.fasterxml.jackson.core:jackson-databind:2.9.0",
-            "com.fasterxml.jackson.core:jackson-core:2.8.9",
-            "com.fasterxml.jackson.core:jackson-annotations:2.9.0",
+//            //spring json支持
+//            "com.fasterxml.jackson.core:jackson-databind:2.9.0",
+//            "com.fasterxml.jackson.core:jackson-core:2.8.9",
+//            "com.fasterxml.jackson.core:jackson-annotations:2.9.0",
             //mybatis
             "org.mybatis:mybatis-spring:1.3.1",
             "org.mybatis:mybatis:3.4.1",

@@ -11,7 +11,7 @@ var SCHEDULE_ID = "SCHEDULE_ID";
 
 var CompositeImpl = function(){};
 document.write("<script type='text/javascript' src='commonjs/MD5.js'></script>");
-document.write("<script type='text/javascript' src='commonjs/weui.js'></script>");
+document.write("<script type='text/javascript' src='commonjs/weui.min.js'></script>");
 document.write("<script type='text/javascript' src='commonjs/zidingyi.js'></script>");
 // !(function() {
   function ajax(data, cb) {

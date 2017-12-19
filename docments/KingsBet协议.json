@@ -263,13 +263,35 @@ request
 	"retcode": 0,					//0表示成功，其他表示失败
 	"msg": ""
 }
+//编辑比赛
 
+
+{
+	"name": "updateschedule",
+	"reqbody": {
+	"id": "123",				
+		"title1": "LGD",				//赛事名称
+		"title2":"Liquid",//具体盘口  "进入前五"	"第一"	
+		"teamlist":[1,6,8],//战队ID
+		"time": "124590346523",
+		"pankou": ["前五名","冠军","前十名"],
+		// "time":"125239748992",
+		"session": "3634F440030595CC6B6B4F718BECA437"	
+	}
+}
+//response
+{
+
+	"name": "addschedule",
+	"retcode": 0,					//0表示成功，其他表示失败
+	"msg": ""
+}
 //查看比赛列表
 //request
 {
 	"name": "schedulelist",
 	"reqbody": {			
-		"state": "1",	//1.待发布 2已发布 3待结算 4已结算
+		"status": "1",	//1.待发布 2已发布 3待结算 4已结算  5 (已发布 待结算 已结算)
 		"pageIndex" : 0	, //当前页码
 		"pageSize" : 2    //每页条数			
 	}
@@ -284,13 +306,14 @@ request
             {		
             	"id": "1",
 		"title1": "熊猫联赛",
-		"title2":"前五",				
-		
+		"title2":"前五",	
+			"remaintime":"123124"		//只在已发布有效,比赛剩余时间
 	},
             {			
             	"id": "2",
 		"title1": "斗鱼黄金大奖赛E组",				//赛事名称
 		"title2":"冠军",
+		"remaintime":"123124"	
 	}
         ]
     }
@@ -300,9 +323,9 @@ request
 //查询比赛详情
 //request
 {
-	"name": "queryschedule",
+	"name": "getschedule",
 	"reqbody": {			
-		"id": "123",				//id
+		"scheduleid": "123",				//id
 
 		"session": "3634F440030595CC6B6B4F718BECA437"	
 	}
@@ -310,12 +333,15 @@ request
 //response
 {
 
-	"name": "queryschedule",
+	"name": "getschedule",
 	"retcode": 0,
 	"respbody": {
+		"scheduleid": "002",
 		"title1": "斗鱼黄金大奖赛",
 		//赛事名称
 		"title2": "A组 VS B组",
+"status": "1",
+		"time": "124590346523",
 		"teamlist": [{
 			"id": 1,
 			"name": "LGD"
@@ -328,9 +354,8 @@ request
 			"id": 3,
 			"name": "LFY"
 		}],
-		//战队ID
-		"time": "124590346523",
-		"pankou": [{
+
+		"pankoulist": [{
 			"id": 1,
 			"name": "前三"
 		},
@@ -343,7 +368,6 @@ request
 			"name": "冠军"
 		}]
 	},
-	//0表示成功，其他表示失败
 	"msg": ""
 }
 
@@ -364,13 +388,15 @@ request
 	"msg": ""
 }
 
+
+
 //修改比赛状态
 //request
 {
-	"name": "updateschedulestate",
+	"name": "updateschedulestatus",
 	"reqbody": {	
 	"id": "10",		
-		"state": "2"			//1.待发布 2已发布 3待结算 4已结算
+		"status": "2"			//1.待发布 2已发布 3待结算 4已结算 5已取消
 	}
 }
 //response

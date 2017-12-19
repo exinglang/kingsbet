@@ -20,12 +20,15 @@ public class BaseController {
         protected String getString(String tag) {
             Gson gson = new Gson();
             LinkedTreeMap map = (LinkedTreeMap) jsonRoot.getReqsbody();
+
             JsonObject gsin = gson.toJsonTree(map).getAsJsonObject();
+
             return gsin.get(tag).getAsString();
 
         }
         protected int getInt(String tag) {
             Gson gson = new Gson();
+
             LinkedTreeMap map = (LinkedTreeMap) jsonRoot.getReqsbody();
             JsonObject gsin = gson.toJsonTree(map).getAsJsonObject();
             return gsin.get(tag).getAsInt();

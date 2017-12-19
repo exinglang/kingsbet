@@ -1,0 +1,107 @@
+<!DOCTYPE html>
+<html>
+  <head>
+        <link rel=stylesheet href=https://res.wx.qq.com/open/libs/weui/1.1.2/weui.min.css>
+
+    <meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
+    <script src="https://cdn.bootcss.com/jquery/3.2.1/jquery.min.js">
+    </script>
+    <script src="http://ajax.microsoft.com/ajax/jquery.templates/beta1/jquery.tmpl.min.js">
+    </script>
+    <link rel="stylesheet" href="css/u_schedule.css"> 
+     <script src="js/u_schedule.js">
+    </script>
+    <link rel="stylesheet" href="css/weui.min.css">
+    <script type="text/javascript">
+      $(document).ready(function() {
+         setTabText();
+ 
+
+
+
+schedulelist(5);
+
+      });
+    </script>
+
+      <script id="demo" type="text/x-jquery-tmpl">  
+    <div class="weui-cell white"  id=${name}>
+      <div class="weui-cell__bd" id="colume">
+        <p class="weui-msg__title"  >
+          ${title1}
+        </p>
+        <p class="weui-msg__desc">
+          ${title2}
+        </p>
+      </div>
+      <div class="weui-cell__ft" style="margin-right:10px;font-size:13px">
+      
+
+
+{{if status==2}}
+             ${Math.abs(Math.round((remaintime / (1000 * 60*60*24)))%30)}    天${Math.abs(Math.round((remaintime / (1000 * 60*60)))%24)}    小时 ${Math.abs((Math.round((remaintime / (1000 * 60)))%60)+1)}分钟后
+        {{else}}
+             ${Math.abs(Math.round((remaintime / (1000 * 60*60*24)))%30)}天${Math.abs(Math.round((remaintime / (1000 * 60*60)))%24)}    小时 ${Math.abs((Math.round((remaintime / (1000 * 60)))%60)+1)}分钟前
+        {{/if}}
+  
+        
+      </div>
+      <div class="weui-cell__ft">
+
+{{if status==2}}
+            <p id="cancelschedule" style="color: #52a341;font-size:17px">
+         竞猜中
+        </p>
+        {{else status==3}}
+            <p id="cancelschedule" style="font-size:17px" >
+         结算中
+        </p>
+        {{else status==4}}
+           <p id="cancelschedule" style="font-size:17px" >
+         已结束
+        </p>
+        {{/if}}
+        
+
+
+
+        
+
+
+      </div>
+    </div>
+     </script>
+
+
+
+    <title>
+      王者竞猜
+    </title>
+  </head>
+  <body >
+   
+   
+    <div id="content">
+    </div>
+ <div id="content2">
+    </div>
+
+
+
+    <div class="weui-tabbar" >
+      <a href="javascript:;" class="weui-tabbar__item weui-bar__item_on">
+        <span style="display: inline-block;position: relative;">
+          <img src="./images/icon_nav_form.png" alt="" class="weui-tabbar__icon">
+        </span>
+        <p class="weui-tabbar__label" id="tab_1"> 
+        </p>
+      </a>
+      <a href="zhan_dui_guan_li.html" class="weui-tabbar__item">
+        <img src="./images/icon_nav_layout.png" alt="" class="weui-tabbar__icon">
+        <p class="weui-tabbar__label" id="tab_2">
+        </p>
+      </a>
+    </div>
+  </body>
+
+</html>

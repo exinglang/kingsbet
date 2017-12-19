@@ -9,14 +9,23 @@
 
 
 
-    <insert id ="insertSchedule"  parameterType="Schedule" useGeneratedKeys="true" keyProperty="entity.id">
+    <insert id ="insertSchedule"  parameterType="Schedule" useGeneratedKeys="true" keyProperty="schedule.id">
 
 
 
-    insert  ignore into t_schedule(title_1,title_2,time,state)values(#{title1},#{title2},#{time},#{state});
+    insert  ignore into t_schedule(title_1,title_2,time,status)values(#{schedule.title1},#{schedule.title2},#{schedule.time},#{status});
 
 
     </insert>
+
+    <insert id ="updateSchedule"  parameterType="Schedule" useGeneratedKeys="true" keyProperty="entity.id">
+
+        update   t_schedule set title_1=#{schedule.title1},title_2=#{schedule.title2},time=#{schedule.time} where schedule_id=#{schedule.id}
+
+
+
+    </insert>
+
 
 
 
@@ -34,12 +43,12 @@
 
 
     <insert id ="insertSchedulePankouDetail" parameterType="java.util.List">
-        insert ignore  into t_schedule_pankou_detail (pankou_id,team_id)
+        insert ignore  into t_schedule_pankou_detail (schedule_id,pankou_id,team_id)
         values
         <foreach collection ="pankouList"  item="pankou" index= "index" separator =",">
         <foreach collection ="teamIdList"  item="teamid" index= "index" separator =",">
             (
-            #{pankou.id}, #{teamid}
+            #{pankou.scheduleId},#{pankou.id}, #{teamid}
             )
         </foreach >
         </foreach >
@@ -69,21 +78,66 @@
         FROM
         t_schedule
 
-        where state=#{state} limit #{pageindex},#{pagesize}
+        where status=#{status} limit #{pageindex},#{pagesize}
 
     </select>
 
     <delete id="deleteSchedule" parameterType="int">
 
-        delete from t_schedule_detail where schedule_id=#{id};
+        delete from t_schedule_team where schedule_id=#{id};
+        delete from t_schedule_pankou_detail where schedule_id=#{id};
+
         delete from t_schedule_pankou where schedule_id=#{id};
         delete from t_schedule where schedule_id=#{id};
     </delete>
 
 
 
-    <insert id="updateScheduleState">
-        update t_schedule set  state=#{state} where schedule_id=#{id}
+
+
+    <insert id="updateScheduleStatus">
+        update t_schedule set  status=#{status} where schedule_id=#{id}
 
     </insert>
+
+
+    <resultMap type="Pankou" id="map">
+        <result column="id" property="id"/>
+        <result column="pankou_name" property="name"/>
+    </resultMap>
+    <select id="getSchedulePankou" resultMap="map">
+        SELECT
+        id,pankou_name
+        FROM
+        t_schedule_pankou
+
+        where schedule_id=#{id}
+
+    </select>
+    <resultMap type="Team" id="map1">
+        <result column="team_id" property="id"/>
+        <result column="name" property="name"/>
+    </resultMap>
+    <select id="getScheduleTeam" resultMap="map1">
+        SELECT b.team_id,b.name  FROM t_schedule_team AS a,t_mteam AS b WHERE a.schedule_id=#{id} and a.team_id =b.team_id
+
+    </select>
+
+
+    <resultMap type="Schedule" id="teamMap1">
+        <result column="title_1" property="title1"/>
+        <result column="title_2" property="title2"/>
+        <result column="schedule_id" property="id"/>
+        <result column="time" property="time"/>
+    </resultMap>
+    <select id="getSchedule" resultMap="teamMap1">
+        SELECT
+        *
+        FROM
+        t_schedule
+
+        where schedule_id=#{id}
+
+    </select>
+
 </mapper>

@@ -1,6 +1,9 @@
 package com.kingsbet.wzry.controller;
 
 import com.google.gson.Gson;
+import com.google.gson.GsonBuilder;
+import com.google.gson.JsonObject;
+import com.google.gson.internal.LinkedTreeMap;
 import com.google.gson.reflect.TypeToken;
 import com.kingsbet.wzry.Constants;
 import com.kingsbet.wzry.dao.ScheduleDao;
@@ -30,43 +33,68 @@ public class ScheduleController extends BaseController {
         ResponseJsonRoot result = new ResponseJsonRoot(jsonRoot.getName(), Constants.CODE_SUCCESS, "");
         Schedule schedule = jsonRoot.getReqsbody();
         try {
-
-//            entity.setPankou(pankouList);
-//            Pankou p = ((ArrayList<Pankou>) entity.getPankou()).get(1);
-
-            dao.insertSchedule(schedule, schedule.getTitle1(), schedule.getTitle2(), schedule.getTime(), Constants.SCHEDULE_STATE_WEI_JIE_SUAN);
-
-
+            dao.insertSchedule(schedule, Constants.SCHEDULE_STATUS_DAI_FA_BU);
             dao.insertScheduleTeam(schedule.getId(), schedule.getTeamList());
-
-
-
             List<String> intList = schedule.getPankou();
             ArrayList<Pankou> pankouList = new ArrayList<>();
             for (int i = 0; i < intList.size(); i++) {
                 Pankou pankou = new Pankou();
                 pankou.setName(intList.get(i) + "");
-                //临时设置ID, 此iD实为 SCHEDULE id
                 pankou.setScheduleId(schedule.getId());
                 pankouList.add(pankou);
             }
-            dao.insertSchedulePankou( pankouList);
-
-
+            dao.insertSchedulePankou(pankouList);
             dao.insertSchedulePankouDetail(pankouList, schedule.getTeamList());
+        } catch (Exception e) {
+            e.printStackTrace();
+            result.setRetcodeAndMsg(Constants.CODE_FAIL, Constants.MSG_FAIL_UNKNOW);
+        }
+        return result;
+    }
 
 
-//            dao.insertSchedulePankou( pankouList);
-//
-//
-//
-//            dao.insertScheduleDetail(schedule.getId(), entity.getTeamList());
+    @RequestMapping("/updateschedule")
+    @ResponseBody
+    public ResponseJsonRoot updateSchedule(@RequestBody RequestJsonRoot<Schedule> jsonRoot) {
+        ResponseJsonRoot result = new ResponseJsonRoot(jsonRoot.getName(), Constants.CODE_SUCCESS, "");
+        Schedule schedule = jsonRoot.getReqsbody();
+        try {
+            dao.deleteSchedule(schedule.getId());
+            addSchedule(jsonRoot);
 
         } catch (Exception e) {
             e.printStackTrace();
             result.setRetcodeAndMsg(Constants.CODE_FAIL, Constants.MSG_FAIL_UNKNOW);
         }
+        return result;
+    }
 
+    @RequestMapping("/getschedule")
+    @ResponseBody
+    public ResponseJsonRoot getSchedule(@RequestBody RequestJsonRoot jsonRoot) {
+        ResponseJsonRoot result = new ResponseJsonRoot(jsonRoot.getName(), Constants.CODE_SUCCESS, "");
+        MJsonParse parse = new MJsonParse(jsonRoot);
+        try {
+            int scheduleId = parse.getInt("scheduleid");
+            List<Pankou> pankouList = dao.getSchedulePankou(scheduleId);
+            List<Team> teamList = dao.getScheduleTeam(Integer.valueOf(scheduleId));
+            ResponseSchedule responseSchedule = new ResponseSchedule();
+            responseSchedule.setPankoulist(pankouList);
+            responseSchedule.setTeamlist(teamList);
+
+            Schedule schedule = dao.getSchedule(scheduleId);
+            responseSchedule.setScheduleid(schedule.getId() + "");
+            responseSchedule.setTime(schedule.getTime());
+            responseSchedule.setTitle1(schedule.getTitle1());
+            responseSchedule.setTitle2(schedule.getTitle2());
+            responseSchedule.setStatus(schedule.getStatus() + "");
+
+            result.setRepbody(responseSchedule);
+
+        } catch (Exception e) {
+            e.printStackTrace();
+            result.setRetcodeAndMsg(Constants.CODE_FAIL, Constants.MSG_FAIL_UNKNOW);
+        }
         return result;
     }
 
@@ -78,7 +106,28 @@ public class ScheduleController extends BaseController {
         try {
 
             MJsonParse parse = new MJsonParse(jsonRoot);
-            List<Schedule> list = dao.getScheduleList(parse.getInt("state"), parse.getInt("pageIndex"), parse.getInt("pageSize"));
+            int requestStatus=parse.getInt("status");
+            List<Schedule> list=getNeedStatusList(requestStatus,parse);
+
+            for (Schedule schedule : list) {
+
+                long remaintime=Long.valueOf(schedule.getTime()) - System.currentTimeMillis();
+
+
+                //如果请求的是 "已发布",那判断当前时间是否超过设置的比赛时间,如果超过了,将比赛设置为"待结算"
+                    if(remaintime<=0&&requestStatus==Constants.SCHEDULE_STATUS_YI_FA_BU){
+                        updateScheduleStatusFunction(schedule.getId(),Constants.SCHEDULE_STATUS_DAI_JIE_SUAN);
+//                        list.remove(schedule);
+                    }
+
+            }
+            list =getNeedStatusList(requestStatus,parse);
+            for (Schedule schedule : list) {
+                long remaintime=Long.valueOf(schedule.getTime()) - System.currentTimeMillis();
+
+                schedule.setRemainTime(String.valueOf(remaintime));
+
+            }
 
             ResponseList typeAndList = new ResponseList();
             typeAndList.setList(list);
@@ -93,6 +142,21 @@ public class ScheduleController extends BaseController {
         return returnResult;
     }
 
+    private List<Schedule> getNeedStatusList(int requestStatus,MJsonParse parse) {
+        List<Schedule> list;
+        if(requestStatus!=5) {
+
+            list = dao.getScheduleList(requestStatus, parse.getInt("pageIndex"), parse.getInt("pageSize"));
+        }else{
+            list = dao.getScheduleList(2, parse.getInt("pageIndex"), parse.getInt("pageSize"));
+            list.addAll(dao.getScheduleList(3, parse.getInt("pageIndex"), parse.getInt("pageSize")));
+            list.addAll(dao.getScheduleList(4, parse.getInt("pageIndex"), parse.getInt("pageSize")));
+
+        }
+        return list;
+
+    }
+
     @RequestMapping("/deleteschedule")
     @ResponseBody
     public ResponseJsonRoot deleteSchedule(@RequestBody RequestJsonRoot jsonRoot) {
@@ -100,7 +164,6 @@ public class ScheduleController extends BaseController {
         try {
             MJsonParse parse = new MJsonParse(jsonRoot);
             dao.deleteSchedule(parse.getInt("id"));
-
 
         } catch (Exception e) {
             e.printStackTrace();
@@ -111,19 +174,35 @@ public class ScheduleController extends BaseController {
     }
 
 
-    @RequestMapping("/updateschedulestate")
+    @RequestMapping("/updateschedulestatus")
     @ResponseBody
-    public ResponseJsonRoot updateScheduleState(@RequestBody RequestJsonRoot jsonRoot) {
+    public ResponseJsonRoot updateScheduleStatus(@RequestBody RequestJsonRoot jsonRoot) {
         ResponseJsonRoot result = new ResponseJsonRoot(jsonRoot.getName(), Constants.CODE_SUCCESS, "");
         try {
             MJsonParse parse = new MJsonParse(jsonRoot);
+            int requestStatus = parse.getInt("status");
+            switch (requestStatus) {
+                case Constants.SCHEDULE_STATUS_DAI_JIE_SUAN:
+                    updateScheduleStatusFunction(parse.getInt("id"), Constants.SCHEDULE_STATUS_DAI_JIE_SUAN);
+                    break;
+                case Constants.SCHEDULE_STATUS_YI_FA_BU:
+                    updateScheduleStatusFunction(parse.getInt("id"), Constants.SCHEDULE_STATUS_YI_FA_BU);
+                    break;
+                case Constants.SCHEDULE_STATUS_YI_QU_XIAO:
+                    updateScheduleStatusFunction(parse.getInt("id"), Constants.SCHEDULE_STATUS_YI_QU_XIAO);
+                    break;
 
-            dao.updateScheduleState(parse.getInt("id"), parse.getInt("state"));
+            }
+
         } catch (Exception e) {
             e.printStackTrace();
             result.setRetcodeAndMsg(Constants.CODE_FAIL, Constants.MSG_FAIL_UNKNOW);
         }
         return result;
+    }
+
+    public void updateScheduleStatusFunction(int id ,int status) {
+        dao.updateScheduleStatus(id, status);
     }
 
 

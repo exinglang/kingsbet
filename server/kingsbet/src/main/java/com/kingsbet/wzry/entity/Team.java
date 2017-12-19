@@ -1,12 +1,22 @@
 package com.kingsbet.wzry.entity;
 
+import com.google.gson.annotations.SerializedName;
+
 import java.io.Serializable;
 import java.util.Date;
 
 public class Team implements Serializable {
+    @SerializedName("name")
+    private String name; // id
+    @SerializedName("id")
 
-    private String name,id; // id
-    private String img,gametype; // name
+    private String id; // id
+    @SerializedName("img")
+
+    private String img; // name
+    @SerializedName("gametype")
+
+    private String gametype; // id
 
     public String getId() {
         return id;

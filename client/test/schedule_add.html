@@ -8,15 +8,9 @@
   <script src="js/schedule.js"></script>
   <link rel="stylesheet" href="css/weui.css">
   <title>王者竞猜</title>
-
- 
- 
  <script id="group_tmpl" type="text/x-jquery-tmpl">  
     <option  value=${id} >${name}</option>
 </script>
-
-
-
 <script id="tmpl_pankou" type="text/x-jquery-tmpl">  
     <div class="weui-cell"  id=${name}>
       <div class="weui-cell__bd" id="mcolume">
@@ -41,26 +35,10 @@
      // storageSet(SCHEDULE_ADD_IS_ADD, false);
      //            storageSet(SCHEDULE_ID, id);
      teamGroupList();
-  var isAdd=storageGet(SCHEDULE_ADD_IS_ADD);
-  if(isAdd=="false"){
-    //编辑
-
-  }else{
-    //新建
-   
-  }
-     
 }); 
-
 </script> 
 </head>
-
 <body>
-  
- 
- 
-
-
   <div class="weui-cells weui-cells_form">
             <div class="weui-cell">
                 <div class="weui-cell__hd"><label class="weui-label">赛事</label></div>
@@ -68,7 +46,6 @@
                     <input id="title1" class="weui-input"  placeholder="例如:斗鱼黄金大奖赛"  />
                 </div>
             </div>
-
  <div class="weui-cell">
                 <div class="weui-cell__hd">
                     <label class="weui-label">项目</label>
@@ -78,14 +55,12 @@
                 </div>
                
             </div>
-
  <div class="weui-cell">
                 <div class="weui-cell__hd"><label for="" class="weui-label">时间</label></div>
                 <div class="weui-cell__bd">
-                    <input id="time" class="weui-input" type="datetime-local" value="" placeholder="123"/>
+                    <input id="time" class="weui-input" type="datetime-local" value="" />
                 </div>
             </div>
-
              <div class="weui-cell">
                 <div class="weui-cell__hd">
                     <label class="weui-label">盘口</label>
@@ -120,7 +95,7 @@
 
  <div id="content">
 </div>
-              <button class="weui-btn weui-btn_primary" onclick="addSchedule()"> 添加比赛</button>
+              <button  id="commit" class="weui-btn weui-btn_primary" onclick="addSchedule()"> 添加比赛</button>
            
 
   <div class="weui-tabbar">

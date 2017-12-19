@@ -15,20 +15,30 @@ public class Schedule implements Serializable {
      * time : 125239748992
      * session : 3634F440030595CC6B6B4F718BECA437
      */
-    private  int id,state;//插入记录的主键值
+    private  int id,status;//插入记录的主键值
     private String title1;
     private String title2;
     private String time;
     private String session;
+    private String remaintime;
+
+    public String getRemainTime() {
+        return remaintime;
+    }
+
+    public void setRemainTime(String remainTime) {
+        this.remaintime = remainTime;
+    }
+
     @SerializedName("teamlist")
     private List<Integer> teamList;
 
-    public int getState() {
-        return state;
+    public int getStatus() {
+        return status;
     }
 
-    public void setState(int state) {
-        this.state = state;
+    public void setStatus(int status) {
+        this.status = status;
     }
 
     @SerializedName("pankou")
