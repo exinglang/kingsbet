@@ -105,10 +105,12 @@
         <result column="id" property="id"/>
         <result column="name" property="name"/>
         <result column="mtype" property="type"/>
+        <result column="pankouid" property="pankouid"/>
+
     </resultMap>
     <select id="getSchedulePankou" resultMap="map">
        SELECT
-        b.id,b.name,b.mtype
+        b.id,b.name,b.mtype,a.id as pankouid
         FROM
         t_schedule_pankou as a ,t_pankou_type as b
 
@@ -149,7 +151,7 @@
 
     </select>
 
-    <select id="getPankouType" resultType="string">
+    <select id="getPankouType" resultType="int">
         <!-- 具体的sql -->
         SELECT  b.mtype FROM t_schedule_pankou as a,t_pankou_type as b where  a.id=#{pankouid} and a.pankou_type_id = b.id
     </select>

@@ -1,5 +1,5 @@
 :root {
-  --commonblue: #14191e;
+  --commonblack: #14191e;
     --deepgrey: #999999;
  --commonyello: #fea63a;
   --grey: #eeeeee;
@@ -34,7 +34,7 @@
 }
 
 .commonblue {
-  background-color:var(--commonblue)
+  background-color:var(--commonblack)
 }
 
 .page_title {
@@ -50,10 +50,29 @@
 .status_ing{
 	color: var(--commonyello)
 }
-
+.weui-btn_commonblack {
+ color: #14191e;
+  border: 1px solid #14191e;
+}
+.weui-mbtn {
+  position: relative;
+  display: block;
+  margin-left: auto;
+  margin-right: auto;
+  padding-left: 14px;
+  padding-right: 14px;
+  box-sizing: border-box;
+  font-size: 18px;
+  text-align: center;
+  text-decoration: none;
+  line-height: 2.55555556;
+  border-radius: 5px;
+  -webkit-tap-highlight-color: rgba(0, 0, 0, 0);
+  overflow: hidden;
+}
 .page_head {
   height: 100px;
-background-color:var(--commonblue);
+background-color:var(--commonblack);
  
 
 

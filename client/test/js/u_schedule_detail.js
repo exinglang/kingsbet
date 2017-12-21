@@ -9,9 +9,14 @@ document.write("<script type='text/javascript' src='commonjs/constants.js'></scr
 $(function() {
 
 
-$('#content').delegate('#colume', 'click',
+$('#content').delegate('#jingcai', 'click',
     function() {
-
+var item = $.tmplItem(this);
+    weui.confirm("确定竞猜 " + item.data.name + " 吗?  ",
+    function() {
+      // deleteTeam(item.data.id);
+      // dow.location = ('zhwinan_dui_zu_edit.html')
+    });
 
 }
       );
@@ -30,7 +35,7 @@ var keyName = "getpankou";
   map.set('id', pankouid);
 var json = getJsonFromMap(map, keyName);
 var successAction= function(data) {
-                // $("#demo").tmpl(data.respbody.list).appendTo('#content');
+                $("#demo").tmpl(data.respbody.teamlist).appendTo('#content');
                
 }
 parVolleyJsonResult(json, successAction)

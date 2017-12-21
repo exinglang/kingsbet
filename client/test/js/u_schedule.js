@@ -21,7 +21,7 @@ menu.innerHTML="";
 
 for(var i in pankoulist){
   var name = pankoulist[i].name;
-  var md = pankoulist[i].id;
+  var md = pankoulist[i].pankouid;
 menu.innerHTML+="<div  class=\"weui-actionsheet__cell\" id="+md+">"+name+"</div>";
 
 
@@ -30,7 +30,7 @@ menu.innerHTML+="<div  class=\"weui-actionsheet__cell\" id="+md+">"+name+"</div>
 //Innerhtml后,会把前一个onclik清空,原因不明
 for(var i in pankoulist){
   var name = pankoulist[i].name;
-var item2 = document.getElementById(pankoulist[i].id);
+var item2 = document.getElementById(pankoulist[i].pankouid);
 
 item2.onclick =function(){
   storageSet(U_SCHEDULE_PANKOU_ID,this.id);

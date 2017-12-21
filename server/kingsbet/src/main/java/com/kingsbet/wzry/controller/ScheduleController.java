@@ -4,6 +4,7 @@ package com.kingsbet.wzry.controller;
 import com.kingsbet.wzry.Constants;
 import com.kingsbet.wzry.dao.ScheduleDao;
 import com.kingsbet.wzry.entity.*;
+import com.kingsbet.wzry.util.Util;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.RequestBody;
@@ -11,6 +12,7 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.ResponseBody;
 
 import java.util.ArrayList;
+import java.util.Collections;
 import java.util.List;
 
 /**
@@ -95,23 +97,23 @@ public class ScheduleController extends BaseController {
         try {
 
             MJsonParse parse = new MJsonParse(jsonRoot);
-            int requestStatus=parse.getInt("status");
-            List<Schedule> list=getNeedStatusList(requestStatus,parse);
+            int requestStatus = parse.getInt("status");
+            List<Schedule> list = getNeedStatusList(requestStatus, parse);
             //先把过期比赛设置为待结算
             for (Schedule schedule : list) {
-                long remaintime=Long.valueOf(schedule.getTime()) - System.currentTimeMillis();
+                long remaintime = Long.valueOf(schedule.getTime()) - System.currentTimeMillis();
                 //如果请求的是 "已发布",那判断当前时间是否超过设置的比赛时间,如果超过了,将比赛设置为"待结算"
-                    if(remaintime<=0&&requestStatus==Constants.SCHEDULE_STATUS_YI_FA_BU){
-                        updateScheduleStatusFunction(Integer.valueOf(schedule.getId()),Constants.SCHEDULE_STATUS_DAI_JIE_SUAN);
+                if (remaintime <= 0 && requestStatus == Constants.SCHEDULE_STATUS_YI_FA_BU) {
+                    updateScheduleStatusFunction(Integer.valueOf(schedule.getId()), Constants.SCHEDULE_STATUS_DAI_JIE_SUAN);
 //                        list.remove(schedule);
-                    }
+                }
 
             }
             //重新获取已发布的比赛
-            list =getNeedStatusList(requestStatus,parse);
+            list = getNeedStatusList(requestStatus, parse);
             //计算剩余时间
             for (Schedule schedule : list) {
-                long remaintime=Long.valueOf(schedule.getTime()) - System.currentTimeMillis();
+                long remaintime = Long.valueOf(schedule.getTime()) - System.currentTimeMillis();
                 schedule.setRemainTime(String.valueOf(remaintime));
                 List<Pankou> pankouList = dao.getSchedulePankou(schedule.getId());
                 schedule.setPankouList(pankouList);
@@ -130,12 +132,12 @@ public class ScheduleController extends BaseController {
         return returnResult;
     }
 
-    private List<Schedule> getNeedStatusList(int requestStatus,MJsonParse parse) {
+    private List<Schedule> getNeedStatusList(int requestStatus, MJsonParse parse) {
         List<Schedule> list;
-        if(requestStatus!=5) {
+        if (requestStatus != 5) {
 
             list = dao.getScheduleList(requestStatus, parse.getInt("pageIndex"), parse.getInt("pageSize"));
-        }else{
+        } else {
             list = dao.getScheduleList(2, parse.getInt("pageIndex"), parse.getInt("pageSize"));
             list.addAll(dao.getScheduleList(3, parse.getInt("pageIndex"), parse.getInt("pageSize")));
             list.addAll(dao.getScheduleList(4, parse.getInt("pageIndex"), parse.getInt("pageSize")));
@@ -189,7 +191,7 @@ public class ScheduleController extends BaseController {
         return result;
     }
 
-    public void updateScheduleStatusFunction(int id ,int status) {
+    public void updateScheduleStatusFunction(int id, int status) {
         dao.updateScheduleStatus(id, status);
     }
 
@@ -200,12 +202,12 @@ public class ScheduleController extends BaseController {
         ResponseJsonRoot result = new ResponseJsonRoot(jsonRoot.getName(), Constants.CODE_SUCCESS, "");
         MJsonParse parse = new MJsonParse(jsonRoot);
         try {
-            int pankouid=parse.getInt("id");
+            int pankouid = parse.getInt("id");
             int scheduleId = dao.getScheduleIdFromPankouId(pankouid);
 //            List<Pankou> pankouList = dao.getSchedulePankou(scheduleId);
             Schedule schedule = dao.getSchedule(scheduleId);
-            List<Team> teamList = dao.getPankouDetail(pankouid,123);
-             calPeiLv(teamList,pankouid);
+            List<Team> teamList = dao.getPankouDetail(pankouid, 123);
+            calPeiLv(teamList, pankouid);
             schedule.setTeamList(teamList);
             result.setRepbody(schedule);
 
@@ -215,9 +217,64 @@ public class ScheduleController extends BaseController {
         }
         return result;
     }
-        //从赌注金额 计算赔率
-    private void calPeiLv(List<Team> teamList,int pankouid) {
+
+    //从赌注金额 计算赔率
+    private void calPeiLv(List<Team> teamList, int pankouid) {
         int pankoutype = dao.getPankouType(pankouid);
+        double betamount=0;//此盘口投注总额
+        List<Integer> betlist= new ArrayList() ;
+        for(Team team:teamList){
+            betlist.add(Integer.valueOf(team.getBetAmount()));
+            betamount=betamount+Integer.valueOf(team.getBetAmount());
+        }
+        //要减去20%平台扣除的分成,剩下的是预测准确的用户分的总金额
+//        betamount=betamount*0.8;
+        Collections.sort(betlist,Collections.reverseOrder());
+        //取得胜利的前N个队伍的投注总额
+        int qianN=0;
+        //取得胜利的前N-1个队伍的投注总额
+        int qianNjian1=0;
+        for(int i=0;i<pankoutype;i++){
+            qianN=qianN+betlist.get(i);
+        }
+        qianNjian1=qianN-betlist.get(pankoutype-1);
+        //计算最低赔率
+        for(Team team:teamList){
+            double peilv;
+          int teambet = Integer.valueOf(team.getBetAmount());
+          //赔率= (输家的钱*80%(平台扣除))/所有队伍赢家的钱*特定队伍赢家的钱
+          if(teambet>=betlist.get(pankoutype-1)){
+              //投注的是前N名
+              peilv=(betamount-qianN)*0.8/qianN;
+          }else{
+            peilv=(betamount-qianNjian1-teambet)*0.8/(qianNjian1+teambet);
+          }
+          team.setPeilv(Util.changeDouble(String.valueOf(peilv),2));
+        }
+
+        int sdfsdf=0;
+//        //不同的盘口有不同的赔率计算方法
+//        switch (pankouid) {
+//            case 1:
+//
+//
+//
+//
+//                break;
+//            case 5:
+//
+//
+//
+//
+//                break;
+//            case 10:
+//                break;
+//            default:
+//                break;
+
+        }
+
+
         //不同的盘口有不同的赔率计算方法
 //        if (pankouname.contains("冠军")){
 //
@@ -235,10 +292,10 @@ public class ScheduleController extends BaseController {
 //
 //
 //        }
-        for(Team team:teamList){
-
-
-        }
+//        for (Team team : teamList) {
+//
+//
+//        }
     }
-}
+
 

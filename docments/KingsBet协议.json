@@ -291,16 +291,16 @@ request
 		"title2":"前五",	
 
 		"pankoulist": [{
-			"id": 1,
-			"name": "前三"
+			"id": 1, //pankou type id
+			"name": "前三",
+			"type": "3",
+			"pankouid":1//pankou  id
 		},
 		{
 			"id": 2,
-			"name": "前十"
-		},
-		{
-			"id": 3,
-			"name": "冠军"
+			"name": "前十",
+			"type": "10",
+			"pankouid" : 2//pankou  id
 		}],
 
 			"remaintime":"123124"		//只在已发布有效,比赛剩余时间

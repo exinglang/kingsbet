@@ -9,6 +9,8 @@ public class Pankou implements Serializable {
 
 
     private transient int scheduleId; // id
+    @SerializedName("pankouid")
+    private  int pankouid; // id
 
 
     public int getScheduleId() {
@@ -31,6 +33,14 @@ public class Pankou implements Serializable {
     private int type;
     @SerializedName("id")
     private String id;
+
+    public int getPankouid() {
+        return pankouid;
+    }
+
+    public void setPankouid(int pankouid) {
+        this.pankouid = pankouid;
+    }
 
     public String getId() {
         return id;
