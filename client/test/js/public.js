@@ -21,11 +21,30 @@ function mteamGroupList(mfun) {
 
 
 
-  CompositeImpl.prototype.success = function(data) {
+  var successAction= function(data) {
    mfun(data);
   }
-  parVolleyJsonResult(json, new CompositeImpl())
+   parVolleyJsonResultNoLoading(json, successAction)
 }
+
+
+
+
+
+function parentPankoulist(childFun) {
+
+  var keyName = "pankoutypelist";
+  var map = new Map();
+var json = getJsonFromMap(map, keyName);
+ var success= function(data) {
+ childFun(data);
+               
+}
+
+
+ parVolleyJsonResultNoLoading(json,success)
+}
+
 
 
 function groupTeamList() {
@@ -33,11 +52,11 @@ function groupTeamList() {
   var map = new Map();
   map.set('groupid', storageGet(TEAM_GROUP_DATA_ID));
   var json = getJsonFromMap(map, keyName);
-  CompositeImpl.prototype.success = function(data) {
+  var successAction= function(data) {
     var mdata = JSON.stringify();
     　　$("#demo").tmpl(data.respbody.list).appendTo('#content');
   }
-  parVolleyJsonResult(json, new CompositeImpl())
+  parVolleyJsonResult(json, successAction)
 }
 
 
@@ -48,11 +67,10 @@ function schedulelist(status) {
   map.set('pageIndex', 0);
   map.set('pageSize', 100);
 var json = getJsonFromMap(map, keyName);
-CompositeImpl.prototype.success = function(data) {
-                $("#demo").tmpl(data.respbody.list).appendTo('#content');
+ var successAction= function(data) {                $("#demo").tmpl(data.respbody.list).appendTo('#content');
                
 }
-parVolleyJsonResult(json, new CompositeImpl())
+parVolleyJsonResult(json, successAction)
 }
 
 
@@ -65,8 +83,7 @@ function updateScheduleStatus(id,status) {
   map.set('status', status);
  
 var json = getJsonFromMap(map, keyName);
-CompositeImpl.prototype.success = function(data) {
- 
+var successAction= function(data) { 
                weui.toast("操作成功", {
       duration: 1000,
       callback: function() {
@@ -74,6 +91,6 @@ CompositeImpl.prototype.success = function(data) {
       }
     });
 }
-parVolleyJsonResult(json, new CompositeImpl())
+parVolleyJsonResult(json, successAction)
 }
 

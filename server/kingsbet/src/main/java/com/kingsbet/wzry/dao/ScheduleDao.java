@@ -41,11 +41,14 @@ public interface ScheduleDao {
 
     void insertSchedulePankouDetail(@Param("pankouList")  ArrayList<Pankou> pankouList,@Param("teamIdList") List<Integer> teamIdList);
 
-    List<Pankou> getSchedulePankou(@Param("id")int id);
+    List<Pankou> getSchedulePankou(@Param("scheduleid")int scheduleid);
     List<Team> getScheduleTeam(@Param("id")int id);
     Schedule  getSchedule(@Param("id")int id);
 
+    int getScheduleIdFromPankouId(@Param("pankouid") int pankouid);
 
+    List<Team> getPankouDetail(@Param("pankouId")int pankouid,@Param("userId")int userid);
+    int getPankouType(@Param("pankouid") int pankouid);
 
 
 }

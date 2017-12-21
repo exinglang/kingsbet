@@ -1,10 +1,19 @@
-.page,body {
-	background-color:#f8f8f8
+:root {
+  --commonblue: #14191e;
+    --deepgrey: #999999;
+ --commonyello: #fea63a;
+  --grey: #eeeeee;
+  --white: #ffffff;
+ --commonbg: #f8f8f8;
+
 }
+.page,body {
+	background-color:var(--commonbg);
+}
+
 .page {
 	overflow-y:auto;
 	-webkit-overflow-scrolling:touch;
-	
 	z-index:1
 }
 
@@ -17,5 +26,59 @@
 }
 
 .white {
-  background-color:#ffffff
+  color:var(--white)
+}
+
+.grey {
+  color:var(--grey)
+}
+
+.commonblue {
+  background-color:var(--commonblue)
+}
+
+.page_title {
+	position: absolute;
+    top: 50%;
+   /* height: 40px;
+    margin-top: 20px; /* negative half of the height */*/
+	
+}
+.status .status_ing{
+	font-size:17px
+}
+.status_ing{
+	color: var(--commonyello)
+}
+
+.page_head {
+  height: 100px;
+background-color:var(--commonblue);
+ 
+
+
+  display: -webkit-box;
+  -webkit-box-orient: horizontal;
+  -webkit-box-pack: center;
+  -webkit-box-align: center;
+  
+  display: -moz-box;
+  -moz-box-orient: horizontal;
+  -moz-box-pack: center;
+  -moz-box-align: center;
+  
+  display: -o-box;
+  -o-box-orient: horizontal;
+  -o-box-pack: center;
+  -o-box-align: center;
+  
+  display: -ms-box;
+  -ms-box-orient: horizontal;
+  -ms-box-pack: center;
+  -ms-box-align: center;
+  
+  display: box;
+  box-orient: horizontal;
+  box-pack: center;
+  box-align: center;
 }

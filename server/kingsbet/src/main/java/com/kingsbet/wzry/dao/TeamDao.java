@@ -1,5 +1,6 @@
 package com.kingsbet.wzry.dao;
 
+import com.kingsbet.wzry.entity.Pankou;
 import com.kingsbet.wzry.entity.Team;
 import com.kingsbet.wzry.entity.TeamGroup;
 import org.apache.ibatis.annotations.Param;
@@ -15,6 +16,7 @@ import java.util.List;
 public interface TeamDao {
 
     void insertTeam(@Param("name")String name,@Param("imgBase64") String imgBase64,@Param("gameType") String gameType);
+
     //	"type":1,  //1、王者荣耀 2.绝地求生
 //            "name":"LGD",//战队名字
 //            "pageIndex" : 0	, //当前页码
@@ -33,6 +35,11 @@ public interface TeamDao {
     void teamGroupAddTeam(@Param("teamgroupId")int teamgroupId,@Param("teamIdList")List<Integer> teamIdList);
     List<Team> getGroupTeam(@Param("id")int groupId);
     void deleteGroupTeam(@Param("groupid")int groupid,@Param("teamid")int teamid);
+
+    void insertPankou(@Param("name")String name,@Param("type") int type);
+    void deletePankouType(@Param("id")int id);
+    List<Pankou>  getPankouTypeList();
+
 
 
 

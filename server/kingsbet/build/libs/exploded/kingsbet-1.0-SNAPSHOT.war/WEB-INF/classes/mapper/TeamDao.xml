@@ -113,4 +113,32 @@
             </foreach >
      </insert >
 
+
+    <insert id="insertPankou">
+        insert
+        into
+        t_pankou_type(name,mtype)
+        values
+        (#{name},#{type})
+
+    </insert>
+    <delete id="deletePankouType" parameterType="int">
+        delete from t_pankou_type where id=#{id}
+    </delete>
+
+    <resultMap type="Pankou" id="teamMap1">
+        <result column="id" property="id"/>
+        <result column="name" property="name"/>
+        <result column="mtype" property="type"/>
+    </resultMap>
+    <select id="getPankouTypeList" resultMap="teamMap1">
+        SELECT
+        *
+        FROM
+        t_pankou_type
+
+
+
+    </select>
+
 </mapper>

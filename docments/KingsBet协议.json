@@ -37,7 +37,7 @@
 	"reqbody": {			
 		"name": "LGD",				//战队名字
 		"img":"0595CC6B6B4F718BEC0595CC6B6B4F718BEC0595CC6B6B4F718BEC0595CC6B6B4F718BEC"//图片的BASE64形式			
-		"session": "3634F440030595CC6B6B4F718BECA437"	
+		"session":"3634F440030595CC6B6B4F718BECA437"	
 	}
 }
 //response
@@ -148,25 +148,7 @@ request
 	"retcode": 0,					//0表示成功，其他表示失败
 	"msg": ""
 }
-//添加比赛
-//request
-{
-	"name": "addschedule",
-	"reqbody": {			
-		"team1": "LGD",				//战队名字
-		"team2":"Liquid",//图片的BASE64形式		
-		"name":"TI7",
-		"time":"125239748992",
-		"session": "3634F440030595CC6B6B4F718BECA437"	
-	}
-}
-//response
-{
 
-	"name": "addschedule",
-	"retcode": 0,					//0表示成功，其他表示失败
-	"msg": ""
-}
 
 
 //战队组添加战队
@@ -188,7 +170,7 @@ request
 //response
 {
 
-	"name": "addschedule",
+	"name": "teamgroupaddteam",
 	"retcode": 0,					//0表示成功，其他表示失败
 	"msg": ""
 }
@@ -249,9 +231,9 @@ request
 	"reqbody": {			
 		"title1": "LGD",				//赛事名称
 		"title2":"Liquid",//具体盘口  "进入前五"	"第一"	
-		"teamlist":[1,6,8],//战队ID
+		"teamidlist":[1,6,8],//战队ID
 		"time": "124590346523",
-		"pankou": ["前五名","冠军","前十名"],
+		"pankouidlist": [1,2,3],
 		// "time":"125239748992",
 		"session": "3634F440030595CC6B6B4F718BECA437"	
 	}
@@ -282,7 +264,7 @@ request
 //response
 {
 
-	"name": "addschedule",
+	"name": "updateschedule",
 	"retcode": 0,					//0表示成功，其他表示失败
 	"msg": ""
 }
@@ -291,7 +273,7 @@ request
 {
 	"name": "schedulelist",
 	"reqbody": {			
-		"status": "1",	//1.待发布 2已发布 3待结算 4已结算  5 (已发布 待结算 已结算)
+		"status": "1",	//1.待发布 2已发布 3待结算 4已结算  5 包括(已发布 待结算 已结算)
 		"pageIndex" : 0	, //当前页码
 		"pageSize" : 2    //每页条数			
 	}
@@ -307,12 +289,38 @@ request
             	"id": "1",
 		"title1": "熊猫联赛",
 		"title2":"前五",	
+
+		"pankoulist": [{
+			"id": 1,
+			"name": "前三"
+		},
+		{
+			"id": 2,
+			"name": "前十"
+		},
+		{
+			"id": 3,
+			"name": "冠军"
+		}],
+
 			"remaintime":"123124"		//只在已发布有效,比赛剩余时间
 	},
             {			
             	"id": "2",
-		"title1": "斗鱼黄金大奖赛E组",				//赛事名称
-		"title2":"冠军",
+		
+		"pankoulist": [{
+			"id": 1,
+			"name": "前三"
+		},
+		{
+			"id": 2,
+			"name": "前十"
+		},
+		{
+			"id": 3,
+			"name": "冠军"
+		}],
+
 		"remaintime":"123124"	
 	}
         ]
@@ -325,7 +333,7 @@ request
 {
 	"name": "getschedule",
 	"reqbody": {			
-		"scheduleid": "123",				//id
+		"id": "123",				//id
 
 		"session": "3634F440030595CC6B6B4F718BECA437"	
 	}
@@ -336,11 +344,11 @@ request
 	"name": "getschedule",
 	"retcode": 0,
 	"respbody": {
-		"scheduleid": "002",
+		"id": "002",
 		"title1": "斗鱼黄金大奖赛",
 		//赛事名称
 		"title2": "A组 VS B组",
-"status": "1",
+		"status": "1",
 		"time": "124590346523",
 		"teamlist": [{
 			"id": 1,
@@ -402,7 +410,137 @@ request
 //response
 {
 
-	"name": "addschedule",
+	"name": "updateschedulestatus",
+	"retcode": 0,					//0表示成功，其他表示失败
+	"msg": ""
+}
+
+
+
+//查询盘口详情
+//request
+{
+	"name": "getpankou",
+	"reqbody": {			
+		"id": "123",				//盘口id
+		"session": "3634F440030595CC6B6B4F718BECA437"	
+	}
+}
+//response
+{
+
+	"name": "getpankou",
+	"retcode": 0,
+	"respbody": {
+
+		"id": "002",//返回的是scheduleid
+		"title1": "斗鱼黄金大奖赛",
+		//赛事名称
+		"title2": "A组 VS B组",
+		"status": "1",
+		"time": "124590346523",
+		"teamlist": [{
+			"id": 1,
+			"name": "LGD",
+			"peilv": "0.83",
+			"bet": "2000" //此用户已下2000
+		},
+		{
+			"id": 2,
+			"name": "Liquid",
+			"peilv": "5.83"
+		},
+		{
+			"id": 3,
+			"name": "LFY",
+			"peilv": "1.83"
+		}]
+	},
+	"msg": ""
+}
+
+
+//竞猜比赛下单
+//request
+{
+	"name": "betorder",
+	"reqbody": {			
+		"pankouid": "001",	
+		"teamid": "006",	
+		"bet_amount": "100",//下单王者币					//
+		"session": "3634F440030595CC6B6B4F718BECA437"	
+	}
+}
+//response
+{
+
+	"name": "deleteschedule",
+	"retcode": 0,					//0表示成功，其他表示失败
+	"msg": ""
+}
+
+
+//添加盘口
+//request
+{
+	"name": "addpankoutype",
+	"reqbody": {			
+		"name": "前三",
+		"type": "2",	//前几可以赢					
+		"session": "3634F440030595CC6B6B4F718BECA437"	
+	}
+}
+//response
+{
+
+	"name": "addpankoutype",
+	"retcode": 0,					//0表示成功，其他表示失败
+	"msg": ""
+}
+
+//查看所有盘口
+//request
+{
+	"name": "pankoutypelist",
+	"reqbody": {			
+				
+		"session": "3634F440030595CC6B6B4F718BECA437"	
+	}
+}
+//response
+{
+    "name": "pankoutypelist",
+    "retcode": 0,
+    "msg": "",
+    "respbody": {
+        "type": "1",
+        "list": [
+            {
+                "id": 7,
+                "name": "前三",
+                "type": "3"
+            },
+            {
+                "id": 4,
+                "name": "冠军",
+                "type": "1"
+            }
+        ]
+    }
+}
+//添加盘口
+//request
+{
+	"name": "deletepankoutype",
+	"reqbody": {			
+		"id": "7",				
+		"session": "3634F440030595CC6B6B4F718BECA437"	
+	}
+}
+//response
+{
+
+	"name": "deletepankoutype",
 	"retcode": 0,					//0表示成功，其他表示失败
 	"msg": ""
 }

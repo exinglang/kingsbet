@@ -252,5 +252,57 @@ public class TeamController extends BaseController {
 
 
 
+    @RequestMapping("/addpankoutype")
+    @ResponseBody
+    public ResponseJsonRoot addpankou(@RequestBody RequestJsonRoot<Pankou> jsonRoot) {
+        ResponseJsonRoot result = new ResponseJsonRoot(jsonRoot.getName(), Constants.CODE_SUCCESS, "");
+        Pankou entity = jsonRoot.getReqsbody();
+        try {
+
+            dao.insertPankou(entity.getName(),entity.getType());
+        } catch (Exception e) {
+            e.printStackTrace();
+            result.setRetcodeAndMsg(Constants.CODE_FAIL, Constants.MSG_FAIL_UNKNOW);
+        }
+
+        return result;
+    }
+    @RequestMapping("/deletepankoutype")
+    @ResponseBody
+    public ResponseJsonRoot deletePankouType(@RequestBody RequestJsonRoot jsonRoot) {
+        ResponseJsonRoot result = new ResponseJsonRoot(jsonRoot.getName(), Constants.CODE_SUCCESS, "");
+        try {
+            MJsonParse parse = new MJsonParse(jsonRoot);
+            dao.deletePankouType(Integer.valueOf(parse.getString("id")));
+        } catch (Exception e) {
+            e.printStackTrace();
+            result.setRetcodeAndMsg(Constants.CODE_FAIL, Constants.MSG_FAIL_UNKNOW);
+        }
+
+        return result;
+    }
+
+    @RequestMapping("/pankoutypelist")
+    @ResponseBody
+    public ResponseJsonRoot getPankouTypeList(@RequestBody RequestJsonRoot<TeamList> jsonRoot) {
+        ResponseJsonRoot returnResult = new ResponseJsonRoot(jsonRoot.getName(), Constants.CODE_SUCCESS, "");
+//        TeamList entity = jsonRoot.getReqsbody();
+        try {
+            //需先转为LImit
+            List<Pankou> list = dao.getPankouTypeList();
+
+            ResponseList typeAndList = new ResponseList();
+            typeAndList.setList(list);
+            returnResult.setRepbody(typeAndList);
+
+
+        } catch (Exception e) {
+            e.printStackTrace();
+            returnResult.setRetcodeAndMsg(Constants.CODE_FAIL, Constants.MSG_FAIL_UNKNOW);
+        }
+
+        return returnResult;
+    }
+
 }
 

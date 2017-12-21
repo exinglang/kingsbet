@@ -7,6 +7,8 @@ var TEAM_GROUP_DATA_ID = "TEAM_GROUP_DATA_ID";
 
 var SCHEDULE_ADD_IS_ADD = "SCHEDULE_ADD_IS_ADD";
 var SCHEDULE_ID = "SCHEDULE_ID";
+var U_SCHEDULE_PANKOU_ID = "U_SCHEDULE_PANKOU_ID";
+
 
 
 var CompositeImpl = function(){};
@@ -14,9 +16,9 @@ document.write("<script type='text/javascript' src='commonjs/MD5.js'></script>")
 document.write("<script type='text/javascript' src='commonjs/weui.min.js'></script>");
 document.write("<script type='text/javascript' src='commonjs/zidingyi.js'></script>");
 // !(function() {
-  function ajax(data, cb) {
+  function ajax(data) {
 
-    return $.ajax({
+    return  $.ajax({
 // var name = data.name,
 url: 'http://localhost:8080/'+data.name,
 contentType: 'application/json;charset=utf-8',
@@ -29,36 +31,65 @@ error: function(jqXHR, textStatus, errorThrown) {
 })
   }
 
-  function login(userId, password) {
-    return ajax({
-      "name":"adminlogin",
-      reqbody: {
-        "pwd": $.md5(userId + password),
-        "userId": userId
-      }
-    })}
+
 
 
 
 
 
     function parVolleyJsonResult(mJson,mcallback ){
+parVolleyJsonResultIfLoading(true,mJson,mcallback)
+      
+     
+// mcallback.success();
+}
+  function parVolleyJsonResultNoLoading(mJson,mcallback ){
+    parVolleyJsonResultIfLoading(false,mJson,mcallback)
 
-      var loading = weui.loading('');
-      ajax(mJson).done(function(data) {
+
+    }
+    function parVolleyJsonResultIfLoading(showloading,mJson,mcallback ){
+
+if(showloading){
+var loading = weui.loading('');
+}
+ ajax(mJson).done(function(data) {
+  if(showloading){
+
         loading.hide(function() {
-          if (data.retcode === 0) {
-           mcallback.success(data);
+mAction(mcallback,data);
+         
+
+       })
+
+
+  }else{
+mAction(mcallback,data);
+  }
+
+
+      }
+      ).fail(function() {
+         if(showloading){
+        hideLoadingAndAlertServerError(loading);
+      }else{
+
+        mAlert(server_code_error);
+      }
+      })
+
+    }
+
+ function mAction(mcallback,data){
+   if (data.retcode === 0) {
+           mcallback(data);
          }else{
            mAlert(data.msg);
          }
-       })
-      }
-      ).fail(function() {
-        hideLoadingAndAlertServerError(loading);
-      })
-// mcallback.success();
-}
+
+ }
+
+
 
 
 function getJsonFromMap(mmap, keyName) {
@@ -96,6 +127,41 @@ count++;
 return keyset;
 }
 
+  function login(userId, password) {
+    return ajax({
+      "name":"adminlogin",
+      reqbody: {
+        "pwd": $.md5(userId + password),
+        "userId": userId
+      }
+    })}
+
+
+function setTabText(){
+var d = document.getElementById('tab_1');//获取div的节点
+  d.innerHTML = TAB_1;
+var d2 = document.getElementById('tab_2');//获取div的节点
+  d2.innerHTML = TAB_2;
+}
+
+Date.prototype.Format = function(fmt)     
+{ //author: meizz  
+  var o = {     
+    "M+" : this.getMonth()+1,                 //月份  
+    "d+" : this.getDate(),                    //日  
+    "h+" : this.getHours(),                   //小时  
+    "m+" : this.getMinutes(),                 //分  
+    "s+" : this.getSeconds(),                 //秒  
+    "q+" : Math.floor((this.getMonth()+3)/3), //季度  
+    "S"  : this.getMilliseconds()             //毫秒  
+  };     
+  if(/(y+)/.test(fmt))     
+    fmt=fmt.replace(RegExp.$1, (this.getFullYear()+"").substr(4 - RegExp.$1.length));     
+  for(var k in o)     
+    if(new RegExp("("+ k +")").test(fmt))     
+  fmt = fmt.replace(RegExp.$1, (RegExp.$1.length==1) ? (o[k]) : (("00"+ o[k]).substr((""+ o[k]).length)));     
+  return fmt;     
+}; 
 // this['http'] = {
 //   login: login,
 

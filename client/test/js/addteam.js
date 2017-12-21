@@ -1,7 +1,7 @@
 var base64;
 
 document.write("<script type='text/javascript' src='commonjs/httpclient.js'></script>");
-document.write("<script type='text/javascript' src='commonjs/weui.js'></script>");
+document.write("<script type='text/javascript' src='commonjs/weui.min.js'></script>");
 document.write("<script type='text/javascript' src='commonjs/zidingyi.js'></script>");
 document.write("<script type='text/javascript' src='js/addteamjson.js'></script>");
 document.write("<script type='text/javascript' src='js/public.js'></script>");
@@ -124,7 +124,7 @@ $('#content').delegate('#deletegroupteam', 'click',
 function addTeam() {
   var teamName = $('#teamname').val().trim();
   var json = getAddTeam(teamName, base64);
-  CompositeImpl.prototype.success = function() {
+ var successAction= function(data) {
     weui.toast("添加成功", {
       duration: 1000,
       callback: function() {
@@ -132,13 +132,13 @@ function addTeam() {
       }
     });
   }
-  parVolleyJsonResult(json, new CompositeImpl())
+  parVolleyJsonResult(json, successAction)
 }
 
 function addTeamGroup() {
   var teamGroupName = $('#teamgroupname').val().trim();
   var json = getAddTeamGroup(teamGroupName);
-  CompositeImpl.prototype.success = function() {
+ var successAction= function(data) {
     weui.toast("添加成功", {
       duration: 1000,
       callback: function() {
@@ -147,14 +147,14 @@ function addTeamGroup() {
               }
             });
   }
-  parVolleyJsonResult(json, new CompositeImpl())
+  parVolleyJsonResult(json, successAction)
 }
 
 
 
 function deleteTeam(id) {
   var json = getDeleteTeam(id);
-  CompositeImpl.prototype.success = function() {
+   var successAction= function(data) {
     weui.toast("删除成功", {
       duration: 1000,
       callback: function() {
@@ -162,12 +162,12 @@ function deleteTeam(id) {
       }
     });
   }
-  parVolleyJsonResult(json, new CompositeImpl())
+  parVolleyJsonResult(json, successAction)
 }
 
 function deleteTeamGroup(id) {
   var json = getDeleteTeamGroup(id);
-  CompositeImpl.prototype.success = function() {
+  var successAction= function(data) {
     weui.toast("删除成功", {
       duration: 1000,
       callback: function() {
@@ -175,7 +175,7 @@ function deleteTeamGroup(id) {
       }
     });
   }
-  parVolleyJsonResult(json, new CompositeImpl())
+  parVolleyJsonResult(json, successAction)
 }
 // "type":1,  //1、王者荣耀 2.绝地求生
 //     "name":"LGD",//战队名字
@@ -183,11 +183,11 @@ function deleteTeamGroup(id) {
 //     "pageSize" : 2    //每页条数
 function teamList() {
   var json = getTeamList("", 0);
-  CompositeImpl.prototype.success = function(data) {
+ var successAction= function(data) {
     // var mdata = JSON.stringify();
     　　$("#demo").tmpl(data.respbody.list).appendTo('#content');
   }
-  parVolleyJsonResult(json, new CompositeImpl())
+  parVolleyJsonResult(json, successAction)
 }
 
 
@@ -204,7 +204,7 @@ function deleteTeamGroupTeam(teamid) {
   map.set('groupid', js.id);
   map.set('teamid', teamid);
   var json = getJsonFromMap(map, keyName);
-  CompositeImpl.prototype.success = function() {
+  var successAction= function(data) {
     weui.toast("删除成功", {
       duration: 1000,
       callback: function() {
@@ -213,7 +213,7 @@ function deleteTeamGroupTeam(teamid) {
               }
             });
   }
-  parVolleyJsonResult(json, new CompositeImpl())
+  parVolleyJsonResult(json, successAction)
 }
 
 function updateTeamGroup() {
@@ -224,7 +224,7 @@ function updateTeamGroup() {
   map.set('id', js.id);
   map.set('name', $('#teamgroupname').val().trim());
   var json = getJsonFromMap(map, keyName);
-  CompositeImpl.prototype.success = function() {
+  var successAction= function(data) {
     weui.toast("修改成功", {
       duration: 1000,
       callback: function() {
@@ -233,7 +233,7 @@ function updateTeamGroup() {
               }
             });
   }
-  parVolleyJsonResult(json, new CompositeImpl())
+  parVolleyJsonResult(json, successAction)
 }
 
 
@@ -254,7 +254,7 @@ $(":checkbox").each(function(){
 });
 map.set('teamidlist', teamIdList);
 var json = getJsonFromMap(map, keyName);
-CompositeImpl.prototype.success = function() {
+var successAction= function(data) {
   weui.toast("修改成功", {
     duration: 1000,
     callback: function() {
@@ -263,7 +263,7 @@ CompositeImpl.prototype.success = function() {
               }
             });
 }
-parVolleyJsonResult(json, new CompositeImpl())
+parVolleyJsonResult(json, successAction)
 }
 
 
@@ -276,6 +276,8 @@ function teamGroupList() {
 mteamGroupList(mTest);
 
 }
+
+
 
 
 

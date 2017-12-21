@@ -1,17 +1,42 @@
 package com.kingsbet.wzry.entity;
 
+import com.google.gson.annotations.SerializedName;
+
 import java.io.Serializable;
-import java.util.Date;
 
 public class Pankou implements Serializable {
-    private int id,scheduleId; // id
-    private String name; // name
 
-    public int getId() {
+
+
+    private transient int scheduleId; // id
+
+
+    public int getScheduleId() {
+        return scheduleId;
+    }
+
+    public void setScheduleId(int scheduleId) {
+        this.scheduleId = scheduleId;
+    }
+
+    /**
+     * id : 7
+     * name : 前三
+     * type : 3
+     */
+
+    @SerializedName("name")
+    private String name;
+    @SerializedName("type")
+    private int type;
+    @SerializedName("id")
+    private String id;
+
+    public String getId() {
         return id;
     }
 
-    public void setId(int id) {
+    public void setId(String id) {
         this.id = id;
     }
 
@@ -23,11 +48,11 @@ public class Pankou implements Serializable {
         this.name = name;
     }
 
-    public int getScheduleId() {
-        return scheduleId;
+    public int getType() {
+        return type;
     }
 
-    public void setScheduleId(int scheduleId) {
-        this.scheduleId = scheduleId;
+    public void setType(int type) {
+        this.type = type;
     }
 }

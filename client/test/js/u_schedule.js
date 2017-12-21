@@ -9,35 +9,68 @@ document.write("<script type='text/javascript' src='commonjs/constants.js'></scr
 $(function() {
 
 
+$('#content').delegate('#colume', 'click',
+    function() {
+
+var menu = document.getElementById("actionsheet_menu");
+
+// var menu = $('#actionsheet_menu');
+ var item = $.tmplItem(this);
+var pankoulist = item.data.pankoulist;
+menu.innerHTML="";
+
+for(var i in pankoulist){
+  var name = pankoulist[i].name;
+  var md = pankoulist[i].id;
+menu.innerHTML+="<div  class=\"weui-actionsheet__cell\" id="+md+">"+name+"</div>";
+
+
+}
+
+//Innerhtml后,会把前一个onclik清空,原因不明
+for(var i in pankoulist){
+  var name = pankoulist[i].name;
+var item2 = document.getElementById(pankoulist[i].id);
+
+item2.onclick =function(){
+  storageSet(U_SCHEDULE_PANKOU_ID,this.id);
+   window.location = ('u_schedule_detail.html')
+}
+}
+
+
+
+    var $iosActionsheet = $('#iosActionsheet');
+        var $iosMask = $('#iosMask');
+
+        function hideActionSheet() {
+            $iosActionsheet.removeClass('weui-actionsheet_toggle');
+            $iosMask.fadeOut(200);
+        }
+        $iosMask.on('click', hideActionSheet);
+        $('#iosActionsheetCancel').on('click', hideActionSheet);
+        $("#showIOSActionSheet").on("click", function(){
+        });
+
+
+
+
+
+
+  $iosActionsheet.addClass('weui-actionsheet_toggle');
+  $iosMask.fadeIn(200);
+
+      }
+
+      );
+
+
 
 
 
 });
 
 
-function setTabText(){
-var d = document.getElementById('tab_1');//获取div的节点
-  d.innerHTML = TAB_1;
-var d2 = document.getElementById('tab_2');//获取div的节点
-  d2.innerHTML = TAB_2;
-}
 
 
-Date.prototype.Format = function(fmt)     
-{ //author: meizz  
-  var o = {     
-    "M+" : this.getMonth()+1,                 //月份  
-    "d+" : this.getDate(),                    //日  
-    "h+" : this.getHours(),                   //小时  
-    "m+" : this.getMinutes(),                 //分  
-    "s+" : this.getSeconds(),                 //秒  
-    "q+" : Math.floor((this.getMonth()+3)/3), //季度  
-    "S"  : this.getMilliseconds()             //毫秒  
-  };     
-  if(/(y+)/.test(fmt))     
-    fmt=fmt.replace(RegExp.$1, (this.getFullYear()+"").substr(4 - RegExp.$1.length));     
-  for(var k in o)     
-    if(new RegExp("("+ k +")").test(fmt))     
-  fmt = fmt.replace(RegExp.$1, (RegExp.$1.length==1) ? (o[k]) : (("00"+ o[k]).substr((""+ o[k]).length)));     
-  return fmt;     
-}; 
+

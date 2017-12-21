@@ -9,12 +9,15 @@
   <link rel="stylesheet" href="css/weui.css">
   <title>王者竞猜</title>
  <script id="group_tmpl" type="text/x-jquery-tmpl">  
-    <option  value=${id} >${name}</option>
+    <option  value=${id}  >${name}</option>
+</script>
+<script id="pankou_tmpl" type="text/x-jquery-tmpl">  
+    <option  value=${name} id=${id} >${name}</option>
 </script>
 <script id="tmpl_pankou" type="text/x-jquery-tmpl">  
-    <div class="weui-cell"  id=${name}>
+    <div class="weui-cell"  >
       <div class="weui-cell__bd" id="mcolume">
-        <p class="weui-uploader__title" id="IS_NAME">${name}</p>
+        <p class="weui-uploader__title" id="IS_NAME" value=${id}>${name}</p>
       </div>
 
       <p id="deletepankou" class="weui-btn weui-btn_mini weui-btn_warn"  >删除</p>
@@ -34,7 +37,10 @@
  $(document).ready(function(){  
      // storageSet(SCHEDULE_ADD_IS_ADD, false);
      //            storageSet(SCHEDULE_ID, id);
+pankoulist();
      teamGroupList();
+     
+      
 }); 
 </script> 
 </head>
@@ -66,7 +72,11 @@
                     <label class="weui-label">盘口</label>
                 </div>
                 <div class="weui-cell__bd">
-                    <input class="weui-input" placeholder="例如:前三,冠军"   id="pankou"/>
+                    <select class="weui-select" name="select1" id="pankou_tmpl_content">
+                       <!--  <option  value="1">微信号</option>
+                        <option   value="2">QQ号</option>
+                        <option value="3">Email</option> -->
+                    </select>
                 </div>
                 <div class="weui-cell__ft">
                     <button class="weui-btn weui-btn_plain-primary" onclick="addPankou()"> 添加盘口</button>
@@ -96,7 +106,6 @@
  <div id="content">
 </div>
               <button  id="commit" class="weui-btn weui-btn_primary" onclick="addSchedule()"> 添加比赛</button>
-           
 
   <div class="weui-tabbar">
     <a href="javascript:;" class="weui-tabbar__item weui-bar__item_on"> <span style="display: inline-block;position: relative;">

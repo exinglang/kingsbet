@@ -1,10 +1,6 @@
 package com.kingsbet.wzry.controller;
 
-import com.google.gson.Gson;
-import com.google.gson.GsonBuilder;
-import com.google.gson.JsonObject;
-import com.google.gson.internal.LinkedTreeMap;
-import com.google.gson.reflect.TypeToken;
+
 import com.kingsbet.wzry.Constants;
 import com.kingsbet.wzry.dao.ScheduleDao;
 import com.kingsbet.wzry.entity.*;
@@ -34,17 +30,18 @@ public class ScheduleController extends BaseController {
         Schedule schedule = jsonRoot.getReqsbody();
         try {
             dao.insertSchedule(schedule, Constants.SCHEDULE_STATUS_DAI_FA_BU);
-            dao.insertScheduleTeam(schedule.getId(), schedule.getTeamList());
-            List<String> intList = schedule.getPankou();
+            dao.insertScheduleTeam(schedule.getId(), schedule.getTeamIdList());
+            List<Integer> intList = schedule.getPankouIdList();
             ArrayList<Pankou> pankouList = new ArrayList<>();
             for (int i = 0; i < intList.size(); i++) {
                 Pankou pankou = new Pankou();
-                pankou.setName(intList.get(i) + "");
+//                pankou.setName(intList.get(i) + "");
                 pankou.setScheduleId(schedule.getId());
+                pankou.setType(intList.get(i));
                 pankouList.add(pankou);
             }
             dao.insertSchedulePankou(pankouList);
-            dao.insertSchedulePankouDetail(pankouList, schedule.getTeamList());
+            dao.insertSchedulePankouDetail(pankouList, schedule.getTeamIdList());
         } catch (Exception e) {
             e.printStackTrace();
             result.setRetcodeAndMsg(Constants.CODE_FAIL, Constants.MSG_FAIL_UNKNOW);
@@ -75,21 +72,13 @@ public class ScheduleController extends BaseController {
         ResponseJsonRoot result = new ResponseJsonRoot(jsonRoot.getName(), Constants.CODE_SUCCESS, "");
         MJsonParse parse = new MJsonParse(jsonRoot);
         try {
-            int scheduleId = parse.getInt("scheduleid");
+            int scheduleId = parse.getInt("id");
             List<Pankou> pankouList = dao.getSchedulePankou(scheduleId);
-            List<Team> teamList = dao.getScheduleTeam(Integer.valueOf(scheduleId));
-            ResponseSchedule responseSchedule = new ResponseSchedule();
-            responseSchedule.setPankoulist(pankouList);
-            responseSchedule.setTeamlist(teamList);
-
+            List<Team> teamList = dao.getScheduleTeam(scheduleId);
             Schedule schedule = dao.getSchedule(scheduleId);
-            responseSchedule.setScheduleid(schedule.getId() + "");
-            responseSchedule.setTime(schedule.getTime());
-            responseSchedule.setTitle1(schedule.getTitle1());
-            responseSchedule.setTitle2(schedule.getTitle2());
-            responseSchedule.setStatus(schedule.getStatus() + "");
-
-            result.setRepbody(responseSchedule);
+            schedule.setPankouList(pankouList);
+            schedule.setTeamList(teamList);
+            result.setRepbody(schedule);
 
         } catch (Exception e) {
             e.printStackTrace();
@@ -108,25 +97,24 @@ public class ScheduleController extends BaseController {
             MJsonParse parse = new MJsonParse(jsonRoot);
             int requestStatus=parse.getInt("status");
             List<Schedule> list=getNeedStatusList(requestStatus,parse);
-
+            //先把过期比赛设置为待结算
             for (Schedule schedule : list) {
-
                 long remaintime=Long.valueOf(schedule.getTime()) - System.currentTimeMillis();
-
-
                 //如果请求的是 "已发布",那判断当前时间是否超过设置的比赛时间,如果超过了,将比赛设置为"待结算"
                     if(remaintime<=0&&requestStatus==Constants.SCHEDULE_STATUS_YI_FA_BU){
-                        updateScheduleStatusFunction(schedule.getId(),Constants.SCHEDULE_STATUS_DAI_JIE_SUAN);
+                        updateScheduleStatusFunction(Integer.valueOf(schedule.getId()),Constants.SCHEDULE_STATUS_DAI_JIE_SUAN);
 //                        list.remove(schedule);
                     }
 
             }
+            //重新获取已发布的比赛
             list =getNeedStatusList(requestStatus,parse);
+            //计算剩余时间
             for (Schedule schedule : list) {
                 long remaintime=Long.valueOf(schedule.getTime()) - System.currentTimeMillis();
-
                 schedule.setRemainTime(String.valueOf(remaintime));
-
+                List<Pankou> pankouList = dao.getSchedulePankou(schedule.getId());
+                schedule.setPankouList(pankouList);
             }
 
             ResponseList typeAndList = new ResponseList();
@@ -206,5 +194,51 @@ public class ScheduleController extends BaseController {
     }
 
 
+    @RequestMapping("/getpankou")
+    @ResponseBody
+    public ResponseJsonRoot getPankou(@RequestBody RequestJsonRoot jsonRoot) {
+        ResponseJsonRoot result = new ResponseJsonRoot(jsonRoot.getName(), Constants.CODE_SUCCESS, "");
+        MJsonParse parse = new MJsonParse(jsonRoot);
+        try {
+            int pankouid=parse.getInt("id");
+            int scheduleId = dao.getScheduleIdFromPankouId(pankouid);
+//            List<Pankou> pankouList = dao.getSchedulePankou(scheduleId);
+            Schedule schedule = dao.getSchedule(scheduleId);
+            List<Team> teamList = dao.getPankouDetail(pankouid,123);
+             calPeiLv(teamList,pankouid);
+            schedule.setTeamList(teamList);
+            result.setRepbody(schedule);
+
+        } catch (Exception e) {
+            e.printStackTrace();
+            result.setRetcodeAndMsg(Constants.CODE_FAIL, Constants.MSG_FAIL_UNKNOW);
+        }
+        return result;
+    }
+        //从赌注金额 计算赔率
+    private void calPeiLv(List<Team> teamList,int pankouid) {
+        int pankoutype = dao.getPankouType(pankouid);
+        //不同的盘口有不同的赔率计算方法
+//        if (pankouname.contains("冠军")){
+//
+//
+//        }else {
+//            if(pankouname.contains("前五")){
+//
+//
+//            }else{
+//                if ( pankouname.contains("前十")){
+//
+//                }
+//
+//            }
+//
+//
+//        }
+        for(Team team:teamList){
+
+
+        }
+    }
 }
 

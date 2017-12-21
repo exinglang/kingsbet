@@ -1,11 +1,26 @@
 var base64;
 
 document.write("<script type='text/javascript' src='commonjs/httpclient.js'></script>");
-document.write("<script type='text/javascript' src='commonjs/weui.js'></script>");
+document.write("<script type='text/javascript' src='commonjs/weui.min.js'></script>");
 document.write("<script type='text/javascript' src='commonjs/zidingyi.js'></script>");
 document.write("<script type='text/javascript' src='js/public.js'></script>");
 $(function() {
+$('#content').delegate('#colume', 'click',
+    function() {
+     
+      var item = $.tmplItem(this);
+        // var obj = { name:'Jim' };
+        var data = item.data;
+        var id=data.id;
+        // var str1 = JSON.stringify(obj);
+        // var data=item.data;
+        // var save = JSON.parse(item.data);
+         storageSet(SCHEDULE_ADD_IS_ADD, false);
+                storageSet(SCHEDULE_ID, id);
+               
+        window.location=('schedule_add.html')
 
+      });
 　$('#content').delegate('#cancelschedule', 'click',
   function() {
      var item = $.tmplItem(this);
@@ -37,7 +52,8 @@ function cancelschedule(id) {
   var map = new Map();
   map.set('id', id);
 var json = getJsonFromMap(map, keyName);
-CompositeImpl.prototype.success = function(data) {
+  var successAction= function(data) {
+
  
                 weui.toast("已删除", {
       duration: 1000,
@@ -47,5 +63,5 @@ CompositeImpl.prototype.success = function(data) {
       }
     });
 }
-parVolleyJsonResult(json, new CompositeImpl())
+parVolleyJsonResult(json, successAction)
 }

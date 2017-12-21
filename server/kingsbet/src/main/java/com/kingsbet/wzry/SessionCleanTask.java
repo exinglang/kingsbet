@@ -12,7 +12,6 @@ import java.util.concurrent.ConcurrentMap;
 
 public class SessionCleanTask extends TimerTask {
     private final Log log = LogFactory.getLog(SessionCleanTask.class);
-
     @Override
     public void run() {
         log.info("清理session......");

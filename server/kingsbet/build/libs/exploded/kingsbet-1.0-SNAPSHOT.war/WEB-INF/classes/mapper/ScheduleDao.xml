@@ -31,11 +31,11 @@
 
     <insert id ="insertSchedulePankou" parameterType="java.util.List"  useGeneratedKeys="true" keyProperty="id">
 
-        insert ignore  into t_schedule_pankou (schedule_id,pankou_name)
+        insert ignore  into t_schedule_pankou (schedule_id,pankou_type_id)
         values
         <foreach collection ="list"  item="pankou" index= "index" separator =",">
             (
-            #{pankou.scheduleId}, #{pankou.name}
+            #{pankou.scheduleId}, #{pankou.type}
             )
         </foreach >
 
@@ -103,15 +103,16 @@
 
     <resultMap type="Pankou" id="map">
         <result column="id" property="id"/>
-        <result column="pankou_name" property="name"/>
+        <result column="name" property="name"/>
+        <result column="mtype" property="type"/>
     </resultMap>
     <select id="getSchedulePankou" resultMap="map">
-        SELECT
-        id,pankou_name
+       SELECT
+        b.id,b.name,b.mtype
         FROM
-        t_schedule_pankou
+        t_schedule_pankou as a ,t_pankou_type as b
 
-        where schedule_id=#{id}
+        where schedule_id=#{scheduleid} and a.pankou_type_id =b.id
 
     </select>
     <resultMap type="Team" id="map1">
@@ -137,6 +138,31 @@
         t_schedule
 
         where schedule_id=#{id}
+
+    </select>
+
+
+
+    <select id="getScheduleIdFromPankouId" resultType="int">
+        <!-- 具体的sql -->
+        SELECT  schedule_id FROM mydb.t_schedule_pankou where id=#{pankouid} ;
+
+    </select>
+
+    <select id="getPankouType" resultType="string">
+        <!-- 具体的sql -->
+        SELECT  b.mtype FROM t_schedule_pankou as a,t_pankou_type as b where  a.id=#{pankouid} and a.pankou_type_id = b.id
+    </select>
+    <resultMap type="Team" id="map2">
+        <result column="team_id" property="id"/>
+        <result column="bet_amount" property="betamount"/>
+        <result column="user_bet_amount" property="userbet"/>
+
+    </resultMap>
+    <select id="getPankouDetail" resultMap="map2">
+       SELECT b.team_id,b.name,a.bet_amount,c.user_bet_amount   FROM
+ t_schedule_pankou_detail AS a INNER JOIN  t_mteam AS b
+ON a.pankou_id=#{pankouId} and a.team_id =b.team_id left JOIN  t_user_bet_detail as c ON c.user_id=#{userId} and c.t_schedule_pankou_detail_id=a.id
 
     </select>
 
