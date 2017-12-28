@@ -66,13 +66,29 @@ function schedulelist(status) {
   map.set('status', status);
   map.set('pageIndex', 0);
   map.set('pageSize', 100);
-var json = getJsonFromMap(map, keyName);
- var successAction= function(data) {                $("#demo").tmpl(data.respbody.list).appendTo('#content');
-               
-}
-parVolleyJsonResult(json, successAction)
+  var json = getJsonFromMap(map, keyName);
+  var successAction = function(data) {
+
+    
+
+    $("#demo").tmpl(data.respbody.list, timerHelper).appendTo('#content');
+
+  }
+  parVolleyJsonResult(json, successAction)
 }
 
+  //时间计算方法 timllieanm TO XX天X小时X分钟后
+var timerHelper = {
+      time: function(remaintime) {
+        var rTimeFen = (Math.round((remaintime / (1000 * 60))) % 60) + 1;
+        var rTime = Math.abs(Math.round((remaintime / (1000 * 60 * 60 * 24))) % 30) + "天" + Math.abs(Math.round((remaintime / (1000 * 60 * 60))) % 24) + "小时" + Math.abs((Math.round((remaintime / (1000 * 60))) % 60) + 1) + "分钟";
+        if (rTimeFen >= 0) {
+          return rTime + "后";
+        } else {
+          return rTime + "前";
+        }
+      }
+    }
 
 
 

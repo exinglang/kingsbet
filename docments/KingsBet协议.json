@@ -438,6 +438,7 @@ request
 		//赛事名称
 		"title2": "A组 VS B组",
 		"status": "1",
+		"pankoutype": "1",//前几获胜
 		"time": "124590346523",
 		"teamlist": [{
 			"id": 1,

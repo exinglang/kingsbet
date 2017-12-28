@@ -206,7 +206,9 @@ public class ScheduleController extends BaseController {
             int scheduleId = dao.getScheduleIdFromPankouId(pankouid);
 //            List<Pankou> pankouList = dao.getSchedulePankou(scheduleId);
             Schedule schedule = dao.getSchedule(scheduleId);
-            List<Team> teamList = dao.getPankouDetail(pankouid, 123);
+            schedule.setTime("" + (Long.valueOf(schedule.getTime()) - System.currentTimeMillis()));
+            schedule.setPankoutype(dao.getPankouType(pankouid));
+            List<Team> teamList = dao.getPankouDetail(pankouid, Constants.USER_ID);
             calPeiLv(teamList, pankouid);
             schedule.setTeamList(teamList);
             result.setRepbody(schedule);
@@ -221,81 +223,44 @@ public class ScheduleController extends BaseController {
     //从赌注金额 计算赔率
     private void calPeiLv(List<Team> teamList, int pankouid) {
         int pankoutype = dao.getPankouType(pankouid);
-        double betamount=0;//此盘口投注总额
-        List<Integer> betlist= new ArrayList() ;
-        for(Team team:teamList){
+        double betamount = 0;//此盘口投注总额
+        List<Integer> betlist = new ArrayList();
+        for (Team team : teamList) {
             betlist.add(Integer.valueOf(team.getBetAmount()));
-            betamount=betamount+Integer.valueOf(team.getBetAmount());
+            betamount = betamount + Integer.valueOf(team.getBetAmount());
         }
         //要减去20%平台扣除的分成,剩下的是预测准确的用户分的总金额
 //        betamount=betamount*0.8;
-        Collections.sort(betlist,Collections.reverseOrder());
+        Collections.sort(betlist, Collections.reverseOrder());
         //取得胜利的前N个队伍的投注总额
-        int qianN=0;
+        int qianN = 0;
         //取得胜利的前N-1个队伍的投注总额
-        int qianNjian1=0;
-        for(int i=0;i<pankoutype;i++){
-            qianN=qianN+betlist.get(i);
+        int qianNjian1 = 0;
+        for (int i = 0; i < pankoutype; i++) {
+            qianN = qianN + betlist.get(i);
         }
-        qianNjian1=qianN-betlist.get(pankoutype-1);
+        qianNjian1 = qianN - betlist.get(pankoutype - 1);
         //计算最低赔率
-        for(Team team:teamList){
+        for (Team team : teamList) {
             double peilv;
-          int teambet = Integer.valueOf(team.getBetAmount());
-          //赔率= (输家的钱*80%(平台扣除))/所有队伍赢家的钱*特定队伍赢家的钱
-          if(teambet>=betlist.get(pankoutype-1)){
-              //投注的是前N名
-              peilv=(betamount-qianN)*0.8/qianN;
-          }else{
-            peilv=(betamount-qianNjian1-teambet)*0.8/(qianNjian1+teambet);
-          }
-          team.setPeilv(Util.changeDouble(String.valueOf(peilv),2));
-        }
-
-        int sdfsdf=0;
-//        //不同的盘口有不同的赔率计算方法
-//        switch (pankouid) {
-//            case 1:
-//
-//
-//
-//
-//                break;
-//            case 5:
-//
-//
-//
-//
-//                break;
-//            case 10:
-//                break;
-//            default:
-//                break;
-
+            int teambet = Integer.valueOf(team.getBetAmount());
+            //赔率= (输家的钱*80%(平台扣除))/所有队伍赢家的钱*选择队伍赢家的钱
+            if (teambet >= betlist.get(pankoutype - 1)) {
+                //投注的是前N名
+                peilv = (betamount - qianN) * 0.8 / qianN*0.8;
+            } else {
+                peilv = (betamount - qianNjian1 - teambet) * 0.8 / (qianNjian1 + teambet)*0.8;
+            }
+//            System.out.println("....."+peilv+".........");
+            if (qianN == 0) {
+                peilv = 0;
+            }
+            team.setPeilv(Util.changeDouble(String.valueOf(peilv), 2));
         }
 
 
-        //不同的盘口有不同的赔率计算方法
-//        if (pankouname.contains("冠军")){
-//
-//
-//        }else {
-//            if(pankouname.contains("前五")){
-//
-//
-//            }else{
-//                if ( pankouname.contains("前十")){
-//
-//                }
-//
-//            }
-//
-//
-//        }
-//        for (Team team : teamList) {
-//
-//
-//        }
     }
+
+}
 
 

@@ -39,6 +39,9 @@ public class Schedule implements Serializable {
     private  List<Pankou> pankouList;
     @SerializedName("remaintime")
     private String remainTime;
+    @SerializedName("pankoutype")
+    private int pankoutype;
+
 
     @SerializedName("pankouidlist")
 
@@ -125,5 +128,13 @@ public class Schedule implements Serializable {
 
     public void setTeamIdList(List<Integer> teamIdList) {
         this.teamIdList = teamIdList;
+    }
+
+    public int getPankoutype() {
+        return pankoutype;
+    }
+
+    public void setPankoutype(int pankoutype) {
+        this.pankoutype = pankoutype;
     }
 }

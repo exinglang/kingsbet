@@ -11,6 +11,8 @@
     <script src="js/schedule_yi_fa_bu.js">
     </script>
     <link rel="stylesheet" href="css/weui.min.css">
+        <link rel="stylesheet" href="css/u_schedule.css"> 
+
     <script type="text/javascript">
       $(document).ready(function() {
 
@@ -31,7 +33,7 @@ schedulelist(2);
       </div>
       <div class="weui-cell__ft" style="margin-right:10px">
       
-    ${Math.round((remaintime / (1000 * 60*60*24)))%30}    天${Math.round((remaintime / (1000 * 60*60)))%24}    小时 ${(Math.round((remaintime / (1000 * 60)))%60)+1}分钟后
+     ${$item.time(remaintime)}
         
       </div>
       <div class="weui-cell__ft">
@@ -62,7 +64,13 @@ schedulelist(2);
         已结束
       </div>
     </div>
-   
+
+   <p class="weui-tabbar__label">
+        .
+        </p>
+        <p class="weui-tabbar__label">
+        .
+        </p>
     <div id="content">
     </div>
     <div class="weui-tabbar">

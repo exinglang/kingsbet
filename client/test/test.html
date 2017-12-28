@@ -1,0 +1,124 @@
+<!DOCTYPE html>
+<html>
+
+<head>
+  <meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
+  <script src="https://cdn.bootcss.com/jquery/3.2.1/jquery.min.js"></script>
+  <script src="http://ajax.microsoft.com/ajax/jquery.templates/beta1/jquery.tmpl.min.js"></script>
+  <script src="js/test.js"></script>
+  <link rel="stylesheet" href="css/weui.css">
+  <title>王者竞猜</title>
+ <script id="group_tmpl" type="text/x-jquery-tmpl">  
+    <option  value=${id}  >${name}</option>
+</script>
+<script id="pankou_tmpl" type="text/x-jquery-tmpl">  
+    <option  value=${name} id=${id} >${name}</option>
+</script>
+<script id="tmpl_pankou" type="text/x-jquery-tmpl">  
+    <div class="weui-cell"  >
+      <div class="weui-cell__bd" id="mcolume">
+        <p class="weui-uploader__title" id="IS_NAME" value=${id}>${name}</p>
+      </div>
+
+      <p id="deletepankou" class="weui-btn weui-btn_mini weui-btn_warn"  >删除</p>
+    </div>
+</script>
+
+ <script id="demo" type="text/x-jquery-tmpl">  
+    <label  class="weui-grid" for=${id}>
+        <p   id="IS_ID">${id}</p>
+        <p class="weui-uploader__title">${name}</p>
+         <p id="deleteteam" class="weui-btn weui-btn_mini weui-btn_warn"  >删除</p>
+      </label>
+</script>
+
+ <script type="text/javascript"> 
+
+ $(document).ready(function(){  
+     // storageSet(SCHEDULE_ADD_IS_ADD, false);
+     //            storageSet(SCHEDULE_ID, id);
+// pankoulist();
+//      teamGroupList();
+     
+      
+}); 
+</script> 
+</head>
+<body>
+
+<style type="text/css">
+#sMessage {
+  display:none;
+  position:fixed;
+  top:0;
+  left:0;
+  z-index:2147483648;
+  width:100%;
+  height:100%;
+  min-height:'+$(window).height()+'px;
+  background:rgba(0,0,0,0.8);
+}
+#sMessageAlert,#sMessageConfirm,#sMessagePrompt {
+  display:none;
+  margin:2% auto 0 auto;
+  width:30%;
+  height:auto;
+  min-width:300px;
+  overflow:hidden;
+  min-height:60px;
+  border:1px solid #CCC;
+  text-align:center;
+  background:#fff;
+  border-radius:10px;
+  
+}
+#sMessage .sT {
+  width:100%;
+  height:30px;
+  line-height:30px;
+
+  font-weight:bold;
+  font-size:120%;
+}
+#sMessage .sS {
+  margin:20px;
+  background:#FFF;
+  word-break:break-all;
+  line-height:166%;
+}
+#sMessage .sS input.txt {
+  width:100%;
+}
+#sMessage .sC {
+  margin:10px;
+}
+#sMessage .sC span {
+  }#sMessage .sC span input {
+  }
+  </style>
+
+
+<div id="sMessage">
+    <div id="sMessagePrompt">
+        <div class="sT"></div>
+        <div class="sS">
+            <p></p>
+            <input class="txt" type="text" placeholder="请输入..." />
+        </div>
+        <div class="sC">
+            <span>
+                <input class="ok" type="button" value="提交" />
+                <input class="no" type="button" value="取消" />
+            </span>
+        </div>
+    </div>
+</div>
+
+
+ 
+              <button  id="commit" class="weui-btn weui-btn_primary" onclick="addSchedule()"> 添加比赛</button>
+
+ 
+</body>
+
+</html>

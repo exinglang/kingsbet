@@ -33,7 +33,11 @@ public class TeamController extends BaseController {
         Team entity = jsonRoot.getReqsbody();
         try {
             int sqlImgLength = dao.getSqlImgLength();
-            if (sqlImgLength < entity.getImg().length()) {
+            if (entity.getImg()==null) {
+                result.setRetcodeAndMsg(Constants.CODE_FAIL, "请选择图片");
+                return result;
+            }
+                if (sqlImgLength < entity.getImg().length()) {
                 result.setRetcodeAndMsg(Constants.CODE_FAIL, "图片过大,请上传较小图片");
                 return result;
             }
