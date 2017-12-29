@@ -33,17 +33,17 @@ public class ScheduleController extends BaseController {
         try {
             dao.insertSchedule(schedule, Constants.SCHEDULE_STATUS_DAI_FA_BU);
             dao.insertScheduleTeam(schedule.getId(), schedule.getTeamIdList());
-            List<Integer> intList = schedule.getPankouIdList();
-            ArrayList<Pankou> pankouList = new ArrayList<>();
-            for (int i = 0; i < intList.size(); i++) {
+            List<Integer> pankoutypeidlist = schedule.getPankoutypeidlist();
+            ArrayList<Pankou> pankouTypeList = new ArrayList<>();
+            for (int i = 0; i < pankoutypeidlist.size(); i++) {
                 Pankou pankou = new Pankou();
 //                pankou.setName(intList.get(i) + "");
-                pankou.setScheduleId(schedule.getId());
-                pankou.setType(intList.get(i));
-                pankouList.add(pankou);
+                pankou.setScheduleid(schedule.getId());
+                pankou.setPankoutypeid(pankoutypeidlist.get(i));
+                pankouTypeList.add(pankou);
             }
-            dao.insertSchedulePankou(pankouList);
-            dao.insertSchedulePankouDetail(pankouList, schedule.getTeamIdList());
+            dao.insertSchedulePankou(pankouTypeList);
+            dao.insertSchedulePankouDetail(pankouTypeList, schedule.getTeamIdList());
         } catch (Exception e) {
             e.printStackTrace();
             result.setRetcodeAndMsg(Constants.CODE_FAIL, Constants.MSG_FAIL_UNKNOW);
@@ -116,6 +116,11 @@ public class ScheduleController extends BaseController {
                 long remaintime = Long.valueOf(schedule.getTime()) - System.currentTimeMillis();
                 schedule.setRemainTime(String.valueOf(remaintime));
                 List<Pankou> pankouList = dao.getSchedulePankou(schedule.getId());
+//                "scheduleid": 0,
+//                        "status": 0,
+//                for(Pankou pankou:pankouList){
+//                    pankou.setRemainTime();
+//                }
                 schedule.setPankouList(pankouList);
             }
 
@@ -206,12 +211,17 @@ public class ScheduleController extends BaseController {
             int scheduleId = dao.getScheduleIdFromPankouId(pankouid);
 //            List<Pankou> pankouList = dao.getSchedulePankou(scheduleId);
             Schedule schedule = dao.getSchedule(scheduleId);
-            schedule.setTime("" + (Long.valueOf(schedule.getTime()) - System.currentTimeMillis()));
-            schedule.setPankoutype(dao.getPankouType(pankouid));
+            Pankou pankou = new Pankou();
+            pankou.setTime("" + (Long.valueOf(schedule.getTime()) - System.currentTimeMillis()));
+            PankouType pankouType= dao.getPankouType(pankouid);
+            pankou.setTitle1(schedule.getTitle1());
+            pankou.setTitle2(schedule.getTitle2());
+            pankou.setPankoutypetype(pankouType.getType());
+            pankou.setPankoutypename(pankouType.getName());
             List<Team> teamList = dao.getPankouDetail(pankouid, Constants.USER_ID);
             calPeiLv(teamList, pankouid);
-            schedule.setTeamList(teamList);
-            result.setRepbody(schedule);
+            pankou.setTeamList(teamList);
+            result.setRepbody(pankou);
 
         } catch (Exception e) {
             e.printStackTrace();
@@ -222,7 +232,7 @@ public class ScheduleController extends BaseController {
 
     //从赌注金额 计算赔率
     private void calPeiLv(List<Team> teamList, int pankouid) {
-        int pankoutype = dao.getPankouType(pankouid);
+        PankouType pankoutype = dao.getPankouType(pankouid);
         double betamount = 0;//此盘口投注总额
         List<Integer> betlist = new ArrayList();
         for (Team team : teamList) {
@@ -236,16 +246,16 @@ public class ScheduleController extends BaseController {
         int qianN = 0;
         //取得胜利的前N-1个队伍的投注总额
         int qianNjian1 = 0;
-        for (int i = 0; i < pankoutype; i++) {
+        for (int i = 0; i < pankoutype.getType(); i++) {
             qianN = qianN + betlist.get(i);
         }
-        qianNjian1 = qianN - betlist.get(pankoutype - 1);
+        qianNjian1 = qianN - betlist.get(pankoutype.getType() - 1);
         //计算最低赔率
         for (Team team : teamList) {
             double peilv;
             int teambet = Integer.valueOf(team.getBetAmount());
             //赔率= (输家的钱*80%(平台扣除))/所有队伍赢家的钱*选择队伍赢家的钱
-            if (teambet >= betlist.get(pankoutype - 1)) {
+            if (teambet >= betlist.get(pankoutype.getType() - 1)) {
                 //投注的是前N名
                 peilv = (betamount - qianN) * 0.8 / qianN*0.8;
             } else {

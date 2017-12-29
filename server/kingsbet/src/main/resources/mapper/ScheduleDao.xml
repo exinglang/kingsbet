@@ -35,7 +35,7 @@
         values
         <foreach collection ="list"  item="pankou" index= "index" separator =",">
             (
-            #{pankou.scheduleId}, #{pankou.type}
+            #{pankou.scheduleid}, #{pankou.pankoutypeid}
             )
         </foreach >
 
@@ -45,10 +45,10 @@
     <insert id ="insertSchedulePankouDetail" parameterType="java.util.List">
         insert ignore  into t_schedule_pankou_detail (schedule_id,pankou_id,team_id)
         values
-        <foreach collection ="pankouList"  item="pankou" index= "index" separator =",">
+        <foreach collection ="pankoulist"  item="pankou" index= "index" separator =",">
         <foreach collection ="teamIdList"  item="teamid" index= "index" separator =",">
             (
-            #{pankou.scheduleId},#{pankou.id}, #{teamid}
+            #{pankou.scheduleid},#{pankou.id}, #{teamid}
             )
         </foreach >
         </foreach >
@@ -102,10 +102,10 @@
 
 
     <resultMap type="Pankou" id="map">
-        <result column="id" property="id"/>
-        <result column="name" property="name"/>
-        <result column="mtype" property="type"/>
-        <result column="pankouid" property="pankouid"/>
+        <result column="id" property="pankoutypeid"/>
+        <result column="name" property="pankoutypename"/>
+        <result column="mtype" property="pankoutypetype"/>
+        <result column="pankouid" property="id"/>
 
     </resultMap>
     <select id="getSchedulePankou" resultMap="map">
@@ -151,17 +151,23 @@
 
     </select>
 
-    <select id="getPankouType" resultType="int">
+    <resultMap type="PankouType" id="map2">
+        <result column="id" property="id"/>
+        <result column="name" property="name"/>
+        <result column="mtype" property="type"/>
+
+    </resultMap>
+    <select id="getPankouType" resultMap="map2">
         <!-- 具体的sql -->
-        SELECT  b.mtype FROM t_schedule_pankou as a,t_pankou_type as b where  a.id=#{pankouid} and a.pankou_type_id = b.id
+        SELECT  b.* FROM t_schedule_pankou as a,t_pankou_type as b where  a.id=#{pankouid} and a.pankou_type_id = b.id
     </select>
-    <resultMap type="Team" id="map2">
+    <resultMap type="Team" id="map3">
         <result column="team_id" property="id"/>
         <result column="bet_amount" property="betamount"/>
         <result column="user_bet_amount" property="userbet"/>
 
     </resultMap>
-    <select id="getPankouDetail" resultMap="map2">
+    <select id="getPankouDetail" resultMap="map3">
        SELECT b.team_id,b.name,a.bet_amount,c.user_bet_amount   FROM
  t_schedule_pankou_detail AS a INNER JOIN  t_mteam AS b
 ON a.pankou_id=#{pankouId} and a.team_id =b.team_id left JOIN  t_user_bet_detail as c ON c.user_id=#{userId} and c.t_schedule_pankou_detail_id=a.id

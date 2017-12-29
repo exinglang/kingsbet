@@ -13,22 +13,75 @@
         WHERE
         user_id = #{id}
     </select>
+    <!--<insert id="register"  >-->
+        <!--insert-->
+        <!--into-->
+        <!--t_user(id,pwd,createtime)-->
+        <!--values-->
+        <!--(#{phone},#{pwd},#{time})-->
+
+    <!--</insert>-->
+
+
+
+
+    <select id="getUserIdByPhone" resultType="int">
+        <!-- 具体的sql -->
+        SELECT
+        id
+        FROM
+        t_user
+        WHERE
+        phone = #{phone}
+    </select>
+
+
+    <resultMap type="User" id="userInfo">
+        <result column="diamond" property="diamond"/>
+        <result column="balance" property="balance"/>
+    </resultMap>
+
+    <select id="userInfo" resultMap="userInfo">
+        <!-- 具体的sql -->
+        SELECT
+        diamond,balance
+        FROM
+        t_user
+        WHERE
+        id = #{userid}
+    </select>
+
     <insert id="register"  >
         insert
         into
-        t_user(user_id,pwd)
+        t_user(phone,pwd,createtime)
         values
-        (#{userId},#{pwd})
+        (#{phone},#{pwd},#{time})
 
     </insert>
 
-    <select id="checkUserId"  resultType="int"  >
+    <update id="charge"  >
+UPDATE  t_user  SET  diamond = diamond+#{amount} WHERE id=#{userid}
+
+
+
+    </update>
+
+    <update id="diamondtobalance"  >
+
+ UPDATE  t_user  SET  balance =balance+ diamond*100,diamond=0 WHERE id=#{userid}
+
+    </update>
+
+
+
+    <select id="checkPhone"  resultType="int"  >
         <!-- 具体的sql -->
         SELECT
         COUNT(*)
         FROM
         t_user
-        where  user_id=#{userId}
+        where  phone=#{phone}
     </select>
 
     <select id="checkPwd"  resultType="int"  >
@@ -37,7 +90,7 @@
         COUNT(*)
         FROM
         t_user
-        where  user_id=#{userId} and pwd=#{pwd}
+        where  phone=#{phone} and pwd=#{pwd}
     </select>
     <!--<select id="queryAll" resultType="Book">-->
     <!--SELECT-->

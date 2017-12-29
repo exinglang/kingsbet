@@ -35,18 +35,14 @@ public class Schedule implements Serializable {
 
     @SerializedName("teamlist")
     private List<Team> teamList;
-    @SerializedName("pankoulist")
-    private  List<Pankou> pankouList;
+//    @SerializedName("pankoulist")
+//    private  List<PankouType> pankouTypeList;
     @SerializedName("remaintime")
     private String remainTime;
-    @SerializedName("pankoutype")
-    private int pankoutype;
-
-
-    @SerializedName("pankouidlist")
-
-    private List<Integer>  pankouIdList;
-
+    @SerializedName("pankoulist")
+    List<Pankou> pankouList;
+    @SerializedName("pankoutypeidlist")
+    private List<Integer>  pankoutypeidlist;
     @SerializedName("teamidlist")
     private List<Integer> teamIdList;
 
@@ -98,13 +94,7 @@ public class Schedule implements Serializable {
         this.teamList = teamList;
     }
 
-    public List<Pankou> getPankouList() {
-        return pankouList;
-    }
 
-    public void setPankouList(List<Pankou> pankouList) {
-        this.pankouList = pankouList;
-    }
 
     public String getRemainTime() {
         return remainTime;
@@ -114,12 +104,12 @@ public class Schedule implements Serializable {
         this.remainTime = remainTime;
     }
 
-    public List<Integer> getPankouIdList() {
-        return pankouIdList;
+    public List<Integer> getPankoutypeidlist() {
+        return pankoutypeidlist;
     }
 
-    public void setPankouIdList(List<Integer> pankouIdList) {
-        this.pankouIdList = pankouIdList;
+    public void setPankoutypeidlist(List<Integer> pankoutypeidlist) {
+        this.pankoutypeidlist = pankoutypeidlist;
     }
 
     public List<Integer> getTeamIdList() {
@@ -130,11 +120,11 @@ public class Schedule implements Serializable {
         this.teamIdList = teamIdList;
     }
 
-    public int getPankoutype() {
-        return pankoutype;
+    public List<Pankou> getPankouList() {
+        return pankouList;
     }
 
-    public void setPankoutype(int pankoutype) {
-        this.pankoutype = pankoutype;
+    public void setPankouList(List<Pankou> pankouList) {
+        this.pankouList = pankouList;
     }
 }

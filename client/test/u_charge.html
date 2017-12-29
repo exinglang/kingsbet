@@ -8,11 +8,13 @@
   <link rel="stylesheet" href="css/u_schedule.css"> 
 
   <title>王者竞猜</title>
-  <script src="js/u_wode.js">
+  <script src="js/u_charge.js">
   </script>
   <script type="text/javascript">
     $(document).ready(function() {
      setTabText();
+          setUserInfo();
+setUserInfo();
    });
  </script>
 </head>
@@ -21,97 +23,129 @@
   <div class="page">
 
 
-<div class=weui-cells__title>个人信息</div>
+    <div class=weui-cells__title>个人信息</div>
     <div class="weui-cells">
       <label class="weui-cell" >
-         <div class=weui-cell__hd>
-          <img  id="img-change" class="wode_title_headimg">
-         </div>
-       <div class="weui-cell__bd" style="margin-left: 10px">
+       <div class=weui-cell__hd>
+        <img  id="img-change" class="wode_title_headimg">
+      </div>
+      <div class="weui-cell__bd" style="margin-left: 10px">
         <p  class="">不过如此云</p>
-<p  class="wode_title_id">Kings ID :  007</p>
-                     
- <div class="wode_title_row">
-     <p  class="wode_title_yue">余额:</p>  <img  id="img-cange" src="images/kzuan.jpg"  class="title_icon" />
-     <p  class="">${zuan}</p>
-     <img  id="img-cange" src="images/kbi.jpg"  class="title_icon" />
-     <p  class="">${bi}</p>
-   </div>
+        <p  class="wode_title_id">Kings ID :  007</p>
+
+        <div class="wode_title_row">
+         <p  class="wode_title_yue">余额:</p>  <img  id="img-cange" src="images/kzuan.jpg"  class="title_icon" />
+         <p  class="title_icon_name_black" id="diamond"></p>
+         <img  id="img-cange" src="images/kbi.jpg"  class="title_icon" />
+         <p  class="title_icon_name_black" id="balance"></p>
+       </div>
 
 
      </div>
-      <div class=weui-cell__ft>
-        <p id="charge" class="weui-mbtn    weui-btn_mini  commonyellow">K钻兑换K币</p>
-        </div>
-   </label>
-
- </div>
-
-
-
-
-   
-
-
- <div class=weui-cells__title>K钻充值   ( 1K钻 = 100K币 )</div>
- <div class="weui-cells weui-cells_radio">
-  <label class="weui-cell weui-check__label" for=r1>
-    <div class=weui-cell__bd>男</div>
-    <div class=weui-cell__ft>
-      <input required type=radio class=weui-check name=sex value=male id=r1 tips=请
-      择性别>
-      <span class=weui-icon-checked></span>
+     <div class=weui-cell__ft>
+      <p  class="weui-mbtn    weui-btn_mini  weui-btn_commonyellow" onclick="diamondtobalance()">K钻兑换K币</p>
     </div>
   </label>
-  <label class="weui-cell weui-check__label" for=r2>
-    <div class=weui-cell__bd>女</div>
-    <div class=weui-cell__ft>
-      <input type=radio name=sex class=weui-check value=female id=r2>
-      <span class=weui-icon-checked></span>
-    </div>
-  </label>
-</div>
-
-
-
-<div class="weui-grids">
-  <a href="addteam.html"  class="weui-grid">
-    <div class="weui-grid__icon">
-      <img src="./images/kzuan.jpg" alt="">
-    </div>
-    <p class="weui-grid__label" >竞猜记录</p>
-  </a>
-  <a href="zhan_dui_zu_guan_li.html" class="weui-grid">
-    <div class="weui-grid__icon">
-      <img src="./images/kzuan.jpg" alt="">
-    </div>
-    <p class="weui-grid__label">战队组管理</p>
-  </a>
-  <a href="add_pankou.html" class="weui-grid">
-    <div class="weui-grid__icon">
-      <img src="./images/kzuan.jpg" alt="">
-    </div>
-    <p class="weui-grid__label">添加盘口</p>
-  </a>
 
 </div>
 
 
 
-<div class="weui-tabbar" >
-  <a href="u_schedule.html" class="weui-tabbar__item">
-    <span style="display: inline-block;position: relative;">
-      <img src="./images/icon_nav_form.png" alt="" class="weui-tabbar__icon">
-    </span>
-    <p class="weui-tabbar__label_m" id="tab_1"> 
-    </p>
-  </a>
-  <a href="u_wode.html" class="weui-tabbar__item weui-bar__item_on">
-    <img src="./images/icon_nav_layout.png" alt="" class="weui-tabbar__icon">
-    <p class="weui-tabbar__label_m" id="tab_2">
-    </p>
-  </a>
+
+
+
+
+<div class=weui-cells__title>K钻充值   ( 1K钻 = 100K币 )</div>
+<div class="weui-cells">
+
+
+  <div class="weui-grids" style="padding: 20px" id="div_grids">
+    <a   class="weui-grid_charge" >
+      <div   class="weui-mbtn    weui-btn_mini  btn_charge weui-btn_chargeyellow flex_center" id="1" onclick="clickCharge($(this),10)">
+        <p class="charge_text_zuan">10 K钻</p>
+        <p class="charge_text_rmb">¥10.00</p>
+      </div>
+    </a>
+    <a   class="weui-grid_charge" >
+      <div   class="weui-mbtn    weui-btn_mini btn_charge weui-btn_chargegrey flex_center"  id="1" onclick="clickCharge($(this),20)">
+        <p class="charge_text_zuan">20 K钻</p>
+        <p class="charge_text_rmb">¥20.00</p>
+      </div>
+    </a>
+    <a   class="weui-grid_charge" >
+      <div   class="weui-mbtn    weui-btn_mini btn_charge weui-btn_chargegrey flex_center" id="1" onclick="clickCharge($(this),50)">
+        <p class="charge_text_zuan">50 K钻</p>
+        <p class="charge_text_rmb">¥50.00</p>
+      </div>
+    </a>
+    <a   class="weui-grid_charge" >
+      <div   class="weui-mbtn    weui-btn_mini btn_charge weui-btn_chargegrey flex_center" id="1" onclick="clickCharge($(this),100)">
+        <p class="charge_text_zuan">100 K钻</p>
+        <p class="charge_text_rmb">¥100.00</p>
+      </div>
+    </a>
+    <a   class="weui-grid_charge" >
+      <div   class="weui-mbtn    weui-btn_mini btn_charge weui-btn_chargegrey flex_center" id="1" onclick="clickCharge($(this),200)">
+        <p class="charge_text_zuan">200 K钻</p>
+        <p class="charge_text_rmb">¥200.00</p>
+      </div>
+    </a>
+    <a   class="weui-grid_charge" >
+      <div   class="weui-mbtn    weui-btn_mini btn_charge weui-btn_chargegrey flex_center" id="1" onclick="clickCharge($(this),500)">
+        <p class="charge_text_zuan">500 K钻</p>
+        <p class="charge_text_rmb">¥500.00</p>
+      </div>
+    </a>
+    <a   class="weui-grid_charge" >
+      <div   class="weui-mbtn    weui-btn_mini btn_charge weui-btn_chargegrey flex_center" id="1" onclick="clickCharge($(this),1000)">
+        <p class="charge_text_zuan">1000 K钻</p>
+        <p class="charge_text_rmb">¥1000.00</p>
+      </div>
+    </a>
+    <a   class="weui-grid_charge" >
+      <div   class="weui-mbtn    weui-btn_mini btn_charge weui-btn_chargegrey flex_center" id="1" onclick="clickCharge($(this),3000)">
+        <p class="charge_text_zuan">3000 K钻</p>
+        <p class="charge_text_rmb">¥3000.00</p>
+      </div>
+    </a>
+    <a   class="weui-grid_charge" >
+      <h1   class="weui-mbtn    weui-btn_mini btn_charge  flex_center weui-btn_commongrey"">
+        <p class="charge_text_zuan" >人工充值</p>
+        <p class="charge_text_rmb">QQ:267028846</p>
+      </h1>
+    </a>
+  </div>
+  <div class="shifujine">
+    <p style="margin-bottom:10px;margin-left: 40px;font-size: 14px ">实付金额:</p><p id="chongzhijine" style="font-size:20px;margin-bottom:10px;margin-left: 10px;color: var(--commonyello)">10</p>
+    <p style="font-size:14px;margin-bottom:10px;margin-left: 10px">元</p>
+  </div>
+
 </div>
+
+
+
+            <a class="weui-btn weui-btn_commonyellow"  style="margin: 4px;margin-top:15px"  onclick="charge()" id="showTooltips">微信充值</a>
+    </div>
+
+
+
+
+
+
+  <div class="weui-tabbar" >
+    <a href="u_schedule.html" class="weui-tabbar__item">
+      <span style="display: inline-block;position: relative;">
+        <img src="./images/icon_nav_form.png" alt="" class="weui-tabbar__icon">
+      </span>
+      <p class="weui-tabbar__label_m" id="tab_1"> 
+      </p>
+    </a>
+    <a href="u_wode.html" class="weui-tabbar__item weui-bar__item_on">
+      <img src="./images/icon_nav_layout.png" alt="" class="weui-tabbar__icon">
+      <p class="weui-tabbar__label_m" id="tab_2">
+      </p>
+    </a>
+  </div>
 </div>
 </body>
 

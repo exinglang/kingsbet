@@ -1,7 +1,7 @@
 //管理员登录
 //request
 {
-	"name": "login",
+	"name": "adminlogin",
 	"reqbody": {
 		"mobile": "13655555555",				//手机号
 		"pwd": "123456"							//传MD5(手机号+密码)加密后的字符串
@@ -10,14 +10,14 @@
 //response
 {
 
-	"name": "login",
+	"name": "adminlogin",
 	"retcode": 0,					//0表示成功，其他表示失败
 	"msg": ""
 }
 //管理员注册
 //request
 {
-	"name": "register",
+	"name": "adminregister",
 	"reqbody": {
 		"userid": "exinglang",					//注册账号
 		"pwd": "6512bd43d9caa6e02c990b0a82652dca",							//传MD5(手机号+密码)加密后的字符串 32位小写	
@@ -26,7 +26,7 @@
 //response
 {
 
-	"name": "register",
+	"name": "adminregister",
 	"retcode": 0,					//0表示成功，其他表示失败
 	"msg": ""
 }
@@ -78,24 +78,24 @@ request
 }
 //response
 {
-    "name": "teamlist",
-    "retcode": 0,
-    "msg": "",
-    "respbody": {
-        "type": "1",
-        "list": [
-            {
-                "id": 7,
-                "name": "LGD",
-                "img": "23DJDFUENOUNOE328598NJKLFJEIO"
-            },
-            {
-                "teamId": 7,
-                "teamName": "miracule",
-                "img": "23DJDFUENOUNOE328598NJKLFJEIO"
-            }
-        ]
-    }
+	"name": "teamlist",
+	"retcode": 0,
+	"msg": "",
+	"respbody": {
+		"type": "1",
+		"list": [
+			{
+				"id": 7,
+				"name": "LGD",
+				"img": "23DJDFUENOUNOE328598NJKLFJEIO"
+			},
+			{
+				"teamId": 7,
+				"teamName": "miracule",
+				"img": "23DJDFUENOUNOE328598NJKLFJEIO"
+			}
+		]
+	}
 }
 
 //添加战队组
@@ -120,7 +120,7 @@ request
 {
 	"name": "updateteamgroup",
 	"reqbody": {		
-	"id": "1",		
+		"id": "1",		
 		"name": "斗鱼黄金大奖赛E组",				//战队组名字
 		"session": "3634F440030595CC6B6B4F718BECA437"	
 	}
@@ -137,7 +137,7 @@ request
 {
 	"name": "deleteteamgroup",
 	"reqbody": {		
-	"teamgroupid": "1",		
+		"teamgroupid": "1",		
 		"session": "3634F440030595CC6B6B4F718BECA437"	
 	}
 }
@@ -155,17 +155,17 @@ request
 //request
 
 {
-    "name": "teamgroupaddteam",
-    "reqbody": {
-        "teamgroupid": "1",
-        "teamidlist": [
-            1,
-            2,
-            3,
-            4,
-            5
-        ]
-    }
+	"name": "teamgroupaddteam",
+	"reqbody": {
+		"teamgroupid": "1",
+		"teamidlist": [
+			1,
+			2,
+			3,
+			4,
+			5
+		]
+	}
 }
 //response
 {
@@ -186,24 +186,24 @@ request
 }
 //response
 {
-    "name": "groupteam",
-    "retcode": 0,
-    "msg": "",
-    "respbody": {
-       
-        "list": [
-            {
-                "id": 7,
-                "name": "LGD",
-                "img": "23DJDFUENOUNOE328598NJKLFJEIO"
-            },
-            {
-                "teamId": 7,
-                "teamName": "miracule",
-                "img": "23DJDFUENOUNOE328598NJKLFJEIO"
-            }
-        ]
-    }
+	"name": "groupteam",
+	"retcode": 0,
+	"msg": "",
+	"respbody": {
+
+		"list": [
+			{
+				"id": 7,
+				"name": "LGD",
+				"img": "23DJDFUENOUNOE328598NJKLFJEIO"
+			},
+			{
+				"teamId": 7,
+				"teamName": "miracule",
+				"img": "23DJDFUENOUNOE328598NJKLFJEIO"
+			}
+		]
+	}
 }
 //删除战队组下的战队
 //request
@@ -233,7 +233,7 @@ request
 		"title2":"Liquid",//具体盘口  "进入前五"	"第一"	
 		"teamidlist":[1,6,8],//战队ID
 		"time": "124590346523",
-		"pankouidlist": [1,2,3],
+		"pankoutypeidlist": [1,2,3],
 		// "time":"125239748992",
 		"session": "3634F440030595CC6B6B4F718BECA437"	
 	}
@@ -251,7 +251,7 @@ request
 {
 	"name": "updateschedule",
 	"reqbody": {
-	"id": "123",				
+		"id": "123",				
 		"title1": "LGD",				//赛事名称
 		"title2":"Liquid",//具体盘口  "进入前五"	"第一"	
 		"teamlist":[1,6,8],//战队ID
@@ -285,44 +285,50 @@ request
     "msg": "",
     "respbody": {
         "list": [
-            {		
-            	"id": "1",
-		"title1": "熊猫联赛",
-		"title2":"前五",	
-
-		"pankoulist": [{
-			"id": 1, //pankou type id
-			"name": "前三",
-			"type": "3",
-			"pankouid":1//pankou  id
-		},
-		{
-			"id": 2,
-			"name": "前十",
-			"type": "10",
-			"pankouid" : 2//pankou  id
-		}],
-
-			"remaintime":"123124"		//只在已发布有效,比赛剩余时间
-	},
-            {			
-            	"id": "2",
-		
-		"pankoulist": [{
-			"id": 1,
-			"name": "前三"
-		},
-		{
-			"id": 2,
-			"name": "前十"
-		},
-		{
-			"id": 3,
-			"name": "冠军"
-		}],
-
-		"remaintime":"123124"	
-	}
+            {
+                "id": "1",
+                "title1": "熊猫联赛",
+                "title2": "前五",
+                "pankoulist": [
+                    {
+                        "pankoutypeid": 1,
+                        "pankoutypename": "前三",
+                        "pankoutypetype": "3",
+                        "id": 1
+                    },
+                    {
+                       "pankoutypeid": 1,
+                        "pankoutypename": "前三",
+                        "pankoutypetype": "3",
+                        "id": 1
+                    }
+                ],
+                "remaintime": "123124"
+            },
+            {
+                "id": "2",
+                "pankoulist": [
+                    {
+                     "pankoutypeid": 1,
+                        "pankoutypename": "前三",
+                        "pankoutypetype": "3",
+                        "id": 1
+                    },
+                    {
+                     "pankoutypeid": 1,
+                        "pankoutypename": "前三",
+                        "pankoutypetype": "3",
+                        "id": 1
+                    },
+                    {
+                       "pankoutypeid": 1,
+                        "pankoutypename": "前三",
+                        "pankoutypetype": "3",
+                        "id": 1
+                    }
+                ],
+                "remaintime": "123124"
+            }
         ]
     }
 }
@@ -403,7 +409,7 @@ request
 {
 	"name": "updateschedulestatus",
 	"reqbody": {	
-	"id": "10",		
+		"id": "10",		
 		"status": "2"			//1.待发布 2已发布 3待结算 4已结算 5已取消
 	}
 }
@@ -439,6 +445,7 @@ request
 		"title2": "A组 VS B组",
 		"status": "1",
 		"pankoutype": "1",//前几获胜
+		"pankoutypename":"前五",
 		"time": "124590346523",
 		"teamlist": [{
 			"id": 1,
@@ -504,30 +511,30 @@ request
 {
 	"name": "pankoutypelist",
 	"reqbody": {			
-				
+
 		"session": "3634F440030595CC6B6B4F718BECA437"	
 	}
 }
 //response
 {
-    "name": "pankoutypelist",
-    "retcode": 0,
-    "msg": "",
-    "respbody": {
-        "type": "1",
-        "list": [
-            {
-                "id": 7,
-                "name": "前三",
-                "type": "3"
-            },
-            {
-                "id": 4,
-                "name": "冠军",
-                "type": "1"
-            }
-        ]
-    }
+	"name": "pankoutypelist",
+	"retcode": 0,
+	"msg": "",
+	"respbody": {
+		"type": "1",
+		"list": [
+			{
+				"id": 7,
+				"name": "前三",
+				"type": "3"
+			},
+			{
+				"id": 4,
+				"name": "冠军",
+				"type": "1"
+			}
+		]
+	}
 }
 //添加盘口
 //request
@@ -545,3 +552,102 @@ request
 	"retcode": 0,					//0表示成功，其他表示失败
 	"msg": ""
 }
+
+
+//获取用户信息
+//request
+{
+	"name": "userinfo",
+	"reqbody": {	
+		"userid":123,		
+		"session": "3634F440030595CC6B6B4F718BECA437"	
+	}
+}
+//response
+{
+
+	"name": "userinfo",
+	"retcode": 0,					//0表示成功，其他表示失败
+	"msg": "",
+	"respbody": {
+		"diamond":10,
+		"balance":1212
+	}
+}
+
+//用户的所有钻石兑换成金币
+//request
+{
+	"name": "diamondtobalance",
+	"reqbody": {
+		"userid":123,			
+		"session": "3634F440030595CC6B6B4F718BECA437"	
+	}
+}
+//response
+{
+
+	"name": "diamondtobalance",
+	"retcode": 0,					//0表示成功，其他表示失败
+	"msg": "",
+	"respbody": {
+		"diamond":0,
+		"balance":1212 //兑换后的金币余额
+	}
+}
+//用户充值
+//request
+{
+	"name": "charge",
+	"reqbody": {
+		"userid":123,
+		"amount":100,			
+		"session": "3634F440030595CC6B6B4F718BECA437"	
+	}
+}
+//response
+{
+
+	"name": "charge",
+	"retcode": 0,					//0表示成功，其他表示失败
+	"msg": "",
+	
+}
+
+//用户登录
+//request
+{
+	"name": "userlogin",
+	"reqbody": {
+		"phone": "13655555555",				//用户名
+		"pwd": "6512bd43d9caa6e02c990b0a82652dca"							//传MD5(手机号+密码)加密后的字符串
+	}
+}
+//response
+{
+
+	"name": "userlogin",
+	"retcode": 0,					//0表示成功，其他表示失败
+	"msg": "",
+	"reqbody": {
+		"userid":123,
+		"sessionStr": "3634F440030595CC6B6B4F718BECA437"	
+	}
+}
+//用户注册
+//request
+{
+	"name": "userregister",
+	"reqbody": {
+		"phone": "13655555555",				//手机号
+		"pwd": "6512bd43d9caa6e02c990b0a82652dca",							//传MD5(手机号+密码)加密后的字符串 32位小写	
+	}
+}
+//response
+{
+
+	"name": "userregister",
+	"retcode": 0,					//0表示成功，其他表示失败
+	"msg": ""
+}
+

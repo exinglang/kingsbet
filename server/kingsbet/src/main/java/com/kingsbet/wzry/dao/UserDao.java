@@ -17,8 +17,17 @@ public interface UserDao {
      */
     User queryById(int id);
     void insertById(long id);
-    void register(@Param("userId")String userId,@Param("pwd") String pwd);
-    int checkUserId(@Param("userId")String userId);
-    int checkPwd(@Param("userId")String userId,@Param("pwd") String pwd);
+    void register(@Param("phone")String phone,@Param("pwd") String pwd,@Param("time") String time);
+void charge(@Param("userid")int userid,@Param("amount")int amount);
+    void diamondtobalance(@Param("userid")int userid);
+
+
+
+    int checkPhone(@Param("phone")String phone);
+    int checkPwd(@Param("phone")String phone,@Param("pwd") String pwd);
     void adminLogin(String username,String pwdMd5);
+    int getUserIdByPhone(@Param("phone")String phone);
+    User userInfo(int userid);
+
+
 }

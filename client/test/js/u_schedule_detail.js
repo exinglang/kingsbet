@@ -77,7 +77,7 @@ function getpankou(pankouid) {
 	var successAction = function(data) {
 		var resp = data.respbody;
 		$('#title1').text(resp.title1);
-		$('#title2').text(resp.title2);
+		$('#title2').text(resp.title2+resp.pankoutypename);
 		$('#time').text(timerHelper.time(resp.time));
 
 		// .toJSONString();

@@ -1,6 +1,6 @@
 package com.kingsbet.wzry.dao;
 
-import com.kingsbet.wzry.entity.Pankou;
+import com.kingsbet.wzry.entity.PankouType;
 import com.kingsbet.wzry.entity.Team;
 import com.kingsbet.wzry.entity.TeamGroup;
 import org.apache.ibatis.annotations.Param;
@@ -38,7 +38,7 @@ public interface TeamDao {
 
     void insertPankou(@Param("name")String name,@Param("type") int type);
     void deletePankouType(@Param("id")int id);
-    List<Pankou>  getPankouTypeList();
+    List<PankouType>  getPankouTypeList();
 
 
 

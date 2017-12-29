@@ -7,38 +7,38 @@ document.write("<script type='text/javascript' src='js/public.js'></script>");
 $(function() {
 
 
-　$('#content').delegate('#delete', 'click',
-  function() {
-    var item = $.tmplItem(this);
-    weui.confirm("确定删除 " + item.data.name + " 吗?  ",
+  　$('#content').delegate('#delete', 'click',
     function() {
-      deleteTeam(item.data.id);
-      dow.location = ('zhwinan_dui_zu_edit.html')
+      var item = $.tmplItem(this);
+      weui.confirm("确定删除 " + item.data.name + " 吗?  ",
+        function() {
+          deleteTeam(item.data.id);
+          dow.location = ('zhwinan_dui_zu_edit.html')
+        });
     });
-  });
 
-　$('#content').delegate('#deleteschedule', 'click',
-  function() {
+  　$('#content').delegate('#deleteschedule', 'click',
+    function() {
      var item = $.tmplItem(this);
-   weui.dialog({
+     weui.dialog({
 
-    content: '确定删除'+item.data.title1+item.data.title2+"?",
-    buttons: [{
+      content: '确定删除'+item.data.title1+item.data.title2+"?",
+      buttons: [{
         label: '取消',
         type: 'default'
-       
-    }, {
+        
+      }, {
         label: '确定',
         type: 'primary',
         onClick: function () { 
-            deleteschedule(item.data.id);
-         }
-    }]
-});
-  });
+          deleteschedule(item.data.id);
+        }
+      }]
+    });
+   });
 
 
-$('#content').delegate('#colume', 'click',
+  $('#content').delegate('#colume', 'click',
     function() {
       var item = $.tmplItem(this);
         // var obj = { name:'Jim' };
@@ -47,67 +47,67 @@ $('#content').delegate('#colume', 'click',
         // var str1 = JSON.stringify(obj);
         // var data=item.data;
         // var save = JSON.parse(item.data);
-         storageSet(SCHEDULE_ADD_IS_ADD, false);
-                storageSet(SCHEDULE_ID, id);
-               
+        storageSet(SCHEDULE_ADD_IS_ADD, false);
+        storageSet(SCHEDULE_ID, id);
+        
         window.location=('schedule_add.html')
 
       });
   
 
-$('#content').delegate('#pushschedule', 'click',
-  function() {
+  $('#content').delegate('#pushschedule', 'click',
+    function() {
      var item = $.tmplItem(this);
-   weui.dialog({
+     weui.dialog({
 
-    content: '确定发布'+item.data.title1+item.data.title2+"?",
-    buttons: [{
+      content: '确定发布'+item.data.title1+item.data.title2+"?",
+      buttons: [{
         label: '取消',
         type: 'default'
-       
-    }, {
+        
+      }, {
         label: '确定',
         type: 'primary',
         onClick: function () { 
-            updateScheduleStatus(item.data.id,2);
-         }
-    }]
-});
-  });
+          updateScheduleStatus(item.data.id,2);
+        }
+      }]
+    });
+   });
   $('#content_pankou').delegate('#deletepankou', 'click',
-  function() {
+    function() {
 
-    var item = $.tmplItem(this);
-    var sss = this.parentElement.parentElement;
+      var item = $.tmplItem(this);
+      var sss = this.parentElement.parentElement;
     sss.removeChild(this.parentElement); // 拼接 id   
   });
 
-$('#content').delegate('#deleteteam', 'click',
-  function() {
+  $('#content').delegate('#deleteteam', 'click',
+    function() {
 
-    var item = $.tmplItem(this);
-    var sss = this.parentElement.parentElement;
+      var item = $.tmplItem(this);
+      var sss = this.parentElement.parentElement;
     sss.removeChild(this.parentElement); // 拼接 id   
   });
 
 
   $("#add_schedule").click(function() {
-     storageSet(SCHEDULE_ADD_IS_ADD, true);
-    window.location = ('schedule_add.html')
-  })
+   storageSet(SCHEDULE_ADD_IS_ADD, true);
+   window.location = ('schedule_add.html')
+ })
 
 
 
 });
 function isAdd(){
-var isAdd=storageGet(SCHEDULE_ADD_IS_ADD);
+  var isAdd=storageGet(SCHEDULE_ADD_IS_ADD);
   if(isAdd=="false"){
     return false;
 
   }else{
     //新建
     return true;
-   
+    
   }
 }
 
@@ -131,12 +131,7 @@ function teamGroupList() {
 function pankoulist() {
   var ss=1;
   var childFun = function(data) {
-   
-        $("#pankou_tmpl").tmpl(data.respbody.list).appendTo('#pankou_tmpl_content');
-        // window.location 
-      
-    
-
+    $("#pankou_tmpl").tmpl(data.respbody.list).appendTo('#pankou_tmpl_content');
   }
   parentPankoulist(childFun);
 }
@@ -147,22 +142,22 @@ function pankoulist() {
 function getschedule(id) {
   var keyName = "getschedule";
   var map = new Map();
-   map.set('id', id);
-var json = getJsonFromMap(map, keyName);
-var successAction= function(data) {
- var resp=data.respbody;
-              $('#title1').val(resp.title1);
-$('#title2').val(resp.title2 );
-var time =new Date(parseInt(resp.time)).Format("yyyy-MM-ddThh:mm:ss")
-$('#time').val(time);
+  map.set('id', id);
+  var json = getJsonFromMap(map, keyName);
+  var successAction= function(data) {
+   var resp=data.respbody;
+   $('#title1').val(resp.title1);
+   $('#title2').val(resp.title2 );
+   var time =new Date(parseInt(resp.time)).Format("yyyy-MM-ddThh:mm:ss")
+   $('#time').val(time);
 
-$("#tmpl_pankou").tmpl(resp.pankoulist).appendTo('#content_pankou');
-  $("#demo").tmpl(resp.teamlist).appendTo('#content'); 
+   $("#tmpl_pankou").tmpl(resp.pankoulist).appendTo('#content_pankou');
+   $("#demo").tmpl(resp.teamlist).appendTo('#content'); 
 
 
 
-}
-parVolleyJsonResult(json, successAction)
+ }
+ parVolleyJsonResult(json, successAction)
 }
 
 function groupTeamListSetGroupId() {
@@ -180,8 +175,6 @@ function addPankou() {
   }
   json.push(row1);
   $("#tmpl_pankou").tmpl(json).appendTo('#content_pankou');
-
-  // $("#pankou").val("");
 }
 
 
@@ -190,33 +183,33 @@ function deleteschedule(id) {
   var keyName = "deleteschedule";
   var map = new Map();
   map.set('id', id);
-var json = getJsonFromMap(map, keyName);
-var successAction= function(data) {
- 
-                weui.toast("已删除", {
+  var json = getJsonFromMap(map, keyName);
+  var successAction= function(data) {
+   
+    weui.toast("已删除", {
       duration: 1000,
       callback: function() {
        location.reload();
        // window.location 
-      }
-    });
-}
-parVolleyJsonResult(json,successAction)
+     }
+   });
+  }
+  parVolleyJsonResult(json,successAction)
 }
 
 
 
 function addSchedule() {
-var keyName;
-var map = new Map();
+  var keyName;
+  var map = new Map();
   if(isAdd()==true){
 
 
-  keyName = "addschedule";
-}else{
-map.set('id',  storageGet(SCHEDULE_ID));
- keyName="updateschedule";
-}
+    keyName = "addschedule";
+  }else{
+    map.set('id',  storageGet(SCHEDULE_ID));
+    keyName="updateschedule";
+  }
   // "title1": "LGD",        //赛事名称
   //   "title2":"Liquid",//具体盘口  "进入前五"  "第一"  
   //   "teamlist":[1,6,8],//战队ID
@@ -241,7 +234,7 @@ map.set('id',  storageGet(SCHEDULE_ID));
     }
 
   });
-  map.set('pankouidlist', pankouIdList);
+  map.set('pankoutypeidlist', pankouIdList);
 
   var teamIdList = new Array();
   $("#content p").each(function() {

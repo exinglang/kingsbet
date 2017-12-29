@@ -1,5 +1,7 @@
 package com.kingsbet.wzry.entity;
 
+import com.google.gson.annotations.SerializedName;
+
 import java.io.Serializable;
 import java.util.Date;
 
@@ -8,18 +10,47 @@ public class User implements Serializable {
      * @author zjn
      */
     private static final long serialVersionUID = 1L;
-    private String userId; // id
-    private String strnickname; // name
+    @SerializedName("userid")
+    private int userid; // id
+    @SerializedName("nickname")
+    private String nickname; // name
+    @SerializedName("unionid")
+    private String unionid; // unionid
+    @SerializedName("pwd")
     private String pwd; // pwd
-    private Integer ageM; // age
-    private Date creatTime; // creatTime
+    @SerializedName("creattime")
+    private String creattime; // creatTime
+    @SerializedName("phone")
+    private String phone; // creatTime
 
-    public String getUserId() {
-        return userId;
+    @SerializedName("diamond")
+    private int diamond; // diamond
+
+    @SerializedName("balance")
+    private int balance; // balance
+
+    public int getDiamond() {
+        return diamond;
     }
 
-    public void setUserId(String userId) {
-        this.userId = userId;
+    public void setDiamond(int diamond) {
+        this.diamond = diamond;
+    }
+
+    public int getBalance() {
+        return balance;
+    }
+
+    public void setBalance(int balance) {
+        this.balance = balance;
+    }
+
+    public int getUserid() {
+        return userid;
+    }
+
+    public void setUserid(int userid) {
+        this.userid = userid;
     }
 
     public String getPwd() {
@@ -30,21 +61,39 @@ public class User implements Serializable {
         this.pwd = pwd;
     }
 
-    public Integer getAge() {
-        return ageM;
+    public static long getSerialVersionUID() {
+        return serialVersionUID;
     }
 
-    public void setAge(Integer age) {
-        this.ageM = age;
+    public String getNickname() {
+        return nickname;
     }
 
-    public Date getCreatTime() {
-        return creatTime;
+    public void setNickname(String nickname) {
+        this.nickname = nickname;
     }
 
-    public void setCreatTime(Date creatTime) {
-        this.creatTime = creatTime;
+    public String getCreattime() {
+        return creattime;
     }
 
+    public void setCreattime(String creattime) {
+        this.creattime = creattime;
+    }
 
+    public String getPhone() {
+        return phone;
+    }
+
+    public void setPhone(String phone) {
+        this.phone = phone;
+    }
+
+    public String getUnionid() {
+        return unionid;
+    }
+
+    public void setUnionid(String unionid) {
+        this.unionid = unionid;
+    }
 }

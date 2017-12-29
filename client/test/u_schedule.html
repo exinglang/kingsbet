@@ -1,63 +1,63 @@
 <!DOCTYPE html>
 <html>
-  <head>
-        <link rel=stylesheet href=https://res.wx.qq.com/open/libs/weui/1.1.2/weui.min.css>
+<head>
+  <link rel=stylesheet href=https://res.wx.qq.com/open/libs/weui/1.1.2/weui.min.css>
 
-    <meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
-    <script src="https://cdn.bootcss.com/jquery/3.2.1/jquery.min.js">
-    </script>
-    <script src="http://ajax.microsoft.com/ajax/jquery.templates/beta1/jquery.tmpl.min.js">
-    </script>
-    <link rel="stylesheet" href="css/u_schedule.css"> 
-     <script src="js/u_schedule.js">
-    </script>
-    <link rel="stylesheet" href="css/weui.min.css">
-    <script type="text/javascript">
-      $(document).ready(function() {
-         setTabText();
-schedulelist(5);
-      });
-    </script>
-      <script id="demo" type="text/x-jquery-tmpl">  
-    <div class="weui-cell commonblue"  id="colume">
-      <div class="weui-cell__bd" >
-        <p class="weui-msg__title grey"  >
-           ${title1}
-        </p>
-        <p class="white">
-          ${title2}
-        </p>
-      </div>
-      <div class="weui-cell__ft" style="margin-right:10px;font-size:13px">
-<!-- {{if status==2}} -->
-  ${$item.time(remaintime)}
-             
+  <meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
+  <script src="https://cdn.bootcss.com/jquery/3.2.1/jquery.min.js">
+  </script>
+  <script src="http://ajax.microsoft.com/ajax/jquery.templates/beta1/jquery.tmpl.min.js">
+  </script>
+  <link rel="stylesheet" href="css/u_schedule.css"> 
+  <script src="js/u_schedule.js">
+  </script>
+  <link rel="stylesheet" href="css/weui.min.css">
+  <script type="text/javascript">
+    $(document).ready(function() {
+     setTabText();
+     schedulelist(5);
+   });
+ </script>
+ <script id="demo" type="text/x-jquery-tmpl">  
+  <div class="weui-cell commonblue"  id="colume">
+    <div class="weui-cell__bd" >
+      <p class="weui-msg__title grey"  >
+       ${title1}
+     </p>
+     <p class="white">
+      ${title2}
+    </p>
+  </div>
+  <div class="weui-cell__ft" style="margin-right:10px;font-size:13px">
+    <!-- {{if status==2}} -->
+    ${$item.time(remaintime)}
+    
        <!--  {{else}}
              ${$item.time(remaintime,2)}
-        {{/if}} -->
-      </div>
-      <div class="weui-cell__ft">
-{{if status==2}}
+             {{/if}} -->
+           </div>
+           <div class="weui-cell__ft">
+            {{if status==2}}
             <p id="cancelschedule" class="status_ing">
-         竞猜中
-        </p>
-        {{else status==3}}
-            <p id="cancelschedule" class="status" >
-         结算中
-        </p>
-        {{else status==4}}
+             竞猜中
+           </p>
+           {{else status==3}}
            <p id="cancelschedule" class="status" >
-         已结束
-        </p>
-        {{/if}}
+             结算中
+           </p>
+           {{else status==4}}
+           <p id="cancelschedule" class="status" >
+             已结束
+           </p>
+           {{/if}}
 
-      </div>
-    </div>
+         </div>
+       </div>
      </script>
 
 
 
-    <title>
+     <title>
       王者竞猜
     </title>
   </head>
@@ -67,19 +67,19 @@ schedulelist(5);
     <div id="content">
     </div>
 
- <div>
-        <div class="weui-mask" id="iosMask" style="display: none"></div>
-        <div class="weui-actionsheet" id="iosActionsheet">
-            <div class="weui-actionsheet__title">
-                <p class="weui-actionsheet__title-text">请选择具体比赛项目</p>
-            </div>
-            <div class="weui-actionsheet__menu" id="actionsheet_menu">
-                
-            </div>
-            <div class="weui-actionsheet__action">
-                <div class="weui-actionsheet__cell" id="iosActionsheetCancel">取消</div>
-            </div>
+    <div>
+      <div class="weui-mask" id="iosMask" style="display: none"></div>
+      <div class="weui-actionsheet" id="iosActionsheet">
+        <div class="weui-actionsheet__title">
+          <p class="weui-actionsheet__title-text">请选择具体比赛项目</p>
         </div>
+        <div class="weui-actionsheet__menu" id="actionsheet_menu">
+          
+        </div>
+        <div class="weui-actionsheet__action">
+          <div class="weui-actionsheet__cell" id="iosActionsheetCancel">取消</div>
+        </div>
+      </div>
     </div>
 
 
@@ -100,4 +100,4 @@ schedulelist(5);
     </div>
   </body>
 
-</html>
+  </html>

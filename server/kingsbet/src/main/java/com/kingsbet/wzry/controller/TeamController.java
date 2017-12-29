@@ -258,9 +258,9 @@ public class TeamController extends BaseController {
 
     @RequestMapping("/addpankoutype")
     @ResponseBody
-    public ResponseJsonRoot addpankou(@RequestBody RequestJsonRoot<Pankou> jsonRoot) {
+    public ResponseJsonRoot addpankou(@RequestBody RequestJsonRoot<PankouType> jsonRoot) {
         ResponseJsonRoot result = new ResponseJsonRoot(jsonRoot.getName(), Constants.CODE_SUCCESS, "");
-        Pankou entity = jsonRoot.getReqsbody();
+        PankouType entity = jsonRoot.getReqsbody();
         try {
 
             dao.insertPankou(entity.getName(),entity.getType());
@@ -293,7 +293,7 @@ public class TeamController extends BaseController {
 //        TeamList entity = jsonRoot.getReqsbody();
         try {
             //需先转为LImit
-            List<Pankou> list = dao.getPankouTypeList();
+            List<PankouType> list = dao.getPankouTypeList();
 
             ResponseList typeAndList = new ResponseList();
             typeAndList.setList(list);
