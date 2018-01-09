@@ -139,13 +139,24 @@ function pankoulist() {
 
 
 
+// function getschedule(id) {
+//   var keyName = "getschedule";
+//   var map = new Map();
+//   map.set('id', id);
+//   var json = getJsonFromMap(map, keyName);
+//   var successAction= function(data) {
+  
+
+
+
+//  }
+//  parVolleyJsonResult(json, successAction)
+// }
+
+
 function getschedule(id) {
-  var keyName = "getschedule";
-  var map = new Map();
-  map.set('id', id);
-  var json = getJsonFromMap(map, keyName);
-  var successAction= function(data) {
-   var resp=data.respbody;
+  var mFun = function(data) {
+    var resp=data.respbody;
    $('#title1').val(resp.title1);
    $('#title2').val(resp.title2 );
    var time =new Date(parseInt(resp.time)).Format("yyyy-MM-ddThh:mm:ss")
@@ -153,12 +164,12 @@ function getschedule(id) {
 
    $("#tmpl_pankou").tmpl(resp.pankoulist).appendTo('#content_pankou');
    $("#demo").tmpl(resp.teamlist).appendTo('#content'); 
-
-
-
- }
- parVolleyJsonResult(json, successAction)
+  }
+  mGetschedule(id,mFun);
 }
+
+
+
 
 function groupTeamListSetGroupId() {
   // storageSet(TEAM_GROUP_ID, 2);
@@ -170,7 +181,7 @@ function addPankou() {
   var json = [];
   var s = $('#pankou_tmpl_content option:selected')
   var row1 = {
-    name:s.val(),id: s.attr("id")
+    pankoutypename:s.val(),pankoutypeid: s.attr("id")
 
   }
   json.push(row1);

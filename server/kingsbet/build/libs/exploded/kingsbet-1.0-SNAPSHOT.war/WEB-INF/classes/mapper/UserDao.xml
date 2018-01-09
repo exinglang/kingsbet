@@ -14,15 +14,13 @@
         user_id = #{id}
     </select>
     <!--<insert id="register"  >-->
-        <!--insert-->
-        <!--into-->
-        <!--t_user(id,pwd,createtime)-->
-        <!--values-->
-        <!--(#{phone},#{pwd},#{time})-->
+    <!--insert-->
+    <!--into-->
+    <!--t_user(id,pwd,createtime)-->
+    <!--values-->
+    <!--(#{phone},#{pwd},#{time})-->
 
     <!--</insert>-->
-
-
 
 
     <select id="getUserIdByPhone" resultType="int">
@@ -51,7 +49,7 @@
         id = #{userid}
     </select>
 
-    <insert id="register"  >
+    <insert id="register">
         insert
         into
         t_user(phone,pwd,createtime)
@@ -60,37 +58,64 @@
 
     </insert>
 
-    <update id="charge"  >
+    <update id="charge">
 UPDATE  t_user  SET  diamond = diamond+#{amount} WHERE id=#{userid}
 
 
 
     </update>
 
-    <update id="diamondtobalance"  >
+    <update id="diamondtobalance">
 
  UPDATE  t_user  SET  balance =balance+ diamond*100,diamond=0 WHERE id=#{userid}
 
     </update>
+    <select id="getdiamond" resultType="int">
 
+        SELECT  diamond from t_user  WHERE id=#{userid}
 
-
-    <select id="checkPhone"  resultType="int"  >
-        <!-- 具体的sql -->
-        SELECT
-        COUNT(*)
-        FROM
-        t_user
-        where  phone=#{phone}
     </select>
 
-    <select id="checkPwd"  resultType="int"  >
+
+    <select id="checkPhone" resultType="int">
         <!-- 具体的sql -->
         SELECT
         COUNT(*)
         FROM
         t_user
-        where  phone=#{phone} and pwd=#{pwd}
+        where phone=#{phone}
+    </select>
+
+    <select id="checkPwd" resultType="int">
+        <!-- 具体的sql -->
+        SELECT
+        COUNT(*)
+        FROM
+        t_user
+        where phone=#{phone} and pwd=#{pwd}
+    </select>
+
+
+
+
+
+    <resultMap type="OrderHistory" id="map4">
+        <result column="status" property="status"/>
+        <result column="time" property="time"/>
+        <result column="title_1" property="title1"/>
+        <result column="title_2" property="title2"/>
+        <result column="pankouname" property="pankouname"/>
+        <result column="teamname" property="teamname"/>
+        <result column="user_bet_amount" property="bet"/>
+        <result column="user_bet_earn" property="betwin"/>
+    </resultMap>
+
+    <select id="orderhistory" resultMap="map4">
+     SELECT    c.title_1,c.title_2,c.status,c.time  ,e.name as pankouname ,f.name as teamname ,a.user_bet_amount,a.user_bet_earn FROM
+        t_user_bet_detail AS a  JOIN  t_schedule_pankou_detail AS b
+        ON  a.user_id =#{userid} and  a.t_schedule_pankou_detail_id=b.id  join t_schedule as c on b.schedule_id=c.schedule_id
+         join t_schedule_pankou as d  on  b.pankou_id=d.id join t_pankou_type as e  on d.pankou_type_id = e.id join t_mteam as f on b.team_id=f.team_id
+       order by  time desc limit #{pageindex},#{pagesize}
     </select>
     <!--<select id="queryAll" resultType="Book">-->
     <!--SELECT-->

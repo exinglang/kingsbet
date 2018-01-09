@@ -22,6 +22,17 @@ public class Team implements Serializable {
 
     private transient String betamount;
 
+    @SerializedName("rank")
+    private String rank; // id
+
+    public String getRank() {
+        return rank;
+    }
+
+    public void setRank(String rank) {
+        this.rank = rank;
+    }
+
     public String getBetAmount() {
         return betamount;
     }

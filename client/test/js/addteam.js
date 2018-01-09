@@ -181,6 +181,7 @@ function deleteTeamGroup(id) {
 //     "name":"LGD",//战队名字
 //     "pageIndex" : 0 , //当前页码
 //     "pageSize" : 2    //每页条数
+
 function teamList() {
   var json = getTeamList("", 0);
  var successAction= function(data) {

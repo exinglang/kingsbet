@@ -61,7 +61,7 @@ function diamondtobalance(){
 	var json = getJsonFromMap(map, keyName);
 	var successAction= function(data) {
 		
-
+weui.toast("兑换成功");
 		requestUserInfo();
 	}
 	parVolleyJsonResult(json,successAction);

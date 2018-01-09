@@ -20,6 +20,15 @@ public interface ScheduleDao {
 
 
     int insertSchedule(@Param("schedule") Schedule entity,  @Param("status")int status);
+
+    void updatePankouDetailAndUser(@Param("pankoudetailid") int pankoudetailid,  @Param("userid") int userid,@Param("amount") int amount);
+
+    void insertUserBetDetail(@Param("pankoudetailid") int pankoudetailid,  @Param("userid") int userid,@Param("amount") int amount);
+
+    void updateUserBetDetail(@Param("pankoudetailid") int pankoudetailid,  @Param("userid") int userid,@Param("amount") int amount);
+
+    int checkUserHasBet(@Param("userid")int userid,@Param("pankoudetailid")int pankoudetailid);
+
     int updateSchedule(@Param("schedule") Schedule entity);
 
     List<Schedule> getScheduleList(@Param("status")int status,@Param("pageindex")int pageindex,@Param("pagesize")int pagesize);
@@ -43,4 +52,5 @@ public interface ScheduleDao {
     PankouType getPankouType(@Param("pankouid") int pankouid);
 
 
+    int getPankouDetailId(@Param("pankouid")int pankouid,@Param("teamid") int teamid);
 }

@@ -31,9 +31,14 @@ public class ScheduleController extends BaseController {
         ResponseJsonRoot result = new ResponseJsonRoot(jsonRoot.getName(), Constants.CODE_SUCCESS, "");
         Schedule schedule = jsonRoot.getReqsbody();
         try {
+
+
+
+
             dao.insertSchedule(schedule, Constants.SCHEDULE_STATUS_DAI_FA_BU);
             dao.insertScheduleTeam(schedule.getId(), schedule.getTeamIdList());
             List<Integer> pankoutypeidlist = schedule.getPankoutypeidlist();
+
             ArrayList<Pankou> pankouTypeList = new ArrayList<>();
             for (int i = 0; i < pankoutypeidlist.size(); i++) {
                 Pankou pankou = new Pankou();
@@ -41,6 +46,10 @@ public class ScheduleController extends BaseController {
                 pankou.setScheduleid(schedule.getId());
                 pankou.setPankoutypeid(pankoutypeidlist.get(i));
                 pankouTypeList.add(pankou);
+            }
+            if (pankouTypeList.size() == 0) {
+                result.setRetcodeAndMsg(Constants.CODE_FAIL, "请选择盘口");
+                return result;
             }
             dao.insertSchedulePankou(pankouTypeList);
             dao.insertSchedulePankouDetail(pankouTypeList, schedule.getTeamIdList());
@@ -60,6 +69,49 @@ public class ScheduleController extends BaseController {
         try {
             dao.deleteSchedule(schedule.getId());
             addSchedule(jsonRoot);
+
+        } catch (Exception e) {
+            e.printStackTrace();
+            result.setRetcodeAndMsg(Constants.CODE_FAIL, Constants.MSG_FAIL_UNKNOW);
+        }
+        return result;
+    }
+
+    //    //用户下注
+////request
+//    {
+//        "name": "order",
+//            "reqbody": {
+//        "pankouid": "003",
+//                "teamid": "003",
+//                "amount":1000,
+//                "userid":123,
+//                "sessionStr": "3634F440030595CC6B6B4F718BECA437"
+//    }
+//    }
+    @RequestMapping("/order")
+    @ResponseBody
+    public ResponseJsonRoot order(@RequestBody RequestJsonRoot jsonRoot) {
+        ResponseJsonRoot result = new ResponseJsonRoot(jsonRoot.getName(), Constants.CODE_SUCCESS, "");
+        MJsonParse parse = new MJsonParse(jsonRoot);
+        try {
+
+
+            int pankoudetailid = dao.getPankouDetailId(parse.getInt("pankouid"), parse.getInt("teamid"));
+
+            int count = dao.checkUserHasBet(parse.getInt("userid"), pankoudetailid);
+            if (count == 0) {
+                //==0说明用户没有下注过
+//包含2个SQL语句.   1t_user扣除用户余额 1更新t_schedule_pankou_detail 用户的投注总额
+                dao.updatePankouDetailAndUser(pankoudetailid, parse.getInt("userid"), parse.getInt("amount"));
+                dao.insertUserBetDetail(pankoudetailid, parse.getInt("userid"), parse.getInt("amount"));
+            } else {
+                //!=0  追加
+                dao.updatePankouDetailAndUser(pankoudetailid, parse.getInt("userid"), parse.getInt("amount"));
+                dao.updateUserBetDetail(pankoudetailid, parse.getInt("userid"), parse.getInt("amount"));
+
+            }
+//            addSchedule(jsonRoot);
 
         } catch (Exception e) {
             e.printStackTrace();
@@ -212,8 +264,9 @@ public class ScheduleController extends BaseController {
 //            List<Pankou> pankouList = dao.getSchedulePankou(scheduleId);
             Schedule schedule = dao.getSchedule(scheduleId);
             Pankou pankou = new Pankou();
+            pankou.setId(pankouid);
             pankou.setTime("" + (Long.valueOf(schedule.getTime()) - System.currentTimeMillis()));
-            PankouType pankouType= dao.getPankouType(pankouid);
+            PankouType pankouType = dao.getPankouType(pankouid);
             pankou.setTitle1(schedule.getTitle1());
             pankou.setTitle2(schedule.getTitle2());
             pankou.setPankoutypetype(pankouType.getType());
@@ -254,21 +307,44 @@ public class ScheduleController extends BaseController {
         for (Team team : teamList) {
             double peilv;
             int teambet = Integer.valueOf(team.getBetAmount());
-            //赔率= (输家的钱*80%(平台扣除))/所有队伍赢家的钱*选择队伍赢家的钱
+
+            //投注的是前N名
             if (teambet >= betlist.get(pankoutype.getType() - 1)) {
-                //投注的是前N名
-                peilv = (betamount - qianN) * 0.8 / qianN*0.8;
+                double loseTeamAmount = betamount - qianN;
+                double winTeamAmount = qianN;
+                peilv = calpl(loseTeamAmount, winTeamAmount, teambet);
+
             } else {
-                peilv = (betamount - qianNjian1 - teambet) * 0.8 / (qianNjian1 + teambet)*0.8;
+                double loseTeamAmount = betamount - qianNjian1 - teambet;
+                double winTeamAmount = qianNjian1 + teambet;
+                //投注的不是前N名
+                peilv = calpl(loseTeamAmount, winTeamAmount, teambet);
             }
 //            System.out.println("....."+peilv+".........");
-            if (qianN == 0) {
-                peilv = 0;
+            if ((qianN == 0) || ((qianNjian1 + teambet) == 0)||teambet==0) {
+                team.setPeilv("--.--");
+            }else {
+
+                team.setPeilv(Util.changeDouble(String.valueOf(peilv), 2));
             }
-            team.setPeilv(Util.changeDouble(String.valueOf(peilv), 2));
         }
 
 
+    }
+
+    private double calpl(double loseTeamAmount, double winTeamAmount, double teambet) {
+        double peilv;
+
+
+        //如果投注差异过大(输家的钱X0.8<=赢家的0.2手续费),就不扣除赢家的0.8,以防赔率出现负数
+        if (loseTeamAmount * 0.8 <= (winTeamAmount * 0.2)) {
+            //赔率= ((输家的钱*80%+所有赢家的钱-所有队伍赢家的钱)/所有队伍赢家的钱*(选择的队伍/所有队伍赢家的钱)=选择的队伍可以赢得的钱
+            peilv = ((loseTeamAmount * 0.8 + winTeamAmount) - winTeamAmount)/winTeamAmount *( teambet/winTeamAmount) ;
+        } else {
+            //赔率= ((输家的钱*80%+所有赢家的钱*0.8-所有队伍赢家的钱)/所有队伍赢家的钱*选择的队伍=选择的队伍可以赢得的钱
+            peilv = ((loseTeamAmount * 0.8 + winTeamAmount * 0.8) - winTeamAmount)/winTeamAmount * ( teambet/winTeamAmount) ;
+        }
+        return peilv;
     }
 
 }

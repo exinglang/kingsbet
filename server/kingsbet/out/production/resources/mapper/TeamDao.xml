@@ -58,6 +58,7 @@
         <result column="gametype" property="game_type"/>
         <result column="team_id" property="id"/>
     </resultMap>
+
     <select id="getTeamList" resultMap="teamMap">
         SELECT
        *

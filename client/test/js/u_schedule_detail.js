@@ -1,53 +1,37 @@
-var base64;
 
 document.write("<script type='text/javascript' src='commonjs/httpclient.js'></script>");
 document.write("<script type='text/javascript' src='commonjs/weui.min.js'></script>");
 document.write("<script type='text/javascript' src='commonjs/zidingyi.js'></script>");
 document.write("<script type='text/javascript' src='js/public.js'></script>");
 document.write("<script type='text/javascript' src='commonjs/constants.js'></script>");
-
+var base64;
+var mPankouid;
+var canclick=true;
 $(function() {
 // 	$('#content').delegate('#jingcai', 'touchstart',
 // 	function() {
 // $.tmplItem(this).css({background: 323350});
 
 // 	});
-	$('#content').delegate('#jingcai', 'click',
+$('#content').delegate('#jingcai', 'click',
 	function() {
 
-jingcai($.tmplItem(this));
-   // $(".friend").on("touchstart", function() {
-   //              $(this).css({background: #323350});
-
-   //      }).on("touchend", function() {
-   //              $(this).css({background: #EF3350 });
-   //      });
-
-
-
-
-
-		// var item = $.tmplItem(this);
-
-		// weui.confirm("确定竞猜 " + item.data.name + " 吗?  ",
-		// function() {
-		// 	// deleteTeam(item.data.id);
-		// 	// dow.location = ('zhwinan_dui_zu_edit.html')
-		// });
+			jingcai($.tmplItem(this));
+		
 
 	});
 
 window.sMessageOpen = function(s){
-   if(s){$("#sMessage,#sMessage"+s).fadeIn(233,"swing");
-    var w_h = $(window).height();
-    if(w_h>$("#sMessage"+s).height()){
-     $("#sMessage"+s).css("marginTop",(w_h*0.3)-($("#sMessage"+s).height()*0.3));
-    }
-   }
-  }
-  window.sMessageClose = function(s){
-   if(s){$("#sMessage,#sMessage"+s).hide();}
-  }
+	if(s){$("#sMessage,#sMessage"+s).fadeIn(233,"swing");
+	var w_h = $(window).height();
+	if(w_h>$("#sMessage"+s).height()){
+		$("#sMessage"+s).css("marginTop",(w_h*0.3)-($("#sMessage"+s).height()*0.3));
+	}
+}
+}
+window.sMessageClose = function(s){
+	if(s){$("#sMessage,#sMessage"+s).hide();}
+}
 
 
 
@@ -58,15 +42,58 @@ window.sMessageOpen = function(s){
 
 function jingcai(item){
 	// var name = item.name;
-  var callback =function(){
-    alert(123);
-  }
+	var callback =function(){
+		var amount = $('#amount').val().trim();
+
+		if(canclick){
+			canclick=false;
+			order(item.data.id,amount);
+		}
+		
+	}
   // JSON.stringify(jsonobj);
-sPrompt("s1",item.data.name,"",callback);
+  var s = JSON.parse(storageGet(USER_INFO));
+  sPrompt("可用K币:    "+s.balance,item.data.name,"",callback);
 }
 
 
 
+function order(teamid,amount) {
+
+	var keyName = "order";
+	var map = new Map();
+
+	map.set('pankouid', mPankouid);
+	map.set('teamid', teamid);
+	map.set('amount', amount);
+	map.set('userid', storageGet(USER_ID));
+	var json = getJsonFromMap(map, keyName);
+	var successAction = function(data) {
+		// weui.toast("竞猜成功");
+
+
+
+		var mTest = function(data) {
+			weui.toast("竞猜成功", {
+				duration: 1000,
+				callback: function() {
+        // requestUserInfo();
+        location.reload();
+    }
+});
+
+
+		}
+		mRequestUserInfo(mTest);
+
+
+
+		// mRequestUserInfo(null);
+
+		
+	}
+	parVolleyJsonResult(json, successAction)
+}
 
 function getpankou(pankouid) {
 
@@ -79,19 +106,13 @@ function getpankou(pankouid) {
 		$('#title1').text(resp.title1);
 		$('#title2').text(resp.title2+resp.pankoutypename);
 		$('#time').text(timerHelper.time(resp.time));
-
-		// .toJSONString();
-		// $('#title1').text("resp.title1");
-		// $('#title2').val(resp.title2);
-
-		var pankoutype = data.respbody.pankoutype;
-
+		var pankoutype = data.respbody.pankoutypetype;
+		mPankouid=resp.id;
 		if (pankoutype == 1) {
 			$("#demo_pankoutype_1").tmpl(data.respbody.teamlist).appendTo('#content');
 		} else {
 			$("#demo_pankoutype_not1").tmpl(data.respbody.teamlist).appendTo('#content');
 		}
-
 	}
 	parVolleyJsonResult(json, successAction)
 }

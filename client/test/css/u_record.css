@@ -1,0 +1,156 @@
+:root {
+  --commonblack: #14191e;
+    --deepgrey: #999999;
+ --commonyello: #fea63a;
+  --grey: #eeeeee;
+  --white: #ffffff;
+    --black: #000000;
+ --commonbg: #f8f8f8;
+ --commongreen: #229f5f;
+  --commonred: #f3281b;
+
+}
+.page,body {
+	background-color:var(--commonbg);
+}
+
+.page {
+	overflow-y:auto;
+	-webkit-overflow-scrolling:touch;
+	z-index:1
+}
+
+.page {
+	position:absolute;
+	top:0;
+	right:0;
+	bottom:0;
+	left:0
+}
+
+
+.weui-flex__item {
+
+    background-color:#ffffff;
+  margin-bottom: 1px;
+  -webkit-box-flex: 1;
+  -webkit-flex: 1;
+          flex: 1;
+}
+
+.weui-flex__item_chang {
+    background-color:#ffffff;
+  margin-bottom: 1px;
+  -webkit-box-flex: 2;
+  -webkit-flex: 2;
+          flex: 2;
+}
+.weui-flex {
+
+  background-color:#eeeeee;
+  -webkit-box-align:center;
+  -webkit-align-items:center;
+  align-items:center;
+  -webkit-transition:.3s;
+  transition:.3s
+}
+.placeholder {
+  padding:10 10px;
+  background-color:#eeeeee;
+  height:2.3em;
+  line-height:2.3em;
+  text-align:center;
+   font-size: 13px;
+}
+.placeholder_content1 ,.placeholder_content1_green {
+  padding:0 3px;
+     color: #000000;
+  font-size: 15px;
+  height:1.6em;
+  line-height:1.6em;
+  text-align:center;
+}
+.placeholder_content1_green{
+   
+ color: var(--commongreen);
+}
+.placeholder_content2 {
+ padding:0 3px;
+     color: #999999;
+  font-size: 12px;
+  height:1.6em;
+  line-height:1.6em;
+  text-align:center;
+
+
+}
+.placeholder_content3 ,
+.placeholder_content3_green ,
+.placeholder_content3_red{
+ padding:0 3px;
+  font-size: 13px;
+  height:3.3em;
+  line-height:3.3em;
+  text-align:center;
+}
+.placeholder_content3_green {
+ color: var(--commongreen);
+}
+
+.placeholder_content3_red {
+ color: var(--commonred);
+}
+
+
+.page_head {
+  height: 100px;
+background-color:var(--commonblack);
+ 
+
+
+  display: -webkit-box;
+  -webkit-box-orient: horizontal;
+  -webkit-box-pack: center;
+  -webkit-box-align: center;
+  
+  display: -moz-box;
+  -moz-box-orient: horizontal;
+  -moz-box-pack: center;
+  -moz-box-align: center;
+  
+  display: -o-box;
+  -o-box-orient: horizontal;
+  -o-box-pack: center;
+  -o-box-align: center;
+  
+  display: -ms-box;
+  -ms-box-orient: horizontal;
+  -ms-box-pack: center;
+  -ms-box-align: center;
+  
+  display: box;
+  box-orient: horizontal;
+  box-pack: center;
+  box-align: center;
+}
+
+
+.weui-tabbar__label_m {
+  text-align: center;
+  color: var(--deepgrey);
+  font-size: 10px;
+  line-height: 1.8;
+}
+.weui-tabbar__item.weui-bar__item_on .weui-tabbar__label_m {
+  color: var(--commonyello);
+}
+
+
+
+ .flex-box {
+            display: flex;
+            justify-content: space-between;
+        }
+}
+
+

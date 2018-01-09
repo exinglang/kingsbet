@@ -15,11 +15,11 @@ public class PankouType implements Serializable {
      * type : 3
      */
 
-    @SerializedName("name")
+    @SerializedName("pankoutypename")
     private String name;
-    @SerializedName("type")
+    @SerializedName("pankoutypetype")
     private int type;
-    @SerializedName("id")
+    @SerializedName("pankoutypeid")
     private String id;
 
 

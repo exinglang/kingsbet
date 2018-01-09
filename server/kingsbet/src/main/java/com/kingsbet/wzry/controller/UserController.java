@@ -1,4 +1,5 @@
 package com.kingsbet.wzry.controller;
+import com.kingsbet.wzry.entity.*;
 import org.json.JSONObject;
 import com.google.gson.Gson;
 import com.google.gson.JsonObject;
@@ -6,16 +7,14 @@ import com.google.gson.reflect.TypeToken;
 import com.kingsbet.wzry.ApplicationContext;
 import com.kingsbet.wzry.Constants;
 import com.kingsbet.wzry.dao.UserDao;
-import com.kingsbet.wzry.entity.RequestJsonRoot;
-import com.kingsbet.wzry.entity.ResponseJsonRoot;
-import com.kingsbet.wzry.entity.ResponseLogin;
-import com.kingsbet.wzry.entity.User;
 import com.kingsbet.wzry.util.SessionUtil;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.ResponseBody;
+
+import java.util.List;
 
 /**
  * 用户管理
@@ -159,6 +158,11 @@ public class UserController extends BaseController {
         ResponseJsonRoot result = new ResponseJsonRoot(jsonRoot.getName(), Constants.CODE_SUCCESS, "");
         MJsonParse parse = new MJsonParse(jsonRoot);
         try {
+            int yue=dao.getdiamond(parse.getInt("userid"));
+           if( yue==0){
+               result.setRetcodeAndMsg(Constants.CODE_FAIL, "钻石余额为0,无法兑换");
+               return result;
+           };
             dao.diamondtobalance(parse.getInt("userid"));
 
         } catch (Exception e) {
@@ -212,6 +216,34 @@ public class UserController extends BaseController {
         }
         return result; //由于@ResponseBody注解，将itemsCustom转成json格式返回
     }
+
+
+    @RequestMapping("/orderhistory")
+    @ResponseBody
+    public ResponseJsonRoot orderhistory(@RequestBody RequestJsonRoot jsonRoot) {
+        ResponseJsonRoot result = new ResponseJsonRoot(jsonRoot.getName(), Constants.CODE_SUCCESS, "");
+        MJsonParse parse = new MJsonParse(jsonRoot);
+        try {
+            int userid=  parse.getInt("userid");
+            List<OrderHistory> orderhistorylist=dao.orderhistory(userid,parse.getInt("pageindex"),parse.getInt("pagesize"));
+            for(OrderHistory orderHistory:orderhistorylist){
+                long remaintime = Long.valueOf(orderHistory.getTime()) - System.currentTimeMillis();
+                orderHistory.setTime(remaintime+"");
+        if (orderHistory.getBetwin()==null){
+            orderHistory.setBetwin("待结算");
+        }
+            }
+
+            ResponseList typeAndList = new ResponseList();
+            typeAndList.setList(orderhistorylist);
+            result.setRepbody(typeAndList);
+        } catch (Exception e) {
+            e.printStackTrace();
+            result.setRetcodeAndMsg(Constants.CODE_FAIL, Constants.MSG_FAIL_UNKNOW);
+        }
+        return result; //由于@ResponseBody注解，将itemsCustom转成json格式返回
+    }
+
 
 }
 

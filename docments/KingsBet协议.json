@@ -256,7 +256,7 @@ request
 		"title2":"Liquid",//具体盘口  "进入前五"	"第一"	
 		"teamlist":[1,6,8],//战队ID
 		"time": "124590346523",
-		"pankou": ["前五名","冠军","前十名"],
+		"pankoutypeidlist": [1,5,10],
 		// "time":"125239748992",
 		"session": "3634F440030595CC6B6B4F718BECA437"	
 	}
@@ -280,57 +280,57 @@ request
 }
 //response
 {
-    "name": "schedulelist",
-    "retcode": 0,
-    "msg": "",
-    "respbody": {
-        "list": [
-            {
-                "id": "1",
-                "title1": "熊猫联赛",
-                "title2": "前五",
-                "pankoulist": [
-                    {
-                        "pankoutypeid": 1,
-                        "pankoutypename": "前三",
-                        "pankoutypetype": "3",
-                        "id": 1
-                    },
-                    {
-                       "pankoutypeid": 1,
-                        "pankoutypename": "前三",
-                        "pankoutypetype": "3",
-                        "id": 1
-                    }
-                ],
-                "remaintime": "123124"
-            },
-            {
-                "id": "2",
-                "pankoulist": [
-                    {
-                     "pankoutypeid": 1,
-                        "pankoutypename": "前三",
-                        "pankoutypetype": "3",
-                        "id": 1
-                    },
-                    {
-                     "pankoutypeid": 1,
-                        "pankoutypename": "前三",
-                        "pankoutypetype": "3",
-                        "id": 1
-                    },
-                    {
-                       "pankoutypeid": 1,
-                        "pankoutypename": "前三",
-                        "pankoutypetype": "3",
-                        "id": 1
-                    }
-                ],
-                "remaintime": "123124"
-            }
-        ]
-    }
+	"name": "schedulelist",
+	"retcode": 0,
+	"msg": "",
+	"respbody": {
+		"list": [
+			{
+				"id": "1",
+				"title1": "熊猫联赛",
+				"title2": "前五",
+				"pankoulist": [
+					{
+						"pankoutypeid": 1,
+						"pankoutypename": "前三",
+						"pankoutypetype": "3",
+						"id": 1
+					},
+					{
+						"pankoutypeid": 1,
+						"pankoutypename": "前三",
+						"pankoutypetype": "3",
+						"id": 1
+					}
+				],
+				"remaintime": "123124"
+			},
+			{
+				"id": "2",
+				"pankoulist": [
+					{
+						"pankoutypeid": 1,
+						"pankoutypename": "前三",
+						"pankoutypetype": "3",
+						"id": 1
+					},
+					{
+						"pankoutypeid": 1,
+						"pankoutypename": "前三",
+						"pankoutypetype": "3",
+						"id": 1
+					},
+					{
+						"pankoutypeid": 1,
+						"pankoutypename": "前三",
+						"pankoutypetype": "3",
+						"id": 1
+					}
+				],
+				"remaintime": "123124"
+			}
+		]
+	}
 }
 
 
@@ -451,7 +451,7 @@ request
 			"id": 1,
 			"name": "LGD",
 			"peilv": "0.83",
-			"bet": "2000" //此用户已下2000
+			"userbet": "2000" //此用户已下2000
 		},
 		{
 			"id": 2,
@@ -651,3 +651,90 @@ request
 	"msg": ""
 }
 
+//用户下注
+//request
+{
+	"name": "order",
+	"reqbody": {
+		"pankouid": "003",	
+		"teamid": "003",				
+		"amount":1000,
+		"userid":123,
+		"sessionStr": "3634F440030595CC6B6B4F718BECA437"				
+	}
+}
+//response
+{
+
+	"name": "order",
+	"retcode": 0,					//0表示成功，其他表示失败
+	"msg": ""
+}
+
+//用户历史竞猜查询
+//request
+{
+	"name": "orderhistory",
+	"reqbody": {
+		"userid":123,
+		"pageindex" : 0	, //当前页码
+		"pagesize" : 2 ,   //每页条数
+		"sessionStr": "3634F440030595CC6B6B4F718BECA437"				
+	}
+}
+//response
+{
+	"name": "orderhistory",
+	"retcode": 0,
+	"msg": "",
+	"respbody": {
+		"list": [
+			{
+				"status": 1,
+				"time": "823534631",
+				"title1": "斗鱼黄金大奖赛",
+				"title2": "A vs s",
+				"pankouname": "进前五",
+				"teamname": "SECRET", //用户下注队伍名称
+				"bet": "150",//用户下单金币
+				"betwin": "-150"//用户收益
+			},
+			{
+				"status": 1,
+				"time": "823534631",
+				"title1": "斗鱼黄金大奖赛",
+				"title2": "A vs s",
+				"pankouname": "进前五",
+				"win": "SECRET", //胜者队伍名称
+				"bet": "150",//用户下单金币
+				"betwin": "-150"//用户收益
+			}
+		]
+	}
+}
+
+
+
+//设置比赛结果
+//request
+{
+	"name": "setschedulerank",
+	"reqbody": {			
+		"scheduleid": "123",				//
+		"teamidlist":[{
+			"id":1,"rank":2//teamid
+		},{
+			"id":1,"rank":1
+		},{
+			"id":1,"rank":3
+		}],
+		"session": "3634F440030595CC6B6B4F718BECA437"	
+	}
+}
+//response
+{
+
+	"name": "setscheduleresult",
+	"retcode": 0,					//0表示成功，其他表示失败
+	"msg": ""
+}
