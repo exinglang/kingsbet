@@ -53,6 +53,19 @@
 
     </insert>
 
+    <update id="setScheduleRank" parameterType="java.util.List" useGeneratedKeys="true" keyProperty="id">
+
+        <foreach collection="list" item="team" index="index" open="" close="" separator=";">
+
+            update t_schedule_team
+
+            <set>
+                rank=#{team.rank}
+            </set>
+
+            where schedule_id=#{team.scheduleid} and team_id=#{team.id}
+        </foreach>
+    </update>
 
     <insert id="insertSchedulePankouDetail" parameterType="java.util.List">
         insert ignore into t_schedule_pankou_detail (schedule_id,pankou_id,team_id)
@@ -166,10 +179,26 @@
     </resultMap>
     <select id="getPankouDetail" resultMap="map3">
         SELECT b.team_id,b.name,a.bet_amount,c.user_bet_amount   FROM
-        t_schedule_pankou_detail AS a INNER JOIN  t_mteam AS b
+        t_schedule_pankou_detail AS a  JOIN  t_mteam AS b
         ON a.pankou_id=#{pankouId} and a.team_id =b.team_id left JOIN  t_user_bet_detail as c ON c.user_id=#{userId} and c.t_schedule_pankou_detail_id=a.id
   ORDER BY `team_id` ASC
     </select>
+
+    <resultMap type="Team" id="map4">
+        <result column="team_id" property="id"/>
+        <result column="bet_amount" property="betamount"/>
+        <result column="user_bet_amount" property="userbet"/>
+        <result column="id" property="pankoudetailid"/>
+        <result column="rank" property="rank"/>
+
+    </resultMap>
+    <select id="getPankouDetailOrderBybetamount" resultMap="map4">
+        SELECT b.team_id,b.name,a.bet_amount,c.user_bet_amount,d.rank,a.id   FROM
+        t_schedule_pankou_detail AS a  JOIN  t_mteam AS b
+        ON a.pankou_id=#{pankouId} and a.team_id =b.team_id left JOIN  t_user_bet_detail as c ON c.user_id=#{userId} and c.t_schedule_pankou_detail_id=a.id  join t_schedule_team as d on b.team_id=d.team_id and d.schedule_id=a.schedule_id
+        ORDER BY `rank` asc
+    </select>
+
     <select id="getPankouDetailId" resultType="int">
         <!-- 具体的sql -->
         SELECT id FROM mydb.t_schedule_pankou_detail where pankou_id=#{pankouid} and team_id =#{teamid};
@@ -181,7 +210,6 @@
         <result column="id" property="id"/>
         <result column="name" property="name"/>
         <result column="mtype" property="type"/>
-
     </resultMap>
     <select id="getPankouType" resultMap="map2">
         <!-- 具体的sql -->

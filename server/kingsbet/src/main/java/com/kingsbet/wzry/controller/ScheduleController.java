@@ -1,6 +1,10 @@
 package com.kingsbet.wzry.controller;
 
 
+import com.google.gson.Gson;
+import com.google.gson.JsonArray;
+import com.google.gson.JsonObject;
+import com.google.gson.internal.LinkedTreeMap;
 import com.kingsbet.wzry.Constants;
 import com.kingsbet.wzry.dao.ScheduleDao;
 import com.kingsbet.wzry.entity.*;
@@ -31,8 +35,6 @@ public class ScheduleController extends BaseController {
         ResponseJsonRoot result = new ResponseJsonRoot(jsonRoot.getName(), Constants.CODE_SUCCESS, "");
         Schedule schedule = jsonRoot.getReqsbody();
         try {
-
-
 
 
             dao.insertSchedule(schedule, Constants.SCHEDULE_STATUS_DAI_FA_BU);
@@ -307,7 +309,6 @@ public class ScheduleController extends BaseController {
         for (Team team : teamList) {
             double peilv;
             int teambet = Integer.valueOf(team.getBetAmount());
-
             //投注的是前N名
             if (teambet >= betlist.get(pankoutype.getType() - 1)) {
                 double loseTeamAmount = betamount - qianN;
@@ -321,10 +322,9 @@ public class ScheduleController extends BaseController {
                 peilv = calpl(loseTeamAmount, winTeamAmount, teambet);
             }
 //            System.out.println("....."+peilv+".........");
-            if ((qianN == 0) || ((qianNjian1 + teambet) == 0)||teambet==0) {
+            if ((qianN == 0) || ((qianNjian1 + teambet) == 0) || teambet == 0) {
                 team.setPeilv("--.--");
-            }else {
-
+            } else {
                 team.setPeilv(Util.changeDouble(String.valueOf(peilv), 2));
             }
         }
@@ -334,18 +334,82 @@ public class ScheduleController extends BaseController {
 
     private double calpl(double loseTeamAmount, double winTeamAmount, double teambet) {
         double peilv;
-
-
         //如果投注差异过大(输家的钱X0.8<=赢家的0.2手续费),就不扣除赢家的0.8,以防赔率出现负数
         if (loseTeamAmount * 0.8 <= (winTeamAmount * 0.2)) {
             //赔率= ((输家的钱*80%+所有赢家的钱-所有队伍赢家的钱)/所有队伍赢家的钱*(选择的队伍/所有队伍赢家的钱)=选择的队伍可以赢得的钱
-            peilv = ((loseTeamAmount * 0.8 + winTeamAmount) - winTeamAmount)/winTeamAmount *( teambet/winTeamAmount) ;
+            peilv = ((loseTeamAmount * 0.8 + winTeamAmount) - winTeamAmount) / winTeamAmount * (teambet / winTeamAmount);
         } else {
             //赔率= ((输家的钱*80%+所有赢家的钱*0.8-所有队伍赢家的钱)/所有队伍赢家的钱*选择的队伍=选择的队伍可以赢得的钱
-            peilv = ((loseTeamAmount * 0.8 + winTeamAmount * 0.8) - winTeamAmount)/winTeamAmount * ( teambet/winTeamAmount) ;
+            peilv = ((loseTeamAmount * 0.8 + winTeamAmount * 0.8) - winTeamAmount) / winTeamAmount * (teambet / winTeamAmount);
         }
         return peilv;
     }
+
+    @RequestMapping("/setschedulerank")
+    @ResponseBody
+    public ResponseJsonRoot setScheduleRank(@RequestBody RequestJsonRoot jsonRoot) {
+        ResponseJsonRoot returnResult = new ResponseJsonRoot(jsonRoot.getName(), Constants.CODE_SUCCESS, "");
+//        TeamList entity = jsonRoot.getReqsbody();
+        try {
+            Gson gson = new Gson();
+            LinkedTreeMap map = (LinkedTreeMap) jsonRoot.getReqsbody();
+            JsonObject gsin = gson.toJsonTree(map).getAsJsonObject();
+            int scheduleid = gsin.get("scheduleid").getAsInt();
+            JsonArray array = gsin.getAsJsonArray("teamidlist");
+            ArrayList<Team> list = new ArrayList();
+            ArrayList<Integer> winTeamId = new ArrayList();//胜利TEAM的ID集合
+            for (int i = 0; i < array.size(); i++) {
+                Team team = new Team();
+                team.setScheduleid(scheduleid);
+                team.setId(array.get(i).getAsJsonObject().get("id").getAsInt());
+                winTeamId.add(array.get(i).getAsJsonObject().get("id").getAsInt());
+                team.setRank(array.get(i).getAsJsonObject().get("rank").getAsInt());
+                list.add(team);
+            }
+            //设置比赛名次
+            dao.setScheduleRank(list);
+            List<Pankou> pankouList = dao.getSchedulePankou(scheduleid);
+            for (Pankou pankou : pankouList) {
+                int pankoutypetype = pankou.getPankoutypetype();
+                List<Team> teamList = dao.getPankouDetailOrderBybetamount(pankou.getId(), Constants.USER_ID);
+                double winTeamAmount = 0;
+                double loseTeamAmount = 0;
+                //计算输赢总额
+                for (int i = 0; i < teamList.size(); i++) {
+                    if (i < pankoutypetype) {
+                        winTeamAmount = winTeamAmount + Double.valueOf(teamList.get(i).getBetAmount());
+                    } else {
+                        loseTeamAmount = loseTeamAmount + Double.valueOf(teamList.get(i).getBetAmount());
+                    }
+                }
+
+                for (int i = 0; i < teamList.size(); i++) {
+                    int pankoudetailid = teamList.get(i).getPankoudetailid();
+                    //根据输赢总额计算每个队伍的实际赔率
+                    if (i < pankoutypetype) {
+//                        teamList.get(i).setPeilv("" + );
+                        dao.updateWinUserBetDeail(pankoudetailid,calpl(loseTeamAmount, winTeamAmount, Double.valueOf(teamList.get(i).getBetAmount())));
+
+                    } else {
+//                        teamList.get(i).setPeilv("0");
+                        dao.updateLoseUserBetDeail(pankoudetailid);
+
+                    }
+                    //设置用户的
+                }
+//                for (int i = 0; i < teamList.size(); i++) {
+////                    pankoutypetype
+//                    int pankoudetailid= teamList.get(i).getPankoudetailid();
+//                    dao.setUserBetDetailEarn(pankoudetailid);
+//                }
+            }
+        } catch (Exception e) {
+            e.printStackTrace();
+            returnResult.setRetcodeAndMsg(Constants.CODE_FAIL, Constants.MSG_FAIL_UNKNOW);
+        }
+        return returnResult;
+    }
+
 
 }
 

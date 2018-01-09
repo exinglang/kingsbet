@@ -308,27 +308,8 @@ public class TeamController extends BaseController {
         return returnResult;
     }
 
-    @RequestMapping("/setschedulerank")
-    @ResponseBody
-    public ResponseJsonRoot setScheduleRank(@RequestBody RequestJsonRoot<TeamList> jsonRoot) {
-        ResponseJsonRoot returnResult = new ResponseJsonRoot(jsonRoot.getName(), Constants.CODE_SUCCESS, "");
-//        TeamList entity = jsonRoot.getReqsbody();
-        try {
-            //需先转为LImit
-            List<PankouType> list = dao.getPankouTypeList();
-
-            ResponseList typeAndList = new ResponseList();
-            typeAndList.setList(list);
-            returnResult.setRepbody(typeAndList);
 
 
-        } catch (Exception e) {
-            e.printStackTrace();
-            returnResult.setRetcodeAndMsg(Constants.CODE_FAIL, Constants.MSG_FAIL_UNKNOW);
-        }
-
-        return returnResult;
-    }
 
 }
 

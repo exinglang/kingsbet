@@ -7,10 +7,12 @@ import java.io.Serializable;
 import java.util.Date;
 
 public class Team implements Serializable {
+    @SerializedName("scheduleid")
+    private int scheduleid; // id
     @SerializedName("name")
     private String name; // id
     @SerializedName("id")
-    private String id; // id
+    private int id; // id
     @SerializedName("img")
     private String img; // name
     @SerializedName("peilv")
@@ -20,16 +22,27 @@ public class Team implements Serializable {
     @SerializedName("gametype")
     private String gametype; // id
 
+    @SerializedName("pankoudetailid")
+    private int pankoudetailid; // id
+
     private transient String betamount;
 
     @SerializedName("rank")
-    private String rank; // id
+    private int rank; // id
 
-    public String getRank() {
+    public int getPankoudetailid() {
+        return pankoudetailid;
+    }
+
+    public void setPankoudetailid(int pankoudetailid) {
+        this.pankoudetailid = pankoudetailid;
+    }
+
+    public int getRank() {
         return rank;
     }
 
-    public void setRank(String rank) {
+    public void setRank(int rank) {
         this.rank = rank;
     }
 
@@ -49,11 +62,11 @@ public class Team implements Serializable {
         this.userbet = userBet;
     }
 
-    public String getId() {
+    public int getId() {
         return id;
     }
 
-    public void setId(String id) {
+    public void setId(int id) {
         this.id = id;
     }
 
@@ -87,5 +100,13 @@ public class Team implements Serializable {
 
     public void setPeilv(String peilv) {
         this.peilv = peilv;
+    }
+
+    public int getScheduleid() {
+        return scheduleid;
+    }
+
+    public void setScheduleid(int scheduleid) {
+        this.scheduleid = scheduleid;
     }
 }
