@@ -140,7 +140,7 @@ public class UserController extends BaseController {
         ResponseJsonRoot result = new ResponseJsonRoot(jsonRoot.getName(), Constants.CODE_SUCCESS, "");
         MJsonParse parse= new MJsonParse(jsonRoot);
         try {
-            dao.charge(parse.getInt("userid"),parse.getInt("amount"));
+            dao.charge(parse.getInt("userid"),parse.getInt("amount"),System.currentTimeMillis()+"");
 
         } catch (Exception e) {
             e.printStackTrace();
@@ -163,7 +163,7 @@ public class UserController extends BaseController {
                result.setRetcodeAndMsg(Constants.CODE_FAIL, "钻石余额为0,无法兑换");
                return result;
            };
-            dao.diamondtobalance(parse.getInt("userid"));
+            dao.diamondtobalance(parse.getInt("userid"),System.currentTimeMillis()+"");
 
         } catch (Exception e) {
             e.printStackTrace();

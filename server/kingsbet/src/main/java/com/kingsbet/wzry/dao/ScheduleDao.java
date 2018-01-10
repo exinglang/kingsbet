@@ -36,6 +36,7 @@ public interface ScheduleDao {
 
     void updateScheduleStatus(@Param("id")int id,@Param("status")int status);
     void deleteScheduleTeam(@Param("scheduleId") int scheduleId);
+    void returnUserBet(@Param("scheduleid") int scheduleid);
 
     void insertScheduleTeam(@Param("scheduleId") int scheduleId,@Param("teamIdList") List<Integer> teamIdList);
     void insertSchedulePankou( ArrayList<Pankou> pankoulist);
@@ -48,6 +49,7 @@ public interface ScheduleDao {
 
     int getScheduleIdFromPankouId(@Param("pankouid") int pankouid);
 
+    int getScheduleStatus(@Param("scheduleid") int scheduleid);
     List<Team> getPankouDetail(@Param("pankouId")int pankouid,@Param("userId")int userid);
 
 

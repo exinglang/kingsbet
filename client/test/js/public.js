@@ -11,6 +11,9 @@ $(function() {
     window.location.replace('schedule_dai_jie_suan.html')
   })
   $("#tab_4").click(function() {
+    window.location.replace('schedule_yi_jie_suan.html')
+  })
+  $("#tab_5").click(function() {
     window.location.replace('schedule_yi_qu_xiao.html')
   })
 });
@@ -41,12 +44,27 @@ function mGetschedule(id,mfun) {
   map.set('id', id);
   var json = getJsonFromMap(map, keyName);
 
+var successAction= function(data) {
+   mfun(data);
+ }
 
+
+ parVolleyJsonResultNoLoading(json, successAction)
+}
+
+
+function mUpdateScheduleStatus(id,status,mfun) {
+  var keyName = "updateschedulestatus";
+  var map = new Map();
+  map.set('id', id);
+  map.set('status', status);
+
+  var json = getJsonFromMap(map, keyName);
 
   var successAction= function(data) {
    mfun(data);
  }
- parVolleyJsonResultNoLoading(json, successAction)
+ parVolleyJsonResult(json, successAction)
 }
 
 function mRequestUserInfo(mfun) {
@@ -161,21 +179,5 @@ function schedulelist(status) {
 
 
 
-function updateScheduleStatus(id,status) {
-  var keyName = "updateschedulestatus";
-  var map = new Map();
-  map.set('id', id);
-  map.set('status', status);
 
-  var json = getJsonFromMap(map, keyName);
-  var successAction= function(data) { 
-   weui.toast("操作成功", {
-    duration: 1000,
-    callback: function() {
-     location.reload();
-   }
- });
- }
- parVolleyJsonResult(json, successAction)
-}
 

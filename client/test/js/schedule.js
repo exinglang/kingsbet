@@ -157,16 +157,30 @@ function pankoulist() {
 function getschedule(id) {
   var mFun = function(data) {
     var resp=data.respbody;
-   $('#title1').val(resp.title1);
-   $('#title2').val(resp.title2 );
-   var time =new Date(parseInt(resp.time)).Format("yyyy-MM-ddThh:mm:ss")
-   $('#time').val(time);
+    $('#title1').val(resp.title1);
+    $('#title2').val(resp.title2 );
+    var time =new Date(parseInt(resp.time)).Format("yyyy-MM-ddThh:mm:ss")
+    $('#time').val(time);
 
-   $("#tmpl_pankou").tmpl(resp.pankoulist).appendTo('#content_pankou');
-   $("#demo").tmpl(resp.teamlist).appendTo('#content'); 
+    $("#tmpl_pankou").tmpl(resp.pankoulist).appendTo('#content_pankou');
+    $("#demo").tmpl(resp.teamlist).appendTo('#content'); 
   }
   mGetschedule(id,mFun);
 }
+
+
+function updateScheduleStatus(id,status) {
+  var mFun = function(data) {
+   weui.toast("操作成功", {
+    duration: 1000,
+    callback: function() {
+     location.reload();
+   }
+ });
+ }
+ mUpdateScheduleStatus(id,status,mFun);
+}
+
 
 
 

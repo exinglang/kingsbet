@@ -1,4 +1,5 @@
 
+
 document.write("<script type='text/javascript' src='commonjs/httpclient.js'></script>");
 document.write("<script type='text/javascript' src='commonjs/weui.min.js'></script>");
 document.write("<script type='text/javascript' src='commonjs/zidingyi.js'></script>");

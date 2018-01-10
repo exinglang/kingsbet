@@ -125,7 +125,7 @@
        update t_user_bet_detail set  user_bet_earn= floor(user_bet_amount*#{peilv}) where  t_schedule_pankou_detail_id =#{pankoudetailid};
 
          update t_user a, t_user_bet_detail b
-   set a.balance = a.balance-b.user_bet_earn
+   set a.balance = a.balance+b.user_bet_earn
  where a.id = b.user_id and b.t_schedule_pankou_detail_id=#{pankoudetailid}
 
 
@@ -190,6 +190,11 @@
         SELECT schedule_id FROM mydb.t_schedule_pankou where id=#{pankouid} ;
 
     </select>
+    <select id="getScheduleStatus" resultType="int">
+        <!-- 具体的sql -->
+        SELECT status FROM mydb.t_schedule where schedule_id=#{scheduleid} ;
+
+    </select>
     <resultMap type="Team" id="map3">
         <result column="team_id" property="id"/>
         <result column="bet_amount" property="betamount"/>
@@ -235,5 +240,14 @@
         SELECT b.* FROM t_schedule_pankou as a,t_pankou_type as b where a.id=#{pankouid} and a.pankou_type_id = b.id
     </select>
 
+    <update id="returnUserBet">
+        update t_user set balance=balance+(select user_bet_amount from t_user_bet_detail where t_schedule_pankou_detail_id in
 
+        (select id from t_schedule_pankou_detail where schedule_id=#{scheduleid} ))
+
+        where id in (select user_id from t_user_bet_detail where t_schedule_pankou_detail_id in
+
+        (select id from t_schedule_pankou_detail where schedule_id=#{scheduleid} ))
+
+    </update>
 </mapper>

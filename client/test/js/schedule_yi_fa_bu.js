@@ -35,7 +35,7 @@ $(function() {
         label: '确定',
         type: 'primary',
         onClick: function () { 
-          updateScheduleState(item.data.id,4);
+          updateScheduleStatus2(item.data.id,4);
         }
       }]
     });
@@ -108,28 +108,41 @@ function cancelschedule(id) {
 
 
 
-
-
-function setschedulerank(id) {
-
-// tmpl_content_xuanze
-
-var pankouIdList = new Array();
-
-
-var size = $('#content').children().length;
-if(size!=0){
-  weui.toast("请将所有队伍排名");
-  return;
+function updateScheduleStatus(id,status) {
+  var mFun = function(data) {
+    window.history.go(-1);
+  }
+  mUpdateScheduleStatus(id,status,mFun);
 }
+//管理员界面取消比赛后
+function updateScheduleStatus2(id,status) {
+  var mFun = function(data) {
+
+    weui.toast("已取消,投注已退回用户账户", {
+    duration: 1000,
+    callback: function() {
+     location.reload();
+   }
+ });
+     
+  }
+  mUpdateScheduleStatus(id,status,mFun);
+}
+function setschedulerank(id) {
+  var pankouIdList = new Array();
+  var size = $('#content').children().length;
+  if(size!=0){
+    weui.toast("请将所有队伍排名");
+    return;
+  }
  // alert(size);
  $("#tmpl_content_xuanze p").each(function() {
   var mThis = $(this);
-      var row1 = {};
-      row1.id= mThis.attr("id");
-      row1.rank = mThis.attr("value");
-      pankouIdList.push(row1);
-  });
+  var row1 = {};
+  row1.id= mThis.attr("id");
+  row1.rank = mThis.attr("value");
+  pankouIdList.push(row1);
+});
 
  var keyName = "setschedulerank";
  var map = new Map();
@@ -140,13 +153,14 @@ if(size!=0){
  var successAction= function(data) {
 
 
-   //  weui.toast("结算成功", {
-   //    duration: 1000,
-   //    callback: function() {
-   //       window.history.go(-1);
-   //     // window.location 
-   //   }
-   // });
- }
- parVolleyJsonResult(json, successAction)
+  weui.toast("结算成功", {
+    duration: 1000,
+    callback: function() {
+      updateScheduleStatus(storageGet(JIE_SUAN_ID),5);
+         // 
+       // window.location 
+     }
+   });
+}
+parVolleyJsonResult(json, successAction)
 }

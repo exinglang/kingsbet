@@ -7,6 +7,7 @@ import com.google.gson.JsonObject;
 import com.google.gson.internal.LinkedTreeMap;
 import com.kingsbet.wzry.Constants;
 import com.kingsbet.wzry.dao.ScheduleDao;
+import com.kingsbet.wzry.dao.UserDao;
 import com.kingsbet.wzry.entity.*;
 import com.kingsbet.wzry.util.Util;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -28,6 +29,7 @@ import java.util.List;
 public class ScheduleController extends BaseController {
     @Autowired
     private ScheduleDao dao;
+//    private UserDao userDao;
 
     @RequestMapping("/addschedule")
     @ResponseBody
@@ -97,24 +99,17 @@ public class ScheduleController extends BaseController {
         ResponseJsonRoot result = new ResponseJsonRoot(jsonRoot.getName(), Constants.CODE_SUCCESS, "");
         MJsonParse parse = new MJsonParse(jsonRoot);
         try {
-
-
             int pankoudetailid = dao.getPankouDetailId(parse.getInt("pankouid"), parse.getInt("teamid"));
-
             int count = dao.checkUserHasBet(parse.getInt("userid"), pankoudetailid);
+            //包含2个SQL语句.   1t_user扣除用户余额 2更新t_schedule_pankou_detail 用户的投注总额
+            dao.updatePankouDetailAndUser(pankoudetailid, parse.getInt("userid"), parse.getInt("amount"));
             if (count == 0) {
                 //==0说明用户没有下注过
-//包含2个SQL语句.   1t_user扣除用户余额 1更新t_schedule_pankou_detail 用户的投注总额
-                dao.updatePankouDetailAndUser(pankoudetailid, parse.getInt("userid"), parse.getInt("amount"));
                 dao.insertUserBetDetail(pankoudetailid, parse.getInt("userid"), parse.getInt("amount"));
             } else {
                 //!=0  追加
-                dao.updatePankouDetailAndUser(pankoudetailid, parse.getInt("userid"), parse.getInt("amount"));
                 dao.updateUserBetDetail(pankoudetailid, parse.getInt("userid"), parse.getInt("amount"));
-
             }
-//            addSchedule(jsonRoot);
-
         } catch (Exception e) {
             e.printStackTrace();
             result.setRetcodeAndMsg(Constants.CODE_FAIL, Constants.MSG_FAIL_UNKNOW);
@@ -193,15 +188,15 @@ public class ScheduleController extends BaseController {
 
     private List<Schedule> getNeedStatusList(int requestStatus, MJsonParse parse) {
         List<Schedule> list;
-        if (requestStatus != 5) {
+//        if (requestStatus != 5) {
 
             list = dao.getScheduleList(requestStatus, parse.getInt("pageIndex"), parse.getInt("pageSize"));
-        } else {
-            list = dao.getScheduleList(2, parse.getInt("pageIndex"), parse.getInt("pageSize"));
-            list.addAll(dao.getScheduleList(3, parse.getInt("pageIndex"), parse.getInt("pageSize")));
-            list.addAll(dao.getScheduleList(4, parse.getInt("pageIndex"), parse.getInt("pageSize")));
-
-        }
+//        } else {
+//            list = dao.getScheduleList(2, parse.getInt("pageIndex"), parse.getInt("pageSize"));
+//            list.addAll(dao.getScheduleList(3, parse.getInt("pageIndex"), parse.getInt("pageSize")));
+//            list.addAll(dao.getScheduleList(4, parse.getInt("pageIndex"), parse.getInt("pageSize")));
+//
+//        }
         return list;
 
     }
@@ -230,18 +225,35 @@ public class ScheduleController extends BaseController {
         try {
             MJsonParse parse = new MJsonParse(jsonRoot);
             int requestStatus = parse.getInt("status");
-            switch (requestStatus) {
-                case Constants.SCHEDULE_STATUS_DAI_JIE_SUAN:
-                    updateScheduleStatusFunction(parse.getInt("id"), Constants.SCHEDULE_STATUS_DAI_JIE_SUAN);
-                    break;
-                case Constants.SCHEDULE_STATUS_YI_FA_BU:
-                    updateScheduleStatusFunction(parse.getInt("id"), Constants.SCHEDULE_STATUS_YI_FA_BU);
-                    break;
-                case Constants.SCHEDULE_STATUS_YI_QU_XIAO:
-                    updateScheduleStatusFunction(parse.getInt("id"), Constants.SCHEDULE_STATUS_YI_QU_XIAO);
-                    break;
+            if(requestStatus==Constants.SCHEDULE_STATUS_YI_QU_XIAO){
+                int status=   dao.getScheduleStatus(parse.getInt("id"));
+                //防止恶意请求,重复退款到用户账户
+                if(status==Constants.SCHEDULE_STATUS_YI_FA_BU) {
+                    dao.returnUserBet(parse.getInt("id"));
+                    updateScheduleStatusFunction(parse.getInt("id"), requestStatus);
+                }else{
+                    result.setRetcodeAndMsg(-1,"比赛状态不在竞猜中");
+                }
+
+            }else{
+                updateScheduleStatusFunction(parse.getInt("id"), requestStatus);
 
             }
+
+            //如果是取消比赛,需要退回用户的押注
+
+//            switch (requestStatus) {
+//                case Constants.SCHEDULE_STATUS_DAI_JIE_SUAN:
+//                    updateScheduleStatusFunction(parse.getInt("id"), Constants.SCHEDULE_STATUS_DAI_JIE_SUAN);
+//                    break;
+//                case Constants.SCHEDULE_STATUS_YI_FA_BU:
+//                    updateScheduleStatusFunction(parse.getInt("id"), Constants.SCHEDULE_STATUS_YI_FA_BU);
+//                    break;
+//                case Constants.SCHEDULE_STATUS_YI_QU_XIAO:
+//                    updateScheduleStatusFunction(parse.getInt("id"), Constants.SCHEDULE_STATUS_YI_QU_XIAO);
+//                    break;
+//
+//            }
 
         } catch (Exception e) {
             e.printStackTrace();
@@ -333,6 +345,9 @@ public class ScheduleController extends BaseController {
     }
 
     private double calpl(double loseTeamAmount, double winTeamAmount, double teambet) {
+        if(winTeamAmount==0){
+            return 0;
+        }
         double peilv;
         //如果投注差异过大(输家的钱X0.8<=赢家的0.2手续费),就不扣除赢家的0.8,以防赔率出现负数
         if (loseTeamAmount * 0.8 <= (winTeamAmount * 0.2)) {
@@ -388,8 +403,9 @@ public class ScheduleController extends BaseController {
                     //根据输赢总额计算每个队伍的实际赔率
                     if (i < pankoutypetype) {
 //                        teamList.get(i).setPeilv("" + );
-                        dao.updateWinUserBetDeail(pankoudetailid,calpl(loseTeamAmount, winTeamAmount, Double.valueOf(teamList.get(i).getBetAmount())));
-
+                        double d=Double.valueOf(teamList.get(i).getBetAmount());
+                        double pl=calpl(loseTeamAmount, winTeamAmount, d);
+                        dao.updateWinUserBetDeail(pankoudetailid,pl);
                     } else {
 //                        teamList.get(i).setPeilv("0");
                         dao.updateLoseUserBetDeail(pankoudetailid);
