@@ -1,5 +1,6 @@
 package com.kingsbet.wzry.dao;
 
+import com.kingsbet.wzry.entity.Commodity;
 import com.kingsbet.wzry.entity.PankouType;
 import com.kingsbet.wzry.entity.Team;
 import com.kingsbet.wzry.entity.TeamGroup;
@@ -16,16 +17,26 @@ import java.util.List;
 public interface TeamDao {
 
     void insertTeam(@Param("name")String name,@Param("imgBase64") String imgBase64,@Param("gameType") String gameType);
+    void insertCommodity(@Param("name")String name,@Param("img") String img,@Param("price") int price,@Param("type") int type);
 
     //	"type":1,  //1、王者荣耀 2.绝地求生
 //            "name":"LGD",//战队名字
 //            "pageIndex" : 0	, //当前页码
 //            "pageSize" : 2    //每页条数
     List<Team> getTeamList(@Param("type")String type, @Param("pageIndex")int pageIndex, @Param("pageSize")int pageSize);
+
+    List<Commodity> getCommodityList(@Param("type")String type);
+
+
+
     List<TeamGroup> getTeamGroupList(@Param("type")String type, @Param("pageIndex")int pageIndex, @Param("pageSize")int pageSize);
 
     int getSqlImgLength();
+    int getSqlCommodityImgLength();
+
     void deleteTeam(@Param("id")int id);
+    void deletecommodity(@Param("id")int id);
+
 
     void deleteTeamGroup(@Param("id")int id);
 

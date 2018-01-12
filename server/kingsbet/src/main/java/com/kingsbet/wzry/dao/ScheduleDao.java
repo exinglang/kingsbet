@@ -32,6 +32,9 @@ public interface ScheduleDao {
     int updateSchedule(@Param("schedule") Schedule entity);
 
     List<Schedule> getScheduleList(@Param("status")int status,@Param("pageindex")int pageindex,@Param("pagesize")int pagesize);
+    List<Schedule> getScheduleListOld(@Param("pageindex")int pageindex,@Param("pagesize")int pagesize);
+
+
     void deleteSchedule(@Param("id")int id);
 
     void updateScheduleStatus(@Param("id")int id,@Param("status")int status);

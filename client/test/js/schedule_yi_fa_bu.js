@@ -105,7 +105,14 @@ function cancelschedule(id) {
   parVolleyJsonResult(json, successAction)
 }
 
+function schedulelist(status) {
+ 
+  var successAction = function(data) {
+    $("#demo").tmpl(data.respbody.list, timerHelper).appendTo('#content');
 
+  }
+  mSchedulelist(status, successAction,0,100);
+}
 
 
 function updateScheduleStatus(id,status) {

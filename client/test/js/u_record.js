@@ -35,7 +35,7 @@ function orderhistory(me) {
         if (data.respbody.list.length > 0) {
 
             $("#tmpl_lishi").tmpl(data.respbody.list,timerHelper).appendTo('#content');
-            page = page + 5;
+            page = page + size;
             me.resetload();
         } else {
             // 锁定

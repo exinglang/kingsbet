@@ -31,7 +31,7 @@
 
  {{if status==3}}
    <div class="placeholder_content1">
-     待结算
+     结算中
    </div>
 
    {{else}}
@@ -55,14 +55,14 @@
    <div class="weui-flex__item"><div class="placeholder_content1">${teamname}</div><div class="placeholder_content2">${bet}</div></div>
    <div class="weui-flex__item">
      {{if betwin=="待结算"}}
-     <div class="placeholder_content3">${betwin}</div>
+     <div class="placeholder_content3">${betwin} K币</div>
      {{else}}
      {{if betwin>0}}
 
-     <div class="placeholder_content3_red">${betwin}</div>
+     <div class="placeholder_content3_red">${betwin} K币</div>
       {{else}}
      {{if betwin<0}}
-     <div class="placeholder_content3_green">${betwin}</div>
+     <div class="placeholder_content3_green">${betwin} K币</div>
 
      {{/if}}
      {{/if}}

@@ -59,14 +59,14 @@
     </insert>
 
     <update id="charge">
-UPDATE  t_user  SET  diamond = diamond+ WHERE id=#{userid};
+UPDATE  t_user  SET  diamond = diamond+#{amount} WHERE id=#{userid};
 
 insert into t_user_account_record(user_id,diamond,balance,type,time) values (#{userid},#{amount},0,1,#{time})
 
     </update>
 
     <update id="diamondtobalance">
- insert into t_user_account_record(user_id,diamond,balance,type,time)  select id,-diamond,diamond*100,1,#{time} from t_user where id=#{userid}
+ insert into t_user_account_record(user_id,diamond,balance,type,time)  select id,-diamond,diamond*100,2,#{time} from t_user where id=#{userid};
 
  UPDATE  t_user  SET  balance =balance+ diamond*100,diamond=0 WHERE id=#{userid};
 

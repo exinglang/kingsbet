@@ -186,17 +186,18 @@ public class ScheduleController extends BaseController {
         return returnResult;
     }
 
+
+
     private List<Schedule> getNeedStatusList(int requestStatus, MJsonParse parse) {
         List<Schedule> list;
-//        if (requestStatus != 5) {
+        if (requestStatus != 6) {
 
             list = dao.getScheduleList(requestStatus, parse.getInt("pageIndex"), parse.getInt("pageSize"));
-//        } else {
-//            list = dao.getScheduleList(2, parse.getInt("pageIndex"), parse.getInt("pageSize"));
-//            list.addAll(dao.getScheduleList(3, parse.getInt("pageIndex"), parse.getInt("pageSize")));
-//            list.addAll(dao.getScheduleList(4, parse.getInt("pageIndex"), parse.getInt("pageSize")));
-//
-//        }
+        } else {
+            list = dao.getScheduleListOld( parse.getInt("pageIndex"), parse.getInt("pageSize"));
+
+
+        }
         return list;
 
     }

@@ -63,10 +63,10 @@ $('#content').delegate('#deletegroupteam', 'click',
   $("#img-change").click(function() {
 
     $("#teamImg").click();
-  })
+  });
   $("#gotoaddteam").click(function() {
    window.location=('zhan_dui_zu_add_team.html');
- })
+ });
 
 
   $teamImg = $("#teamImg"),
@@ -97,7 +97,7 @@ $('#content').delegate('#deletegroupteam', 'click',
             reader.readAsDataURL(file);
 
           }
-        })
+        });
 });
 
 // function addTeam(){

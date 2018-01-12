@@ -75,16 +75,6 @@ function mRequestUserInfo(mfun) {
   var successAction = function(data) {
     storageSet(USER_INFO, JSON.stringify(data.respbody));
     mfun(data);
-
-    // weui.toast("登录成功", {
-
-    //   duration: 1000,
-    //   callback: function() {
-    //     storageSet(USER_INFO, JSON.stringify(data.respbody));
-    //     // requestUserInfo();
-    //     window.location.replace('u_schedule.html')
-    //   }
-    // });
   }
   parVolleyJsonResult(json, successAction)
 }
@@ -119,17 +109,28 @@ function groupTeamList() {
 }
 
 
-function schedulelist(status) {
+// function schedulelist(status) {
+//   var keyName = "schedulelist";
+//   var map = new Map();
+//   map.set('status', status);
+//   map.set('pageIndex', 0);
+//   map.set('pageSize', 100);
+//   var json = getJsonFromMap(map, keyName);
+//   var successAction = function(data) {
+//     // $("#demo").tmpl(data.respbody.list, timerHelper).appendTo('#content');
+
+//   }
+//   parVolleyJsonResult(json, successAction)
+// }
+
+function mSchedulelist(status,successAction,page,index) {
   var keyName = "schedulelist";
   var map = new Map();
   map.set('status', status);
-  map.set('pageIndex', 0);
-  map.set('pageSize', 100);
+  map.set('pageIndex', page);
+  map.set('pageSize', index);
   var json = getJsonFromMap(map, keyName);
-  var successAction = function(data) {
-    $("#demo").tmpl(data.respbody.list, timerHelper).appendTo('#content');
-
-  }
+ 
   parVolleyJsonResult(json, successAction)
 }
 

@@ -107,6 +107,16 @@
 
     </select>
 
+    <select id="getScheduleListOld" resultMap="ScheduleMap">
+        SELECT
+        *
+
+        FROM
+        t_schedule
+
+        where status=3 or status=4 or status=5  ORDER by `time` DESC limit #{pageindex},#{pagesize}
+
+    </select>
     <delete id="deleteSchedule" parameterType="int">
 
         delete from t_schedule_team where schedule_id=#{id};

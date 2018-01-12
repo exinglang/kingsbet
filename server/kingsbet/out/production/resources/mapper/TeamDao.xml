@@ -12,7 +12,14 @@
         (#{name},#{imgBase64},#{gameType})
 
     </insert>
+    <insert id="insertCommodity">
+        insert
+        into
+        t_commodity(name,img,price,type)
+        values
+        (#{name},#{img},#{price},#{type})
 
+    </insert>
     <insert id="updateTeamGroup">
         update t_teamgroup set  group_name=#{name} where id=#{id}
 
@@ -36,7 +43,9 @@
     <delete id="deleteTeam" parameterType="int">
         delete from t_mteam where team_id=#{id}
     </delete>
-
+    <delete id="deletecommodity" parameterType="int">
+        delete from t_commodity where id=#{id}
+    </delete>
     <delete id="deleteGroupTeam" parameterType="int">
     delete from t_teamgroup_link where team_id=#{teamid} and teamgroup_id=#{groupid}
 </delete>
@@ -50,6 +59,12 @@
         SELECT character_maximum_length
         FROM information_schema.columns
         WHERE table_name = "t_mteam" AND column_name = "img_url"
+    </select>
+    <select id="getSqlCommodityImgLength" resultType="int">
+        <!-- 具体的sql -->
+        SELECT character_maximum_length
+        FROM information_schema.columns
+        WHERE table_name = "t_commodity" AND column_name = "img"
     </select>
 
     <resultMap type="Team" id="teamMap">
@@ -69,7 +84,24 @@
 
     </select>
 
+    <resultMap type="Commodity" id="sm">
+        <result column="name" property="name"/>
 
+        <result column="price" property="price"/>
+        <result column="type" property="type"/>
+        <result column="id" property="id"/>
+        <result column="img" property="img"/>
+
+    </resultMap>
+    <select id="getCommodityList" resultMap="sm">
+         SELECT
+        *
+        FROM
+        t_commodity
+
+        where type like #{type}
+
+    </select>
 
 
 

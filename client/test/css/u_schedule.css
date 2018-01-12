@@ -321,7 +321,7 @@ font-size: 12px;
 .title_icon{
   width: 17px;
   height: 17px;
-  margin-left: 20px;
+ 
 }
 .title_icon_name,.title_icon_name_black{
 
@@ -422,10 +422,11 @@ font-size: 20px;
     box-sizing: border-box;
 }
 
- .flex-box {
+.flex-box {
             display: flex;
             justify-content: space-between;
-        }
+        
 }
+
 
 

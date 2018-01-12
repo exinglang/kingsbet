@@ -12,6 +12,8 @@
   <script src="js/u_schedule.js">
   </script>
   <link rel="stylesheet" href="css/weui.min.css">
+     <link rel="stylesheet" href="css/dropload.css">
+  <script src="js/dropload.min.js"></script>
   <script type="text/javascript">
     $(document).ready(function() {
      setTabText();
@@ -28,6 +30,8 @@
       ${title2}
     </p>
   </div>
+
+
   <div class="weui-cell__ft" style="margin-right:10px;font-size:13px">
     <!-- {{if status==2}} -->
     ${$item.time(remaintime)}
@@ -55,8 +59,45 @@
        </div>
      </script>
 
+<script id="tmpl_history" type="text/x-jquery-tmpl">  
+  <div class="weui-cell commonblue"  id="colume">
+    <div class="weui-cell__bd" >
+      <p class="weui-msg__title grey"  >
+       ${title1}
+     </p>
+     <p class="white">
+      ${title2}
+    </p>
+  </div>
 
+  
+  <div class="weui-cell__ft" style="margin-right:10px;font-size:13px">
+    ${$item.time(remaintime)}
+    
 
+           </div>
+           <div class="weui-cell__ft">
+            {{if status==2}}
+            <p id="cancelschedule" class="status_ing">
+             竞猜中
+           </p>
+           {{else status==3}}
+           <p id="cancelschedule" class="status" >
+             结算中
+           </p>
+            {{else status==5}}
+           <p id="cancelschedule" class="status" >
+             已结算
+           </p>
+           {{else status==4}}
+           <p id="cancelschedule" class="status" >
+             已取消
+           </p>
+           {{/if}}
+
+         </div>
+       </div>
+     </script>
      <title>
       王者竞猜
     </title>
@@ -64,9 +105,14 @@
   <body >
    
    
-    <div id="content">
+    <div id="content" >
     </div>
-
+     <div style="height: 1px;background: white" >
+    </div>
+<div class="content2">
+    <div id="content3" >
+    </div>  
+</div>  
     <div>
       <div class="weui-mask" id="iosMask" style="display: none"></div>
       <div class="weui-actionsheet" id="iosActionsheet">

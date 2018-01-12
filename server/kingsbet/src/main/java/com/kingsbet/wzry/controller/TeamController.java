@@ -308,8 +308,72 @@ public class TeamController extends BaseController {
         return returnResult;
     }
 
+    @RequestMapping("/addcommodity")
+    @ResponseBody
+    public ResponseJsonRoot addcommodity(@RequestBody RequestJsonRoot<Commodity> jsonRoot) {
+        ResponseJsonRoot result = new ResponseJsonRoot(jsonRoot.getName(), Constants.CODE_SUCCESS, "");
+        Commodity entity = jsonRoot.getReqsbody();
+        try {
+            int sqlImgLength = dao.getSqlCommodityImgLength();
+            if (entity.getImg()==null) {
+                result.setRetcodeAndMsg(Constants.CODE_FAIL, "请选择图片");
+                return result;
+            }
+            if (sqlImgLength < entity.getImg().length()) {
+                result.setRetcodeAndMsg(Constants.CODE_FAIL, "图片过大,请上传较小图片");
+                return result;
+            }
+
+            dao.insertCommodity(entity.getName(), entity.getImg(), entity.getPrice(),entity.getType());
+        } catch (Exception e) {
+            e.printStackTrace();
+            result.setRetcodeAndMsg(Constants.CODE_FAIL, Constants.MSG_FAIL_UNKNOW);
+        }
+
+        return result;
+    }
 
 
+    @RequestMapping("/commoditylist")
+    @ResponseBody
+    public ResponseJsonRoot getCommodityList(@RequestBody RequestJsonRoot jsonRoot) {
+        ResponseJsonRoot returnResult = new ResponseJsonRoot(jsonRoot.getName(), Constants.CODE_SUCCESS, "");
+        MJsonParse parse = new MJsonParse(jsonRoot);
+        try {
+            //需先转为LImit
+//            int limitPre = Integer.valueOf(entity.getPageIndex()) * Integer.valueOf(entity.getPageSize());
+            String type = parse.getString("type");
+            if (type.equals("")){
+                type="%";
+            }
+            List<Commodity> list = dao.getCommodityList(type);
+
+            ResponseList typeAndList = new ResponseList();
+            typeAndList.setList(list);
+            returnResult.setRepbody(typeAndList);
+
+
+        } catch (Exception e) {
+            e.printStackTrace();
+            returnResult.setRetcodeAndMsg(Constants.CODE_FAIL, Constants.MSG_FAIL_UNKNOW);
+        }
+
+        return returnResult;
+    }
+    @RequestMapping("/deletecommodity")
+    @ResponseBody
+    public ResponseJsonRoot deletecommodity(@RequestBody RequestJsonRoot jsonRoot) {
+        ResponseJsonRoot result = new ResponseJsonRoot(jsonRoot.getName(), Constants.CODE_SUCCESS, "");
+        try {
+            MJsonParse parse = new MJsonParse(jsonRoot);
+            dao.deletecommodity(Integer.valueOf(parse.getInt("id")));
+        } catch (Exception e) {
+            e.printStackTrace();
+            result.setRetcodeAndMsg(Constants.CODE_FAIL, Constants.MSG_FAIL_UNKNOW);
+        }
+
+        return result;
+    }
 
 }
 
