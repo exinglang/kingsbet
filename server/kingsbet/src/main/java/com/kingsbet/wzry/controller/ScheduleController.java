@@ -37,8 +37,6 @@ public class ScheduleController extends BaseController {
         ResponseJsonRoot result = new ResponseJsonRoot(jsonRoot.getName(), Constants.CODE_SUCCESS, "");
         Schedule schedule = jsonRoot.getReqsbody();
         try {
-
-
             dao.insertSchedule(schedule, Constants.SCHEDULE_STATUS_DAI_FA_BU);
             dao.insertScheduleTeam(schedule.getId(), schedule.getTeamIdList());
             List<Integer> pankoutypeidlist = schedule.getPankoutypeidlist();

@@ -340,7 +340,6 @@ request
 	"name": "getschedule",
 	"reqbody": {			
 		"id": "123",				//id
-
 		"session": "3634F440030595CC6B6B4F718BECA437"	
 	}
 }
@@ -801,7 +800,7 @@ request
 }
 
 
-//请求所有战队
+//商品列表
 request
 {
 	"name": "commoditylist",

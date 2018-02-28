@@ -27,9 +27,6 @@ function mteamGroupList(mfun) {
   map.set('pageIndex', 0);
   map.set('pageSize',50);
   var json = getJsonFromMap(map, keyName);
-
-
-
   var successAction= function(data) {
    mfun(data);
  }
@@ -43,12 +40,9 @@ function mGetschedule(id,mfun) {
   var map = new Map();
   map.set('id', id);
   var json = getJsonFromMap(map, keyName);
-
 var successAction= function(data) {
    mfun(data);
  }
-
-
  parVolleyJsonResultNoLoading(json, successAction)
 }
 
@@ -107,6 +101,24 @@ function groupTeamList() {
   }
   parVolleyJsonResult(json, successAction)
 }
+
+
+function parentCommoditylist(type,mfun) {
+    var keyName = "commoditylist";
+    var map = new Map();
+
+    map.set('type',type);
+
+    var json = getJsonFromMap(map, keyName);
+    var successAction = function(data) {
+      mfun(data);
+
+
+    }
+    parVolleyJsonResult(json, successAction);
+
+}
+
 
 
 // function schedulelist(status) {

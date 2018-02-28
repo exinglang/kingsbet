@@ -9,6 +9,8 @@ var SCHEDULE_ID = "SCHEDULE_ID";
 var U_SCHEDULE_PANKOU_ID = "U_SCHEDULE_PANKOU_ID";
 var USER_INFO = "USER_INFO";
 var JIE_SUAN_ID="JIE_SUAN_ID";
+var COMMODITY="COMMODITY";
+
 var CompositeImpl = function() {};
 document.write("<script type='text/javascript' src='commonjs/MD5.js'></script>");
 document.write("<script type='text/javascript' src='commonjs/weui.min.js'></script>");

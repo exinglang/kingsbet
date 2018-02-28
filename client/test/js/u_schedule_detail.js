@@ -54,6 +54,10 @@ function jingcai(item){
 	}
   // JSON.stringify(jsonobj);
   var s = JSON.parse(storageGet(USER_INFO));
+
+
+
+  
   sPrompt("可用K币:    "+s.balance,item.data.name,"",callback);
 }
 

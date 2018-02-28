@@ -14,10 +14,21 @@ $(function() {
 	$("#charge").click(function() {
 
 		window.location = ('u_charge.html')
-	})
+	});
+
+$('#content_zidong').delegate('#mclick', 'click',
+    function() {
+    	var s=$.tmplItem(this);
+    	 // storageSet(COMMODITY, JSON.stringify(s));
+
+    	 storageSet(COMMODITY, JSON.stringify(s.data));
+window.location = ('u_shangcheng_detail.html')
+}
+ );
+  
 
 
-
+  
 
 });
 
@@ -48,6 +59,20 @@ function charge(){
 	}
 	parVolleyJsonResult(json,successAction);
 
+}
+
+function commoditylistShouDong() {
+  var mFun=function (data) {
+   $("#demo").tmpl(data.respbody.list).appendTo('#content_shoudong');
+}
+parentCommoditylist("1",mFun);
+}
+function commoditylistZiDong() {
+  var mFun=function (data) {
+   $("#demo").tmpl(data.respbody.list).appendTo('#content_zidong');
+   commoditylistShouDong();
+}
+parentCommoditylist("2",mFun);
 }
 
 

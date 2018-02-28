@@ -4,54 +4,59 @@
 <head>
   <meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
   <script src="https://cdn.bootcss.com/jquery/3.2.1/jquery.min.js"></script>
+    <script src="http://ajax.microsoft.com/ajax/jquery.templates/beta1/jquery.tmpl.min.js"></script>
+
   <script src="js/u_shangcheng.js"></script>
   <link rel="stylesheet" href="css/weui.min.css">
   <link rel="stylesheet" href="css/u_shangcheng.css"> 
 
   <title>王者竞猜</title>
-  </script>
-  <script type="text/javascript">
-    $(document).ready(function() {
-     setTabText();
-     setUserInfo();
+</script>
+<script type="text/javascript">
+  $(document).ready(function() {
+   setTabText();
+   
+   commoditylistZiDong();
+
    });
  </script>
+
+ <script id="demo" type="text/x-jquery-tmpl">  
+  <div id="mclick" class="weui-grid_m">
+    <div class="weui-grid__icon_m">
+      <img src="${img}" alt="">
+    </div>
+    <div class="bi weui-grid__label">
+      <img  id="img-cange" src="images/kbi.jpg"  class="title_icon" />
+      <p class="yellow" >${price}</p>
+    </div>
+    <p class="weui-grid__label" >${name}</p>
+
+  </div>
+</script>
 </head>
 
 <body>
 
   <div class="page">
-   <div class=weui-cells__title>自动兑换</div>
-   <div class="weui-grids_m">
-    <a href="u_record.html"  class="weui-grid_m">
-      <div class="weui-grid__icon_m">
-        <img src="./images/kzuan.jpg" alt="">
-      </div>
-      <div class="bi weui-grid__label">
-      <img  id="img-cange" src="images/kbi.jpg"  class="title_icon" />
-         <p class="yellow" >123123</p>
-     </div>
-      <p class="weui-grid__label" >话费兑换</p>
-      
-    </a>
-    <a href="shang_cheng.html" class="weui-grid_m">
-      <div class="weui-grid__icon_m">
-        <img src="./images/kzuan.jpg" alt="">
-      </div>
-      <p class="weui-grid__label">京东E卡</p>
-    </a>
-    <a href="add_pankou.html" class="weui-grid_m">
-      <div class="weui-grid__icon_m">
-        <img src="./images/kzuan.jpg" alt="">
-      </div>
-      <p class="weui-grid__label">添加盘口</p>
-    </a>
-
-  </div>
+   <div class=weui-cells__title>自动兑换(推荐)</div>
+   <div>
+   <div id="content_zidong">
 
 
 
-  <div class="weui-tabbar" >
+   </div>
+ </div>
+   <div class=weui-cells__title>手动兑换</div>
+   <div id="content_shoudong">
+
+
+
+   </div>
+
+
+
+   <div class="weui-tabbar" >
     <a href="u_schedule.html" class="weui-tabbar__item">
       <span style="display: inline-block;position: relative;">
         <img src="./images/icon_nav_form.png" alt="" class="weui-tabbar__icon">

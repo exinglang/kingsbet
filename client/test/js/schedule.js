@@ -121,8 +121,9 @@ function teamGroupList() {
       //编辑
       weui.toast("如已发布,请只修改比赛时间!");
       getschedule(storageGet(SCHEDULE_ID));
-      var btnVal = document.getElementById("commit");
-      btnVal.innerHTML = "更新比赛";
+      // var btnVal = document.getElementById("commit");
+      // btnVal.innerHTML = "更新比赛";
+      $("#commit").text("更新比赛");
     }
   }
   mteamGroupList(mTest);

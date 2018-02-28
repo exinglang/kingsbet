@@ -1,0 +1,52 @@
+<!DOCTYPE html>
+<html>
+<head>
+  <meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
+  <script src="https://cdn.bootcss.com/jquery/3.2.1/jquery.min.js"></script>
+  <link rel="stylesheet" href="css/weui.min.css">
+  <link rel="stylesheet" href="css/u_schedule.css"> 
+  <title>王者竞猜</title>
+  <script src="js/u_shangcheng_detail.js">
+  </script>
+  <link rel="stylesheet" href="css/u_shangcheng_detail.css"> 
+
+  <script type="text/javascript">
+    $(document).ready(function() {
+     setTabText();
+     setCommodity();
+   });
+ </script>
+</head>
+<body>
+  <div class="page">
+    <div class="column"  style="margin: 15px" >
+      <img src="" alt="" id="img" width=150px height=150px>
+      <p  id="name" style="text"></p>
+      <div class="row" >
+        <img   src="images/kbi.jpg"  class="title_icon" />
+        <p id="price" class="yellow"></p>
+      </div>
+      <div class="row" >
+        <p  id="bt_jian" class="bt_number"  >-</p>
+        <input id="input_number" type="number" value="1" class="input_number" />
+        <p  id="bt_jia"  class="bt_number">+</p>
+      </div>
+    </div>
+    <a class="weui-btn weui-btn_commonyellow"  style="margin: 15px"  onclick="charge()" id="showTooltips">立刻兑换</a>
+    <div class="weui-tabbar" >
+      <a href="u_schedule.html" class="weui-tabbar__item">
+        <span style="display: inline-block;position: relative;">
+          <img src="./images/icon_nav_form.png" alt="" class="weui-tabbar__icon">
+        </span>
+        <p class="weui-tabbar__label_m" id="tab_1"> 
+        </p>
+      </a>
+      <a href="u_wode.html" class="weui-tabbar__item weui-bar__item_on">
+        <img src="./images/icon_nav_layout.png" alt="" class="weui-tabbar__icon">
+        <p class="weui-tabbar__label_m" id="tab_2">
+        </p>
+      </a>
+    </div>
+  </div>
+</body>
+</html>

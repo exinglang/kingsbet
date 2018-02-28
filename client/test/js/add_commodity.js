@@ -86,22 +86,14 @@ function addcommodity() {
 }
 
 
-
 function commoditylist() {
-    var keyName = "commoditylist";
-    var map = new Map();
-
-    map.set('type',"");
-
-    var json = getJsonFromMap(map, keyName);
-    var successAction = function(data) {
-        $("#demo").tmpl(data.respbody.list).appendTo('#content');
-
-
-    }
-    parVolleyJsonResult(json, successAction);
-
+  var mFun=function (data) {
+   $("#demo").tmpl(data.respbody.list).appendTo('#content');
 }
+parentCommoditylist("",mFun);
+}
+
+
 
 function deleteCommodity(id) {
   var keyName = "deletecommodity";
