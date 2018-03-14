@@ -4,7 +4,7 @@
 <head>
   <meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
   <script src="https://cdn.bootcss.com/jquery/3.2.1/jquery.min.js"></script>
-    <script src="http://ajax.microsoft.com/ajax/jquery.templates/beta1/jquery.tmpl.min.js"></script>
+  <script src="http://ajax.microsoft.com/ajax/jquery.templates/beta1/jquery.tmpl.min.js"></script>
 
   <script src="js/u_shangcheng.js"></script>
   <link rel="stylesheet" href="css/weui.min.css">
@@ -18,13 +18,13 @@
    
    commoditylistZiDong();
 
-   });
- </script>
+ });
+</script>
 
- <script id="demo" type="text/x-jquery-tmpl">  
+<script id="demo" type="text/x-jquery-tmpl">  
   <div id="mclick" class="weui-grid_m">
     <div class="weui-grid__icon_m">
-      <img src="${img}" alt="">
+      <img src="${img}" style="width: 100px;height: 100px">
     </div>
     <div class="bi weui-grid__label">
       <img  id="img-cange" src="images/kbi.jpg"  class="title_icon" />
@@ -39,23 +39,24 @@
 <body>
 
   <div class="page">
+    <div class="flex-box">
+
+     <div class="wode_title_row2">
+       <p  class="wode_title_yue">余额:</p>  <img  id="img-cange" src="images/kzuan.jpg"  class="title_icon" />
+       <p  class="title_icon_name" id="diamond"></p>
+       <img  id="img-cange" src="images/kbi.jpg"  class="title_icon" />
+       <p  class="title_icon_name" id="balance"></p>
+     </div>
+
+   </div>
    <div class=weui-cells__title>自动兑换(推荐)</div>
    <div>
-   <div id="content_zidong">
-
-
-
+     <div id="content_zidong">
+     </div>
    </div>
- </div>
    <div class=weui-cells__title>手动兑换</div>
    <div id="content_shoudong">
-
-
-
    </div>
-
-
-
    <div class="weui-tabbar" >
     <a href="u_schedule.html" class="weui-tabbar__item">
       <span style="display: inline-block;position: relative;">

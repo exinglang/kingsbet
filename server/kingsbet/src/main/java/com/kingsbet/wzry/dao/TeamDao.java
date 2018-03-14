@@ -1,9 +1,6 @@
 package com.kingsbet.wzry.dao;
 
-import com.kingsbet.wzry.entity.Commodity;
-import com.kingsbet.wzry.entity.PankouType;
-import com.kingsbet.wzry.entity.Team;
-import com.kingsbet.wzry.entity.TeamGroup;
+import com.kingsbet.wzry.entity.*;
 import org.apache.ibatis.annotations.Param;
 import org.springframework.stereotype.Repository;
 import org.springframework.stereotype.Service;
@@ -17,7 +14,7 @@ import java.util.List;
 public interface TeamDao {
 
     void insertTeam(@Param("name")String name,@Param("imgBase64") String imgBase64,@Param("gameType") String gameType);
-    void insertCommodity(@Param("name")String name,@Param("img") String img,@Param("price") int price,@Param("type") int type);
+    void insertCommodity(@Param("entity")Commodity entity);
 
     //	"type":1,  //1、王者荣耀 2.绝地求生
 //            "name":"LGD",//战队名字
@@ -26,7 +23,7 @@ public interface TeamDao {
     List<Team> getTeamList(@Param("type")String type, @Param("pageIndex")int pageIndex, @Param("pageSize")int pageSize);
 
     List<Commodity> getCommodityList(@Param("type")String type);
-
+    Commodity getCommodityById(@Param("id")int id);
 
 
     List<TeamGroup> getTeamGroupList(@Param("type")String type, @Param("pageIndex")int pageIndex, @Param("pageSize")int pageSize);
@@ -51,7 +48,7 @@ public interface TeamDao {
     void deletePankouType(@Param("id")int id);
     List<PankouType>  getPankouTypeList();
 
-
-
+    void  insertExchange(@Param("entity")Exchange entity);
+    void updateTExchangeStatus(@Param("entity")Exchange entity);
 
 }

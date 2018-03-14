@@ -19,6 +19,13 @@ $("#charge").click(function() {
 
 });
 
+function requestUserInfo() {
+	var mTest = function(data) {
+		setUserInfo();
+	}
+	mRequestUserInfo(mTest);
+}
+
 
 
 

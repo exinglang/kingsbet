@@ -290,7 +290,6 @@ public class TeamController extends BaseController {
     @ResponseBody
     public ResponseJsonRoot getPankouTypeList(@RequestBody RequestJsonRoot<TeamList> jsonRoot) {
         ResponseJsonRoot returnResult = new ResponseJsonRoot(jsonRoot.getName(), Constants.CODE_SUCCESS, "");
-//        TeamList entity = jsonRoot.getReqsbody();
         try {
             //需先转为LImit
             List<PankouType> list = dao.getPankouTypeList();
@@ -324,7 +323,7 @@ public class TeamController extends BaseController {
                 return result;
             }
 
-            dao.insertCommodity(entity.getName(), entity.getImg(), entity.getPrice(),entity.getType());
+            dao.insertCommodity(entity);
         } catch (Exception e) {
             e.printStackTrace();
             result.setRetcodeAndMsg(Constants.CODE_FAIL, Constants.MSG_FAIL_UNKNOW);

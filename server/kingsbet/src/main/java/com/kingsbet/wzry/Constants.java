@@ -6,6 +6,18 @@ public class Constants {
     public static final int CODE_SUCCESS = 0;
     public static final int CODE_FAIL = -1;
     public static final String MSG_FAIL_UNKNOW = "未知错误";
+    public static final String MSG_FAIL_EXCHANGE = "金额验证失败,请联系管理员";
+    public static final String MSG_FAIL_NOT_BALANCE = "K币不足";
+    public static final int HUA_FEI = 1;
+    public static final int KA = 2;
+
+    public static final String JVHE_APPKEY_HUAFEI = "11998047e3b74aecf6f9b69f38b2d912";
+    public static final String JVHE_APPKEY_LI_PING_KA = "457d68417f98f66e425e5941987b30ce";
+
+
+    public static final String JVHE_OPENID = "JH26b9229d4b98cb2ff4c7b7138cd16130";
+
+//    public static final String MSG_FAIL_NOT_BALANCE = "未知错误";
 
     public static final int USER_ID = 1;
     public static final int SCHEDULE_STATUS_DAI_FA_BU = 1;//待发布

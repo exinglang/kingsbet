@@ -16,19 +16,19 @@ $(function() {
 		window.location = ('u_charge.html')
 	});
 
-$('#content_zidong').delegate('#mclick', 'click',
-    function() {
-    	var s=$.tmplItem(this);
+	$('#content_zidong').delegate('#mclick', 'click',
+		function() {
+			var s=$.tmplItem(this);
     	 // storageSet(COMMODITY, JSON.stringify(s));
 
     	 storageSet(COMMODITY, JSON.stringify(s.data));
-window.location = ('u_shangcheng_detail.html')
-}
- );
-  
+    	 window.location = ('u_shangcheng_detail.html');
+    	}
+    	);
+	
 
 
-  
+	
 
 });
 
@@ -62,17 +62,18 @@ function charge(){
 }
 
 function commoditylistShouDong() {
-  var mFun=function (data) {
-   $("#demo").tmpl(data.respbody.list).appendTo('#content_shoudong');
-}
-parentCommoditylist("1",mFun);
+	var mFun=function (data) {
+		$("#demo").tmpl(data.respbody.list).appendTo('#content_shoudong');
+		 requestUserInfo();
+	}
+	parentCommoditylist("1",mFun);
 }
 function commoditylistZiDong() {
-  var mFun=function (data) {
-   $("#demo").tmpl(data.respbody.list).appendTo('#content_zidong');
-   commoditylistShouDong();
-}
-parentCommoditylist("2",mFun);
+	var mFun=function (data) {
+		$("#demo").tmpl(data.respbody.list).appendTo('#content_zidong');
+		commoditylistShouDong();
+	}
+	parentCommoditylist("2",mFun);
 }
 
 
@@ -86,7 +87,7 @@ function diamondtobalance(){
 	var json = getJsonFromMap(map, keyName);
 	var successAction= function(data) {
 		
-weui.toast("兑换成功");
+		weui.toast("兑换成功");
 		requestUserInfo();
 	}
 	parVolleyJsonResult(json,successAction);
@@ -96,10 +97,10 @@ weui.toast("兑换成功");
 
 
 function requestUserInfo() {
-  var mTest = function(data) {
-      setUserInfo();
-  }
-  mRequestUserInfo(mTest);
+	var mTest = function(data) {
+		setUserInfo();
+	}
+	mRequestUserInfo(mTest);
 }
 
 

@@ -7,7 +7,7 @@ document.write("<script type='text/javascript' src='js/public.js'></script>");
 $(function() {
 
 
-  　$('#content').delegate('#delete', 'click',
+  　$('#content').delegate('#delete', 'click', 
     function() {
       var item = $.tmplItem(this);
       weui.confirm("确定删除 " + item.data.name + " 吗?  ",

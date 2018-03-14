@@ -17,7 +17,7 @@ $(function() {
     window.location.replace('schedule_yi_qu_xiao.html')
   })
 });
-
+ 
 
 function mteamGroupList(mfun) {
   var keyName = "teamgrouplist";

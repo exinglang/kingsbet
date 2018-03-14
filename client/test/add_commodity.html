@@ -24,6 +24,7 @@
 
     <div class="weui-cell__bd">
       <p>${id}</p>
+      <p class="weui-uploader__title">${productid}</p>
       <p class="weui-uploader__title">${name}</p>
       <p class="weui-uploader__title">${price}</p>
 
@@ -48,6 +49,8 @@
         </div>
 
         <div class="weui-cell__bd">
+          
+           <input type="text" placeholder="与聚合数据对应的productId" autofocus="" id="productid" required=""> 
           <input type="text" placeholder="商品名称" autofocus="" id="name" required=""> 
           <input type="text" placeholder="价格" autofocus="" id="price" required=""> 
           <div>

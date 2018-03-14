@@ -1,0 +1,263 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper
+        PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+        "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.kingsbet.wzry.dao.ScheduleDao">
+
+
+    <insert id="insertSchedule" parameterType="Schedule" useGeneratedKeys="true" keyProperty="schedule.id">
+    insert  ignore into t_schedule(title_1,title_2,time,status)values(#{schedule.title1},#{schedule.title2},#{schedule.time},#{status});
+    </insert>
+
+
+    <insert id="updatePankouDetailAndUser">
+ update t_schedule_pankou_detail set bet_amount = bet_amount+#{amount} where id =#{pankoudetailid};
+ update t_user set balance = balance-#{amount} where id =#{userid};
+    </insert>
+
+
+    <insert id="insertUserBetDetail">
+            insert  ignore into t_user_bet_detail(t_schedule_pankou_detail_id,user_id,user_bet_amount)values(#{pankoudetailid},#{userid},#{amount});
+    </insert>
+    <insert id="updateUserBetDetail">
+        update     t_user_bet_detail set user_bet_amount=user_bet_amount+#{amount} where user_id=#{userid} and t_schedule_pankou_detail_id=#{pankoudetailid}
+    </insert>
+
+    <select id="checkUserHasBet" resultType="int">
+        <!-- 具体的sql -->
+        SELECT
+        COUNT(*)
+        FROM
+        t_user_bet_detail
+        where user_id=#{userid} and t_schedule_pankou_detail_id=#{pankoudetailid}
+    </select>
+
+    <insert id="updateSchedule" parameterType="Schedule" useGeneratedKeys="true" keyProperty="entity.id">
+
+        update   t_schedule set title_1=#{schedule.title1},title_2=#{schedule.title2},time=#{schedule.time} where schedule_id=#{schedule.id}
+
+
+
+    </insert>
+
+
+    <insert id="insertSchedulePankou" parameterType="java.util.List" useGeneratedKeys="true" keyProperty="id">
+
+        insert ignore into t_schedule_pankou (schedule_id,pankou_type_id)
+        values
+        <foreach collection="list" item="pankou" index="index" separator=",">
+            (
+            #{pankou.scheduleid}, #{pankou.pankoutypeid}
+            )
+        </foreach>
+
+    </insert>
+
+    <update id="setScheduleRank" parameterType="java.util.List" useGeneratedKeys="true" keyProperty="id">
+
+        <foreach collection="list" item="team" index="index" open="" close="" separator=";">
+
+            update t_schedule_team
+
+            <set>
+                rank=#{team.rank}
+            </set>
+
+            where schedule_id=#{team.scheduleid} and team_id=#{team.id}
+        </foreach>
+    </update>
+
+    <insert id="insertSchedulePankouDetail" parameterType="java.util.List">
+        insert ignore into t_schedule_pankou_detail (schedule_id,pankou_id,team_id)
+        values
+        <foreach collection="pankoulist" item="pankou" index="index" separator=",">
+            <foreach collection="teamIdList" item="teamid" index="index" separator=",">
+                (
+                #{pankou.scheduleid},#{pankou.id}, #{teamid}
+                )
+            </foreach>
+        </foreach>
+    </insert>
+
+
+    <insert id="insertScheduleTeam" parameterType="java.util.List">
+        insert ignore into t_schedule_team (schedule_id,team_id)
+        values
+        <foreach collection="teamIdList" item="item" index="index" separator=",">
+            (
+            #{scheduleId}, #{item}
+            )
+        </foreach>
+    </insert>
+
+    <resultMap type="Schedule" id="ScheduleMap">
+        <result column="schedule_id" property="id"/>
+        <result column="title_1" property="title1"/>
+        <result column="title_2" property="title2"/>
+
+    </resultMap>
+    <select id="getScheduleList" resultMap="ScheduleMap">
+        SELECT
+        *
+
+        FROM
+        t_schedule
+
+        where status=#{status} ORDER by `time` ASC limit #{pageindex},#{pagesize}
+
+    </select>
+
+    <select id="getScheduleListOld" resultMap="ScheduleMap">
+        SELECT
+        *
+
+        FROM
+        t_schedule
+
+        where status=3 or status=4 or status=5  ORDER by `time` DESC limit #{pageindex},#{pagesize}
+
+    </select>
+    <delete id="deleteSchedule" parameterType="int">
+
+        delete from t_schedule_team where schedule_id=#{id};
+        delete from t_schedule_pankou_detail where schedule_id=#{id};
+
+        delete from t_schedule_pankou where schedule_id=#{id};
+        delete from t_schedule where schedule_id=#{id};
+    </delete>
+
+
+    <insert id="updateScheduleStatus">
+        update t_schedule set  status=#{status} where schedule_id=#{id}
+
+    </insert>
+    <update id="updateWinUserBetDeail">
+       update t_user_bet_detail set  user_bet_earn= floor(user_bet_amount*#{peilv}) where  t_schedule_pankou_detail_id =#{pankoudetailid};
+
+         update t_user a, t_user_bet_detail b
+   set a.balance = a.balance+b.user_bet_earn
+ where a.id = b.user_id and b.t_schedule_pankou_detail_id=#{pankoudetailid}
+
+
+    </update>
+
+
+    <update id="updateLoseUserBetDeail">
+        update t_user_bet_detail set  user_bet_earn=-user_bet_amount where  t_schedule_pankou_detail_id =#{pankoudetailid};
+
+        update t_user a, t_user_bet_detail b
+        set a.balance = a.balance+b.user_bet_earn
+        where a.id = b.user_id and b.t_schedule_pankou_detail_id=#{pankoudetailid}
+
+
+    </update>
+
+    <resultMap type="Pankou" id="map">
+        <result column="id" property="pankoutypeid"/>
+        <result column="name" property="pankoutypename"/>
+        <result column="mtype" property="pankoutypetype"/>
+        <result column="pankouid" property="id"/>
+
+    </resultMap>
+    <select id="getSchedulePankou" resultMap="map">
+       SELECT
+        b.id,b.name,b.mtype,a.id as pankouid
+        FROM
+        t_schedule_pankou as a ,t_pankou_type as b
+
+        where schedule_id=#{scheduleid} and a.pankou_type_id =b.id
+
+    </select>
+    <resultMap type="Team" id="map1">
+        <result column="team_id" property="id"/>
+        <result column="name" property="name"/>
+    </resultMap>
+    <select id="getScheduleTeam" resultMap="map1">
+        SELECT b.team_id,b.name  FROM t_schedule_team AS a,t_mteam AS b WHERE a.schedule_id=#{id} and a.team_id =b.team_id
+
+    </select>
+
+
+    <resultMap type="Schedule" id="teamMap1">
+        <result column="title_1" property="title1"/>
+        <result column="title_2" property="title2"/>
+        <result column="schedule_id" property="id"/>
+        <result column="time" property="time"/>
+    </resultMap>
+    <select id="getSchedule" resultMap="teamMap1">
+        SELECT
+        *
+        FROM
+        t_schedule
+
+        where schedule_id=#{id}
+
+    </select>
+
+
+    <select id="getScheduleIdFromPankouId" resultType="int">
+        <!-- 具体的sql -->
+        SELECT schedule_id FROM mydb.t_schedule_pankou where id=#{pankouid} ;
+
+    </select>
+    <select id="getScheduleStatus" resultType="int">
+        <!-- 具体的sql -->
+        SELECT status FROM mydb.t_schedule where schedule_id=#{scheduleid} ;
+
+    </select>
+    <resultMap type="Team" id="map3">
+        <result column="team_id" property="id"/>
+        <result column="bet_amount" property="betamount"/>
+        <result column="user_bet_amount" property="userbet"/>
+
+    </resultMap>
+    <select id="getPankouDetail" resultMap="map3">
+        SELECT b.team_id,b.name,a.bet_amount,c.user_bet_amount   FROM
+        t_schedule_pankou_detail AS a  JOIN  t_mteam AS b
+        ON a.pankou_id=#{pankouId} and a.team_id =b.team_id left JOIN  t_user_bet_detail as c ON c.user_id=#{userId} and c.t_schedule_pankou_detail_id=a.id
+  ORDER BY `team_id` ASC
+    </select>
+
+    <resultMap type="Team" id="map4">
+        <result column="team_id" property="id"/>
+        <result column="bet_amount" property="betamount"/>
+        <result column="user_bet_amount" property="userbet"/>
+        <result column="id" property="pankoudetailid"/>
+        <result column="rank" property="rank"/>
+
+    </resultMap>
+    <select id="getPankouDetailOrderBybetamount" resultMap="map4">
+        SELECT b.team_id,b.name,a.bet_amount,c.user_bet_amount,d.rank,a.id   FROM
+        t_schedule_pankou_detail AS a  JOIN  t_mteam AS b
+        ON a.pankou_id=#{pankouId} and a.team_id =b.team_id left JOIN  t_user_bet_detail as c ON c.user_id=#{userId} and c.t_schedule_pankou_detail_id=a.id  join t_schedule_team as d on b.team_id=d.team_id and d.schedule_id=a.schedule_id
+        ORDER BY `rank` asc
+    </select>
+
+    <select id="getPankouDetailId" resultType="int">
+        <!-- 具体的sql -->
+        SELECT id FROM mydb.t_schedule_pankou_detail where pankou_id=#{pankouid} and team_id =#{teamid};
+
+    </select>
+
+
+    <resultMap type="PankouType" id="map2">
+        <result column="id" property="id"/>
+        <result column="name" property="name"/>
+        <result column="mtype" property="type"/>
+    </resultMap>
+    <select id="getPankouType" resultMap="map2">
+        <!-- 具体的sql -->
+        SELECT b.* FROM t_schedule_pankou as a,t_pankou_type as b where a.id=#{pankouid} and a.pankou_type_id = b.id
+    </select>
+
+    <update id="returnUserBet">
+        update t_user set balance=balance+(select user_bet_amount from t_user_bet_detail where t_schedule_pankou_detail_id in
+
+        (select id from t_schedule_pankou_detail where schedule_id=#{scheduleid} ))
+
+        where id in (select user_id from t_user_bet_detail where t_schedule_pankou_detail_id in
+
+        (select id from t_schedule_pankou_detail where schedule_id=#{scheduleid} ))
+
+    </update>
+</mapper>

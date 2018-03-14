@@ -78,7 +78,16 @@ public class ResponseJsonRoot<T> {
         void adminLogin(String username,String pwdMd5);
     }
 
-//    public JsonRootBody<T> getJsonRootBody() {
+    @Override
+    public String toString() {
+        return "ResponseJsonRoot{" +
+                "name='" + name + '\'' +
+                ", retcode=" + retcode +
+                ", msg='" + msg + '\'' +
+                ", repbody=" + repbody +
+                '}';
+    }
+    //    public JsonRootBody<T> getJsonRootBody() {
 //        return jsonRootBody;
 //    }
 //

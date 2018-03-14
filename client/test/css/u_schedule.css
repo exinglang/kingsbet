@@ -5,9 +5,9 @@
   --grey: #eeeeee;
   --white: #ffffff;
     --black: #000000;
- --commonbg: #f8f8f8;
+ --commonbg: #f8f8f8; 
 
-}
+} 
 .page,body {
 	background-color:var(--commonbg);
 }
@@ -357,10 +357,6 @@ font-size: 20px;
     border-radius: 5px;
 
 
-
-
-
-
 }
 
 .weui-btn_commonblack {
@@ -421,6 +417,7 @@ font-size: 20px;
   width: 33.33333333%;
     box-sizing: border-box;
 }
+
 
 .flex-box {
             display: flex;

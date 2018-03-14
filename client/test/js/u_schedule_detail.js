@@ -24,7 +24,7 @@ $('#content').delegate('#jingcai', 'click',
 
 window.sMessageOpen = function(s){
 	if(s){$("#sMessage,#sMessage"+s).fadeIn(233,"swing");
-	var w_h = $(window).height();
+	var w_h = $(window).height(); 
 	if(w_h>$("#sMessage"+s).height()){
 		$("#sMessage"+s).css("marginTop",(w_h*0.3)-($("#sMessage"+s).height()*0.3));
 	}
@@ -41,6 +41,8 @@ window.sMessageClose = function(s){
 
 
 
+
+
 function jingcai(item){
 	// var name = item.name;
 	var callback =function(){
@@ -52,12 +54,7 @@ function jingcai(item){
 		}
 		
 	}
-  // JSON.stringify(jsonobj);
   var s = JSON.parse(storageGet(USER_INFO));
-
-
-
-  
   sPrompt("可用K币:    "+s.balance,item.data.name,"",callback);
 }
 

@@ -96,3 +96,17 @@
    align-items: center;
    justify-content:  center;
 }
+.wode_title_row2{
+  display: -webkit-flex; /* Safari */
+  display: flex;
+
+  flex-direction:   row ;
+   align-items: center;
+margin: 10px;
+
+}
+.flex-box {
+            display: flex;
+            justify-content: space-between;
+        
+}

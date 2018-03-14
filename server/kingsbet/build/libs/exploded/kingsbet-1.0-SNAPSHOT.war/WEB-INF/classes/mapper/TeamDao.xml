@@ -12,12 +12,12 @@
         (#{name},#{imgBase64},#{gameType})
 
     </insert>
-    <insert id="insertCommodity">
+    <insert id="insertCommodity"  parameterType="Commodity">
         insert
         into
-        t_commodity(name,img,price,type)
+        t_commodity(name,img,price,type,productid)
         values
-        (#{name},#{img},#{price},#{type})
+        (#{entity.name},#{entity.img},#{entity.price},#{entity.type},#{entity.productid})
 
     </insert>
     <insert id="updateTeamGroup">
@@ -169,9 +169,26 @@
         *
         FROM
         t_pankou_type
-
-
-
     </select>
+    <select id="getCommodityById" resultType="Commodity" parameterType="int">
+        <!-- 具体的sql -->
+        SELECT
+        *
+        FROM
+        t_commodity
+        WHERE
+        id = #{id}
+    </select>
+    <insert id="insertExchange" parameterType="Exchange" >
 
+
+ insert   t_exchange set userid=#{entity.userid},reqdate=#{entity.reqdate},number=#{entity.number},commodityId=#{entity.commodityId},price=#{entity.price},commoditytype=#{entity.commoditytype},status=#{entity.status},orderid=#{entity.orderid}
+
+    </insert>
+    <update id="updateTExchangeStatus" parameterType="Exchange" >
+
+
+        update   t_exchange set status=#{entity.status} where orderid=#{entity.orderid}
+
+    </update>
 </mapper>

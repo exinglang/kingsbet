@@ -11,7 +11,7 @@ document.write("<script type='text/javascript' src='commonjs/constants.js'></scr
 
 $(function() {
 
-$('#content').delegate('#delete', 'click',
+  $('#content').delegate('#delete', 'click',
     function() {
       var item = $.tmplItem(this);
 
@@ -22,12 +22,12 @@ $('#content').delegate('#delete', 'click',
 
     });
 
-    $("#img-change").click(function() {
+  $("#img-change").click(function() {
 
     $("#teamImg").click();
   });
 
-     $teamImg = $("#teamImg"),
+  $teamImg = $("#teamImg"),
   $teamImg.on("change",
     function(e) {
       var files = e.target.files,
@@ -60,28 +60,29 @@ $('#content').delegate('#delete', 'click',
 });
 
 function addcommodity() {
-    var keyName = "addcommodity";
-    var map = new Map();
-    var type= $('#select2 option:selected').val();
-    var name = $('#name').val().trim();
-        var price = $('#price').val().trim();
+  var keyName = "addcommodity";
+  var map = new Map();
+  var type= $('#select2 option:selected').val();
+  var name = $('#name').val().trim();
+  var price = $('#price').val().trim();
 
-    map.set('name',name);
-    map.set('price', price);
-        map.set('img', base64);
-    map.set('type', type);
+  map.set('name',name);
+  map.set('price', price);
+  map.set('img', base64);
+  map.set('type', type);
+  map.set('productid',  $('#productid').val().trim());
 
-    var json = getJsonFromMap(map, keyName);
-    var successAction = function(data) {
-         weui.toast("操作成功", {
+  var json = getJsonFromMap(map, keyName);
+  var successAction = function(data) {
+   weui.toast("操作成功", {
     duration: 1000,
     callback: function() {
      location.reload();
    }
  });
 
-    }
-    parVolleyJsonResult(json, successAction);
+ }
+ parVolleyJsonResult(json, successAction);
 
 }
 
@@ -89,20 +90,20 @@ function addcommodity() {
 function commoditylist() {
   var mFun=function (data) {
    $("#demo").tmpl(data.respbody.list).appendTo('#content');
-}
-parentCommoditylist("",mFun);
+ }
+ parentCommoditylist("",mFun);
 }
 
 
 
 function deleteCommodity(id) {
   var keyName = "deletecommodity";
-    var map = new Map();
+  var map = new Map();
 
-    map.set('id',id);
+  map.set('id',id);
 
-    var json = getJsonFromMap(map, keyName);
-   var successAction= function(data) {
+  var json = getJsonFromMap(map, keyName);
+  var successAction= function(data) {
     weui.toast("删除成功", {
       duration: 1000,
       callback: function() {
@@ -113,4 +114,3 @@ function deleteCommodity(id) {
   parVolleyJsonResult(json, successAction)
 }
 
- 

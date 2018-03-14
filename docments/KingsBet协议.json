@@ -36,8 +36,8 @@
 	"name": "addteam",
 	"reqbody": {			
 		"name": "LGD",				//战队名字
-		"img":"0595CC6B6B4F718BEC0595CC6B6B4F718BEC0595CC6B6B4F718BEC0595CC6B6B4F718BEC"//图片的BASE64形式			
-		"session":"3634F440030595CC6B6B4F718BECA437"	
+		"img":"0595CC6B6B4F718BEC0595CC6B6B4F718BEC0595CC6B6B4F718BEC0595CC6B6B4F718BEC",//图片的BASE64形式			
+		"session": "3634F440030595CC6B6B4F718BECA437"	
 	}
 }
 //response
@@ -739,35 +739,14 @@ request
 }
 
 
-//设置比赛结果(名次)
-//request
-{
-	"name": "addcommodity",
-	"reqbody": {			
-		"scheduleid": "123",				//
-		"teamidlist":[{
-			"id":1,"rank":2//teamid
-		},{
-			"id":1,"rank":1
-		},{
-			"id":1,"rank":3
-		}],
-		"session": "3634F440030595CC6B6B4F718BECA437"	
-	}
-}
-//response
-{
 
-	"name": "addcommodity",
-	"retcode": 0,					//0表示成功，其他表示失败
-	"msg": ""
-}
 
 //添加商品
 //request
 {
 	"name": "addcommodity",
-	"reqbody": {			
+	"reqbody": {
+	"productid": "200031",				
 		"name": "LGD",	
 		"price": "100",		
 		"type": "1",			//1手动兑换  2 自动兑换
@@ -806,7 +785,7 @@ request
 	"name": "commoditylist",
 	"reqbody": {
 		"type":1,  //1手动兑换  2 自动兑换  传""为所有
-	
+
 		"session": "3634F440030595CC6B6B4F718BECA437"	
 	}
 }
@@ -820,18 +799,41 @@ request
 		"list": [
 			{
 				"id": 7,
-				"name": "LGD",
+				"name": "商品卡",
 				"price": "1000",
 				"type": "1",
 				"img": "23DJDFUENOUNOE328598NJKLFJEIO"
 			},
 			{
 				"id": 7,
-				"name": "LGD",
+				"name": "QQ卡",
 				"price": "1000",
 				"type": "1",
 				"img": "23DJDFUENOUNOE328598NJKLFJEIO"
 			}
 		]
 	}
+}
+
+
+//用户申请兑换商品
+//request
+{
+	"name": "exchange",
+	"reqbody": {	
+		"userid":123,					
+		"session": "3634F440030595CC6B6B4F718BECA437",		
+		"commodityId": "001",	//商品ID
+		"number": "3",//兑换数量	
+		"price": "3",//商品总价格
+		"extype": "1",//兑换类型 //1话费//2京东E卡
+		"phone": "3"
+	}
+}
+//response
+{
+
+	"name": "exchange",
+	"retcode": 0,					//0表示成功，其他表示失败
+	"msg": ""
 }

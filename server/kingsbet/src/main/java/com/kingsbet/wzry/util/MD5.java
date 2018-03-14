@@ -1,6 +1,15 @@
 package com.kingsbet.wzry.util;
 
+import java.io.UnsupportedEncodingException;
+import java.security.InvalidKeyException;
 import java.security.MessageDigest;
+import java.security.NoSuchAlgorithmException;
+
+import javax.crypto.BadPaddingException;
+import javax.crypto.Cipher;
+import javax.crypto.IllegalBlockSizeException;
+import javax.crypto.NoSuchPaddingException;
+import javax.crypto.spec.SecretKeySpec;
 
 public class MD5 {
 
@@ -24,7 +33,58 @@ public class MD5 {
         }
         return b;
     }
+    //md5 16位小写
+    public static String Md516(String sourceStr) {
+        String result = "";
+        try {
+            MessageDigest md = MessageDigest.getInstance("MD5");
+            md.update(sourceStr.getBytes());
+            byte b[] = md.digest();
+            int i;
+            StringBuffer buf = new StringBuffer("");
+            for (int offset = 0; offset < b.length; offset++) {
+                i = b[offset];
+                if (i < 0)
+                    i += 256;
+                if (i < 16)
+                    buf.append("0");
+                buf.append(Integer.toHexString(i));
+            }
 
+            System.out.println("resultMD532: " + result);//32位的加密
+            System.out.println("resultMD516: " +
+                    buf.toString().substring(8, 24));//16位的加密
+            result = buf.toString().substring(8, 24);
+        } catch (NoSuchAlgorithmException e) {
+//TODO Auto-generated catch block e.printStackTrace();
+        }
+        return result;
+    }
+    //md5 32位小写
+    public static String Md532Xiao(String sourceStr) {
+        String result = "";
+        try {
+            MessageDigest md = MessageDigest.getInstance("MD5");
+            md.update(sourceStr.getBytes());
+            byte b[] = md.digest();
+            int i;
+            StringBuffer buf = new StringBuffer("");
+            for (int offset = 0; offset < b.length; offset++) {
+                i = b[offset];
+                if (i < 0)
+                    i += 256;
+                if (i < 16)
+                    buf.append("0");
+                buf.append(Integer.toHexString(i));
+            }
+
+            System.out.println("resultMD532: " + result);//32位的加密
+        } catch (NoSuchAlgorithmException e) {
+            e.printStackTrace();
+//TODO Auto-generated catch block e.printStackTrace();
+        }
+        return result;
+    }
     public static String getMD54String(String str) {
         byte[] b = null;
         try {
@@ -68,6 +128,146 @@ public class MD5 {
 
     private static byte charToByte(char c) {
         return (byte) "0123456789ABCDEF".indexOf(c);
+    }
+    //md5加密
+    public static byte[] Md5(byte[] plainText) {
+        try {
+            MessageDigest md = MessageDigest.getInstance("md5");
+            md.update(plainText);
+            byte b[] = md.digest();
+            return b;
+        } catch (NoSuchAlgorithmException e) {
+            e.printStackTrace();
+        }
+        return plainText;
+    }
+
+    /**
+     * 将字符串转成MD5值
+     *
+     * @param string
+     * @return
+     */
+    public static String stringToMD5(String string) {
+        byte[] hash;
+
+        try {
+            hash = MessageDigest.getInstance("MD5").digest(string.getBytes("UTF-8"));
+        } catch (NoSuchAlgorithmException e) {
+            e.printStackTrace();
+            return null;
+        } catch (UnsupportedEncodingException e) {
+            e.printStackTrace();
+            return null;
+        }
+
+        StringBuilder hex = new StringBuilder(hash.length * 2);
+        for (byte b : hash) {
+            if ((b & 0xFF) < 0x10)
+                hex.append("0");
+            hex.append(Integer.toHexString(b & 0xFF));
+        }
+
+        return hex.toString();
+    }
+
+    public static String Md5String(byte[] b){
+        int i;
+        StringBuffer buf = new StringBuffer();
+        for (int offset = 0; offset < b.length; offset++) {
+            i = b[offset] & 0xff;
+            if(i<16){
+                buf.append("0");
+            }
+            buf.append(Integer.toHexString(i));
+        }
+        return buf.toString();
+    }
+
+    /**
+     * AES加密
+     * @param encrypteddata
+     * @param key
+     * @return
+     */
+    public static byte[] encrypt(byte[] encrypteddata, byte[] key) {
+
+        try {
+            Cipher cipher;
+            SecretKeySpec mykey = new SecretKeySpec(key, "AES");
+            cipher = Cipher.getInstance("AES/ECB/PKCS5Padding");
+            cipher.init(Cipher.ENCRYPT_MODE, mykey);// 初始化
+            byte[] result = cipher.doFinal(encrypteddata);
+            return result; // 加密
+        } catch (NoSuchAlgorithmException e) {
+            e.printStackTrace();
+        } catch (NoSuchPaddingException e) {
+            e.printStackTrace();
+        } catch (InvalidKeyException e) {
+            e.printStackTrace();
+        } catch (IllegalBlockSizeException e) {
+            e.printStackTrace();
+        } catch (BadPaddingException e) {
+            e.printStackTrace();
+        }
+        return null;
+    }
+
+
+
+    /**
+     * AES解密
+     * @param encrypteddata
+     * @param key
+     * @return
+     */
+    public static byte[] decrypt(byte[] encrypteddata, byte[] key) {
+
+        try {
+            Cipher cipher;
+            SecretKeySpec mykey = new SecretKeySpec(key, "AES");
+            cipher = Cipher.getInstance("AES/ECB/PKCS5Padding");
+            cipher.init(Cipher.DECRYPT_MODE, mykey);// 初始化
+            byte[] result = cipher.doFinal(encrypteddata);
+            return result; // 加密
+        } catch (NoSuchAlgorithmException e) {
+            e.printStackTrace();
+        } catch (NoSuchPaddingException e) {
+            e.printStackTrace();
+        } catch (InvalidKeyException e) {
+            e.printStackTrace();
+        } catch (IllegalBlockSizeException e) {
+            e.printStackTrace();
+        } catch (BadPaddingException e) {
+            e.printStackTrace();
+        }
+        return null;
+    }
+    /**
+     * MD5加密
+     * @param message 要进行MD5加密的字符串
+     * @return 加密结果为32位字符串
+     */
+    public static String getMD532(String message) {
+        MessageDigest messageDigest = null;
+        StringBuffer md5StrBuff = new StringBuffer();
+        try {
+            messageDigest = MessageDigest.getInstance("MD5");
+            messageDigest.reset();
+            messageDigest.update(message.getBytes("UTF-8"));
+
+            byte[] byteArray = messageDigest.digest();
+            for (int i = 0; i < byteArray.length; i++)
+            {
+                if (Integer.toHexString(0xFF & byteArray[i]).length() == 1)
+                    md5StrBuff.append("0").append(Integer.toHexString(0xFF & byteArray[i]));
+                else
+                    md5StrBuff.append(Integer.toHexString(0xFF & byteArray[i]));
+            }
+        } catch (Exception e) {
+            throw new RuntimeException();
+        }
+        return md5StrBuff.toString().toLowerCase();//字母大写
     }
 }
 

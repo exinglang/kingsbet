@@ -23,6 +23,16 @@ public class Commodity implements Serializable {
     private int type;
     @SerializedName("img")
     private String img;
+    @SerializedName("productid")
+    private int productid;
+
+    public int getProductid() {
+        return productid;
+    }
+
+    public void setProductid(int productid) {
+        this.productid = productid;
+    }
 
     public String getName() {
         return name;

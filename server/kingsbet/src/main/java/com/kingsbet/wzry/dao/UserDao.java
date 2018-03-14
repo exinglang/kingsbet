@@ -1,5 +1,6 @@
 package com.kingsbet.wzry.dao;
 
+import com.kingsbet.wzry.entity.Exchange;
 import com.kingsbet.wzry.entity.OrderHistory;
 import com.kingsbet.wzry.entity.User;
 import org.apache.ibatis.annotations.Param;
@@ -26,6 +27,7 @@ public interface UserDao {
     void register(@Param("phone") String phone, @Param("pwd") String pwd, @Param("time") String time);
 
     void charge(@Param("userid") int userid, @Param("amount") int amount, @Param("time") String time);
+    void balanceexchange(@Param("userid") int userid, @Param("amount") int amount, @Param("time") String time);
 
     void diamondtobalance(@Param("userid") int userid, @Param("time") String time);
 
@@ -43,5 +45,6 @@ public interface UserDao {
 
     User userInfo(int userid);
 
+    void saveException( @Param("time")String time, @Param("describe")String scrpit);
 
 }

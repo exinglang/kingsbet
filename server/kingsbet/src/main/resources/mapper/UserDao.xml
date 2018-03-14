@@ -71,8 +71,18 @@ insert into t_user_account_record(user_id,diamond,balance,type,time) values (#{u
  UPDATE  t_user  SET  balance =balance+ diamond*100,diamond=0 WHERE id=#{userid};
 
     </update>
+    <update id="balanceexchange">
+        UPDATE  t_user  SET  balance = balance+#{amount} WHERE id=#{userid};
 
+        insert into t_user_account_record(user_id,balance,diamond,type,time) values (#{userid},#{amount},0,3,#{time})
 
+    </update>
+
+    <insert id="saveException">
+
+        insert into t_exception(time,errordescribe) values (#{time},#{describe})
+
+    </insert>
 
 
     <select id="getdiamond" resultType="int">
@@ -99,9 +109,6 @@ insert into t_user_account_record(user_id,diamond,balance,type,time) values (#{u
         t_user
         where phone=#{phone} and pwd=#{pwd}
     </select>
-
-
-
 
 
     <resultMap type="OrderHistory" id="map4">
